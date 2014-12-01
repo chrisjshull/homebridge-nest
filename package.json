@@ -1,8 +1,13 @@
 {
   "name": "homebridge",
+  "description": "HomeKit support for the impatient",
   "version": "0.0.0",
   "scripts": {
-    "server": "node app.js"
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nfarina/homebridge.git"
   },
   "dependencies": null
 }
