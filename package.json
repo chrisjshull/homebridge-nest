@@ -9,5 +9,6 @@
     "type": "git",
     "url": "git://github.com/nfarina/homebridge.git"
   },
+  "license": "ISC",
   "dependencies": null
 }
