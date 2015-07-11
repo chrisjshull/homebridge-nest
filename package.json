@@ -10,5 +10,7 @@
     "url": "git://github.com/nfarina/homebridge.git"
   },
   "license": "ISC",
-  "dependencies": null
+  "dependencies": {
+    "unofficial-nest-api": "0.1.x"
+  }
 }
