@@ -11,6 +11,6 @@
   },
   "license": "ISC",
   "dependencies": {
-    "unofficial-nest-api": "0.1.x"
+    "unofficial-nest-api": "git+https://github.com/hachidorii/unofficial_nodejs_nest.git#d8d48edc952b049ff6320ef99afa7b2f04cdee98"
   }
 }
