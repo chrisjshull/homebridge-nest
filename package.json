@@ -1,16 +1,22 @@
 {
-  "name": "homebridge",
-  "description": "HomeKit support for the impatient",
-  "version": "0.1.1",
-  "scripts": {
-    "start": "DEBUG=* node app.js || true"
-  },
+  "name": "homebridge-legacy-plugins",
+  "description": "Legacy plugins for homebridge: https://github.com/nfarina/homebridge",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nfarina/homebridge.git"
+    "url": "git://github.com/nfarina/homebridge-legacy-plugins.git"
   },
   "license": "ISC",
+  "preferGlobal": true,
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.0"
+  },
   "dependencies": {
+    "inherits": "^2.0.1",
     "unofficial-nest-api": "git+https://github.com/kraigm/unofficial_nodejs_nest.git#3cbd337adc32fab3b481659b38d86f9fcd6a9c02"
   }
 }

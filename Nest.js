@@ -1,8 +1,8 @@
 var nest = require('unofficial-nest-api');
-var Service = require("hap-nodejs").Service;
-var Characteristic = require("hap-nodejs").Characteristic;
-var Accessory = require("hap-nodejs").Accessory;
-var uuid = require("hap-nodejs").uuid;
+var Service = require("../api").homebridge.hap.Service;
+var Characteristic = require("../api").homebridge.hap.Characteristic;
+var Accessory = require("../api").homebridge.hap.Accessory;
+var uuid = require("../api").homebridge.hap.uuid;
 var inherits = require('util').inherits;
 
 function NestPlatform(log, config){
