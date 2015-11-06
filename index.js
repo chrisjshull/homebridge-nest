@@ -1,9 +1,23 @@
 var nest = require('unofficial-nest-api');
-var Service = require("../api").homebridge.hap.Service;
-var Characteristic = require("../api").homebridge.hap.Characteristic;
-var Accessory = require("../api").homebridge.hap.Accessory;
-var uuid = require("../api").homebridge.hap.uuid;
 var inherits = require('util').inherits;
+
+var Service, Characteristic, Accessory, uuid;
+
+module.exports = function(homebridge) {
+    Service = homebridge.hap.Service;
+    Characteristic = homebridge.hap.Characteristic;
+    Accessory = homebridge.hap.Accessory;
+    uuid = homebridge.hap.uuid;
+
+    var acc = NestThermostatAccessory.prototype;
+    inherits(NestThermostatAccessory, Accessory);
+    NestThermostatAccessory.prototype.parent = Accessory.prototype;
+    for (var mn in acc) {
+        NestThermostatAccessory.prototype[mn] = acc[mn];
+    }
+
+    homebridge.registerPlatform("homebridge-nest", "Nest", NestPlatform);
+};
 
 function NestPlatform(log, config){
     // auth info
@@ -146,8 +160,6 @@ function NestThermostatAccessory(log, name, device, deviceId, initialData) {
 
     this.updateData(initialData);
 }
-inherits(NestThermostatAccessory, Accessory);
-NestThermostatAccessory.prototype.parent = Accessory.prototype;
 
 NestThermostatAccessory.prototype.getServices = function() {
     return this.services;
@@ -284,6 +296,3 @@ NestThermostatAccessory.prototype.setTargetTemperature = function(targetTemperat
 
     if (callback) callback(null, targetTemperature);
 };
-
-module.exports.accessory = NestThermostatAccessory;
-module.exports.platform = NestPlatform;

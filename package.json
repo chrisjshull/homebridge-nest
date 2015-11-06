@@ -1,15 +1,16 @@
 {
-  "name": "homebridge-legacy-plugins",
-  "description": "Legacy plugins for homebridge: https://github.com/nfarina/homebridge",
-  "version": "0.0.3",
+  "name": "homebridge-nest",
+  "description": "Nest plugin for homebridge",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nfarina/homebridge-legacy-plugins.git"
+    "url": "git://github.com/kraigm/homebridge-nest.git"
   },
   "license": "ISC",
   "preferGlobal": true,
   "keywords": [
-    "homebridge-plugin"
+    "homebridge-plugin",
+    "nest"
   ],
   "engines": {
     "node": ">=0.12.0",
