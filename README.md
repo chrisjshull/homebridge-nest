@@ -5,13 +5,10 @@ This repository contains the Nest plugin for homebridge that was previously bund
 
 # Installation
 
-This plugin should be installed "globally" using -g.
 
 1. Install homebridge using: npm install -g homebridge
 2. Install this plugin using: npm install -g homebridge-netatmo
 3. Update your configuration file. See sample-config.json snippet below. 
-
-    npm install -g homebridge-nest
 
 # Configuration
 
