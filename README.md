@@ -8,7 +8,7 @@ This repository contains the Nest plugin for homebridge that was previously bund
 This plugin should be installed "globally" by typing:
 
 
-    npm install git+https://git@github.com/KraigM/homebridge-nest.git
+    npm install -g homebridge-nest
 
 You may have to execute commands with `sudo` depending on your system. Now you should be able to run Homebridge:
 
