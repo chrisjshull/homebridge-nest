@@ -24,11 +24,6 @@ Configuration sample:
             "name": "Nest",
             "username" : "username",
             "password" : "password"
-        },
-        {
-            "platform": "EzControlXS1",
-            "name": "EzControl XS1",
-            "xs1address" : "xs1"
         }
     ],
 
