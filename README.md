@@ -5,11 +5,31 @@ This repository contains the Nest plugin for homebridge that was previously bund
 
 # Installation
 
-This plugin should be installed "globally" by typing:
+This plugin should be installed "globally" using -g.
 
+1. Install homebridge using: npm install -g homebridge
+2. Install this plugin using: npm install -g homebridge-netatmo
+3. Update your configuration file. See sample-config.json snippet below. 
 
     npm install -g homebridge-nest
 
-You may have to execute commands with `sudo` depending on your system. Now you should be able to run Homebridge:
+# Configuration
 
-    Loaded plugin: homebridge-nest
+Configuration sample:
+
+ ```
+"platforms": [
+        {
+            "platform": "Nest",
+            "name": "Nest",
+            "username" : "username",
+            "password" : "password"
+        },
+        {
+            "platform": "EzControlXS1",
+            "name": "EzControl XS1",
+            "xs1address" : "xs1"
+        }
+    ],
+
+```
