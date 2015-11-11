@@ -16,12 +16,12 @@ Configuration sample:
 
  ```
 "platforms": [
-        {
-            "platform": "Nest",
-            "name": "Nest",
-            "username" : "username",
-            "password" : "password"
-        }
-    ],
+		{
+			"platform": "Nest",
+			"name": "Nest",
+			"username" : "username",
+			"password" : "password"
+		}
+	],
 
 ```
