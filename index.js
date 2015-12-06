@@ -1,7 +1,7 @@
 var nest = require('unofficial-nest-api');
 var inherits = require('util').inherits;
 
-var Service, Characteristic, Accessory, uuid;
+var Service, Characteristic, Accessory, uuid, Away;
 
 module.exports = function(homebridge) {
     Service = homebridge.hap.Service;
@@ -12,7 +12,7 @@ module.exports = function(homebridge) {
     /**
      * Characteristic "Away"
      */
-    Characteristic.Away = function() {
+    Away = function() {
         Characteristic.call(this, 'Away', 'D6D47D29-4639-4F44-B53C-D84015DAEBDB');
         this.setProps({
             format: Characteristic.Formats.BOOL,
@@ -21,7 +21,7 @@ module.exports = function(homebridge) {
         this.value = this.getDefaultValue();
     };
 
-    inherits(Characteristic.Away, Characteristic);
+    inherits(Away, Characteristic);
 
 
     var acc = NestThermostatAccessory.prototype;
@@ -138,7 +138,7 @@ function NestThermostatAccessory(log, name, device, deviceId, initialData, struc
     this.addService(Service.Thermostat, name);
 
     this.getService(Service.Thermostat)
-        .addCharacteristic(Characteristic.Away)
+        .addCharacteristic(Away)
         .on('get', function(callback) {
             var away = this.isAway();
             this.log("Away for " + this.name + " is: " + away);
@@ -209,7 +209,7 @@ NestThermostatAccessory.prototype.updateData = function(data) {
         this.currentData = data;
     }
     var thermostat = this.getService(Service.Thermostat);
-    thermostat.getCharacteristic(Characteristic.Away).getValue();
+    thermostat.getCharacteristic(Away).getValue();
     thermostat.getCharacteristic(Characteristic.TemperatureDisplayUnits).getValue();
     thermostat.getCharacteristic(Characteristic.CurrentTemperature).getValue();
     thermostat.getCharacteristic(Characteristic.CurrentHeatingCoolingState).getValue();
