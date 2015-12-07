@@ -343,6 +343,6 @@ NestThermostatAccessory.prototype.setTargetTemperature = function(targetTemperat
 
 NestThermostatAccessory.prototype.setAway = function(away, callback){
     this.log("Setting Away for " + this.name + " to: " + away);
-    nest.setAway(away, this.structureId);
+    nest.setAway(Boolean(away), this.structureId);
     if (callback) callback(null, away);
 }
