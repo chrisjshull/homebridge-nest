@@ -80,10 +80,9 @@ NestPlatform.prototype = {
 					}
 
 					function subscribeDone(id, data, type) {
-						that.log('Update to Device: ' + id + " type: " + type);
-
 						// data if set, is also stored here: nest.lastStatus.shared[thermostatID]
-						if (id && (that.accessoryLookup[id] || that.accessoryLookupByStructureId[id])) {
+						if (id && type != undefined && data && (that.accessoryLookup[id] || that.accessoryLookupByStructureId[id])) {
+							that.log('Update to Device: ' + id + " type: " + type);
 							var accessory = that.accessoryLookup[id] || that.accessoryLookupByStructureId[id];
 							if (accessory) {
 								switch (type) {
