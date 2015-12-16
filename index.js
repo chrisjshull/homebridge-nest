@@ -120,9 +120,6 @@ NestPlatform.prototype = {
 			.then(function(conn){
 				that.conn = conn;
 				return that.conn.open();
-			}, function(err) {
-				that.log.error(err);
-				that.oldaccessories(callback);
 			})
 			.then(function(){
 				return that.conn.subscribe(handleUpdates);
@@ -134,9 +131,13 @@ NestPlatform.prototype = {
 					callback(copy);
 				}
 			})
-			.catch(function(err){
-				that.log(err);
-				callback([]);
+			.catch(function(err) {
+				that.log.error(err);
+				if (that.username && that.password) {
+					that.oldaccessories(callback);
+				} else if (callback) {
+					callback([]);
+				}
 			});
 	},
 	oldaccessories: function (callback) {
