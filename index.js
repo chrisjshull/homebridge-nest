@@ -1,7 +1,8 @@
 var nest = require('unofficial-nest-api');
+var NestConnection = require('./lib/nest-connection.js');
 var inherits = require('util').inherits;
 
-var Service, Characteristic, Accessory, uuid, Away;
+var Service, Characteristic, Accessory, uuid, Away, ThermostatAccessory;
 
 module.exports = function (homebridge) {
 	Service = homebridge.hap.Service;
@@ -20,9 +21,17 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-
 	inherits(Away, Characteristic);
 
+	var exportedTypes = {
+		Accessory: Accessory,
+		Service: Service,
+		Characteristic: Characteristic,
+		uuid: uuid,
+		Away: Away
+	};
+
+	ThermostatAccessory = require('./lib/nest-thermostat-accessory.js')(exportedTypes);
 
 	var acc = NestThermostatAccessory.prototype;
 	inherits(NestThermostatAccessory, Accessory);
@@ -38,15 +47,100 @@ function NestPlatform(log, config) {
 	// auth info
 	this.username = config["username"];
 	this.password = config["password"];
+	this.config = config;
 
 	this.log = log;
 	this.accessoryLookup = {};
 	this.accessoryLookupByStructureId = {};
 }
 
+var setupConnection = function(config, log) {
+	return new Promise(function (resolve, reject) {
+		var token = config["token"];
+		var clientId = config["clientId"];
+		var clientSecret = config["clientSecret"];
+		var code = config["code"];
+
+		if (!token && !clientId && !clientSecret && !code) {
+			reject(new Error("You did not specify {'token'} or {'clientId','clientSecret','code'}, one set of which is required for the new API"));
+		} else if (!token && (!clientId || !clientSecret || !code)) {
+			reject(new Error("If you are going to use {'clientId','clientSecret','code'} then you must specify all three, otherwise use {'token'}"));
+		}
+
+		var conn = new NestConnection(token);
+		if (token) {
+			resolve(conn)
+		} else {
+			conn.auth(clientId, clientSecret, code)
+				.then(function(token) {
+					if (log) log.warn("CODE IS ONLY VALID ONCE! Update config to use {'token':'" + token + "'} instead.");
+					resolve(conn);
+				})
+				.catch(reject);
+		}
+	});
+};
+
 NestPlatform.prototype = {
 	accessories: function (callback) {
 		this.log("Fetching Nest devices.");
+
+		var that = this;
+
+		var generateAccessories = function(data) {
+			var foundAccessories = [];
+			var list = data.device || data.devices.thermostats;
+			for (var deviceId in list) {
+				if (list.hasOwnProperty(deviceId)) {
+					var device = list[deviceId];
+					var structureId = device['structure_id'];
+					var structure = data.structures[structureId];
+					var accessory = new ThermostatAccessory(this.conn, this.log, device, structure, exportedTypes);
+					that.accessoryLookup[deviceId] = accessory;
+					foundAccessories.push(accessory);
+				}
+			}
+			return foundAccessories;
+		}.bind(this);
+
+		var updateAccessories = function(data, accList) {
+			accList.map(function(acc) {
+				var device = data.devices.thermostats[acc.deviceId];
+				var structureId = device['structure_id'];
+				var structure = data.structures[structureId];
+				acc.updateData(device, structure);
+			}.bind(this));
+		};
+
+		//auth : config["clientId"], config["clientSecret"], config["code"]
+		var handleUpdates = function(data){
+			updateAccessories(data, that.accessoryLookup);
+		};
+		setupConnection(this.config, this.log)
+			.then(function(conn){
+				that.conn = conn;
+				return that.conn.open();
+			}, function(err) {
+				that.log.error(err);
+				that.oldaccessories(callback);
+			})
+			.then(function(){
+				return that.conn.subscribe(handleUpdates);
+			})
+			.then(function(data) {
+				that.accessoryLookup = generateAccessories(data);
+				if (callback) {
+					var copy = that.accessoryLookup.map(function (a) { return a; });
+					callback(copy);
+				}
+			})
+			.catch(function(err){
+				that.log(err);
+				callback([]);
+			});
+	},
+	oldaccessories: function (callback) {
+		this.log.warn("Falling back to legacy API.");
 
 		var that = this;
 		var foundAccessories = [];
