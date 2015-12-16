@@ -112,7 +112,6 @@ NestPlatform.prototype = {
 			}.bind(this));
 		};
 
-		//auth : config["clientId"], config["clientSecret"], config["code"]
 		var handleUpdates = function(data){
 			updateAccessories(data, that.accessoryLookup);
 		};
