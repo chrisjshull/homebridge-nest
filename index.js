@@ -95,7 +95,7 @@ NestPlatform.prototype = {
 					var device = list[deviceId];
 					var structureId = device['structure_id'];
 					var structure = data.structures[structureId];
-					var accessory = new ThermostatAccessory(this.conn, this.log, device, structure, exportedTypes);
+					var accessory = new ThermostatAccessory(this.conn, this.log, device, structure);
 					that.accessoryLookup[deviceId] = accessory;
 					foundAccessories.push(accessory);
 				}
