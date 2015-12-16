@@ -60,11 +60,19 @@ var setupConnection = function(config, log) {
 		var clientId = config["clientId"];
 		var clientSecret = config["clientSecret"];
 		var code = config["code"];
+		var authURL = clientId ? "https://home.nest.com/login/oauth2?client_id=" + clientId + "&state=STATE" : null;
 
+		var err;
 		if (!token && !clientId && !clientSecret && !code) {
-			reject(new Error("You did not specify {'token'} or {'clientId','clientSecret','code'}, one set of which is required for the new API"));
+			err = "You did not specify {'token'} or {'clientId','clientSecret','code'}, one set of which is required for the new API";
+		} else if (!token && clientId && clientSecret && !code) {
+			err = "You are missing the one-time-use 'code' param. Should be able to obtain from " + authURL;
 		} else if (!token && (!clientId || !clientSecret || !code)) {
-			reject(new Error("If you are going to use {'clientId','clientSecret','code'} then you must specify all three, otherwise use {'token'}"));
+			err = "If you are going to use {'clientId','clientSecret','code'} then you must specify all three, otherwise use {'token'}";
+		}
+		if (err) {
+			reject(new Error(err));
+			return;
 		}
 
 		var conn = new NestConnection(token);
@@ -76,7 +84,10 @@ var setupConnection = function(config, log) {
 					if (log) log.warn("CODE IS ONLY VALID ONCE! Update config to use {'token':'" + token + "'} instead.");
 					resolve(conn);
 				})
-				.catch(reject);
+				.catch(function(err){
+					reject(err);
+					if (log) log.warn("Auth failed which likely means the code is no longer valid. Should be able to generate a new one at " + authURL);
+				});
 		}
 	});
 };
