@@ -14,6 +14,8 @@ It is **Strongly advised that you switch to the new API** but it is not required
 
 Until an alternative is determined (like Nest Weave which hasn't been released yet or setting up a website for generating tokens specifically for HomeBridge-Nest), you will have to setup an developer account for Nest.  Its a simple process and if you specify that it is for Individual, then you are auto approved (at least in my experience).
 
+_WARNING: Switching to the new API means it will show up as brand new device.  This is do to the fact that the unofficial API used a different device id and we have no way to link it to the official cloud device id. This means any configurations, alarms, scenes, etc to which the Nest was associated will have need to be updated with the new Nest device._
+
 
 ## How to Setup New API 
 
