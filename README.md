@@ -44,7 +44,7 @@ _WARNING: Switching to the new API means it will show up as brand new device.  T
 11. Copy the **Product Secret** to your HomeBridge config as the **clientSecret** in the Nest config
 12. Navigate to the **Authorization URL**
 13. Accept the terms and copy the **Pin Code** to your HomeBridge config as the **code** in the Nest config
-14. Run HomeBridge once and you should find a log that says something like _"CODE IS ONLY VALID ONCE! Update config to use {'token':'c.5ABsTpo88k5yfNIxZlh...'} instead."_  Copy the **_c.5ABsTpo88k5yfNIxZlh..._** portion to your HomeBridge config as the **token** in the Nest config
+14. Run HomeBridge once _(do not include the **token** in the config at this time)_ and you should find a log that says something like _"CODE IS ONLY VALID ONCE! Update config to use {'token':'c.5ABsTpo88k5yfNIxZlh...'} instead."_  Copy the **_c.5ABsTpo88k5yfNIxZlh..._** portion to your HomeBridge config as the **token** in the Nest config
 15. You should be able to **restart HomeBridge** and it should succeed with the new token.
 
 After that you will be **FINALLY** done (Huzzah!). If the token is working correctly, you no longer NEED the other three configs (clientId, clientSecret, and code) nor the original username and password from the legacy system (but you can keep them around if you wish, they will be ignored).
