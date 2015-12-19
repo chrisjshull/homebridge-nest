@@ -149,7 +149,7 @@ function NestThermostatAccessory(log, name, device, deviceId, initialData, struc
 		.on('get', function (callback) {
 			var units = this.getTemperatureUnits();
 			var unitsName = units == Characteristic.TemperatureDisplayUnits.FAHRENHEIT ? "Fahrenheit" : "Celsius";
-			this.log("Tempature unit for " + this.name + " is: " + unitsName);
+			this.log("Temperature unit for " + this.name + " is: " + unitsName);
 			if (callback) callback(null, units);
 		}.bind(this));
 
