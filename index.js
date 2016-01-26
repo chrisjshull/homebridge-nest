@@ -75,7 +75,7 @@ var setupConnection = function(config, log) {
 			return;
 		}
 
-		var conn = new NestConnection(token);
+		var conn = new NestConnection(token, log);
 		if (token) {
 			resolve(conn)
 		} else {
