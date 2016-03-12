@@ -3,7 +3,7 @@ var NestConnection = require('./lib/nest-connection.js');
 var inherits = require('util').inherits;
 
 var Service, Characteristic, Accessory, uuid, Away;
-var DeviceAccessory, ThermostatAccessory, ProtectAccessory;
+var DeviceAccessory, ThermostatAccessory, ProtectAccessory, CamAccessory;
 
 module.exports = function (homebridge) {
 	Service = homebridge.hap.Service;
@@ -35,6 +35,7 @@ module.exports = function (homebridge) {
 	DeviceAccessory = require('./lib/nest-device-accessory.js')(exportedTypes);
 	ThermostatAccessory = require('./lib/nest-thermostat-accessory.js')(exportedTypes);
 	ProtectAccessory = require('./lib/nest-protect-accessory.js')(exportedTypes);
+	CamAccessory = require('./lib/nest-cam-accessory.js')(exportedTypes);
 
 	var acc = NestThermostatAccessory.prototype;
 	inherits(NestThermostatAccessory, Accessory);
@@ -120,6 +121,7 @@ NestPlatform.prototype = {
 
 			loadDevices(ThermostatAccessory);
 			loadDevices(ProtectAccessory);
+			loadDevices(CamAccessory);
 
 			return foundAccessories;
 		}.bind(this);
