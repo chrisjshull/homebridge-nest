@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "firebase": "^2.3.2",
-    "promise": "^7.0.4",
+    "bluebird": "^3.2.2",
     "request-promise": "^1.0.2",
     "unofficial-nest-api": "git+https://github.com/kraigm/unofficial_nodejs_nest.git#3cbd337adc32fab3b481659b38d86f9fcd6a9c02"
   }
