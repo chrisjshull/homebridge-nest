@@ -41,6 +41,7 @@ _Note: The name of the device will change as well.  It matches the name displaye
 	* **Permissions (minimum)**: 
 		* Enable **Thermostat** with **read/write v4**
 		* Enable **Away** with **read/write v2**
+		* Enable **Smoke+CO alarm** with **read v4** (if you ever might want Nest Protect)
 9. Now you should have a product. Now locate the **Keys** section on the right of your product's page
 10. Copy the **Product ID** to your HomeBridge config as the **clientId** in the Nest config
 11. Copy the **Product Secret** to your HomeBridge config as the **clientSecret** in the Nest config
