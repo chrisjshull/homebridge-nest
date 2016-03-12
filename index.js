@@ -2,7 +2,8 @@ var nest = require('unofficial-nest-api');
 var NestConnection = require('./lib/nest-connection.js');
 var inherits = require('util').inherits;
 
-var Service, Characteristic, Accessory, uuid, Away, ThermostatAccessory;
+var Service, Characteristic, Accessory, uuid, Away;
+var DeviceAccessory, ThermostatAccessory, ProtectAccessory, CamAccessory;
 
 module.exports = function (homebridge) {
 	Service = homebridge.hap.Service;
@@ -31,7 +32,10 @@ module.exports = function (homebridge) {
 		Away: Away
 	};
 
+	DeviceAccessory = require('./lib/nest-device-accessory.js')(exportedTypes);
 	ThermostatAccessory = require('./lib/nest-thermostat-accessory.js')(exportedTypes);
+	ProtectAccessory = require('./lib/nest-protect-accessory.js')(exportedTypes);
+	CamAccessory = require('./lib/nest-cam-accessory.js')(exportedTypes);
 
 	var acc = NestThermostatAccessory.prototype;
 	inherits(NestThermostatAccessory, Accessory);
@@ -75,7 +79,7 @@ var setupConnection = function(config, log) {
 			return;
 		}
 
-		var conn = new NestConnection(token);
+		var conn = new NestConnection(token, log);
 		if (token) {
 			resolve(conn)
 		} else {
@@ -100,23 +104,31 @@ NestPlatform.prototype = {
 
 		var generateAccessories = function(data) {
 			var foundAccessories = [];
-			var list = data.device || data.devices.thermostats;
-			for (var deviceId in list) {
-				if (list.hasOwnProperty(deviceId)) {
-					var device = list[deviceId];
-					var structureId = device['structure_id'];
-					var structure = data.structures[structureId];
-					var accessory = new ThermostatAccessory(this.conn, this.log, device, structure);
-					that.accessoryLookup[deviceId] = accessory;
-					foundAccessories.push(accessory);
+
+			var loadDevices = function(DeviceType) {
+				var list = data.devices && data.devices[DeviceType.deviceGroup];
+				for (var deviceId in list) {
+					if (list.hasOwnProperty(deviceId)) {
+						var device = list[deviceId];
+						var structureId = device['structure_id'];
+						var structure = data.structures[structureId];
+						var accessory = new DeviceType(this.conn, this.log, device, structure);
+						that.accessoryLookup[deviceId] = accessory;
+						foundAccessories.push(accessory);
+					}
 				}
-			}
+			}.bind(this);
+
+			loadDevices(ThermostatAccessory);
+			loadDevices(ProtectAccessory);
+			loadDevices(CamAccessory);
+
 			return foundAccessories;
 		}.bind(this);
 
 		var updateAccessories = function(data, accList) {
 			accList.map(function(acc) {
-				var device = data.devices.thermostats[acc.deviceId];
+				var device = data.devices[acc.deviceGroup][acc.deviceId];
 				var structureId = device['structure_id'];
 				var structure = data.structures[structureId];
 				acc.updateData(device, structure);
