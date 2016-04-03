@@ -23,6 +23,8 @@ module.exports = function (homebridge) {
 		this.value = this.getDefaultValue();
 	};
 	inherits(Away, Characteristic);
+	Away.HOME = 0;
+	Away.AWAY = 1;
 
 	var exportedTypes = {
 		Accessory: Accessory,
