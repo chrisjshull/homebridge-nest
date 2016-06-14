@@ -149,6 +149,7 @@ NestPlatform.prototype = {
 				return that.conn.subscribe(handleUpdates);
 			})
 			.then(function(data) {
+				that.log.debug('Raw Initial Data: ' + JSON.stringify(data));
 				that.accessoryLookup = generateAccessories(data);
 				if (callback) {
 					var copy = that.accessoryLookup.map(function (a) { return a; });
