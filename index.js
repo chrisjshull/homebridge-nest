@@ -107,6 +107,8 @@ NestPlatform.prototype = {
 		var generateAccessories = function(data) {
 			var foundAccessories = [];
 
+			that.log(data.devices);
+
 			var loadDevices = function(DeviceType) {
 				var list = data.devices && data.devices[DeviceType.deviceGroup];
 				for (var deviceId in list) {
