@@ -333,6 +333,10 @@ NestThermostatAccessory.prototype.updateData = function (data) {
 	thermostat.getCharacteristic(Characteristic.CurrentRelativeHumidity).getValue();
 	thermostat.getCharacteristic(Characteristic.TargetHeatingCoolingState).getValue();
 	thermostat.getCharacteristic(Characteristic.TargetTemperature).getValue();
+	if (this.device.has_fan) {
+		var fan = this.getService(Service.Fan);
+		fan.getCharacteristic(Characteristic.On).getValue();
+	}
 };
 
 NestThermostatAccessory.prototype.getCurrentHeatingCooling = function () {
