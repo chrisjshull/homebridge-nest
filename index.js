@@ -1,6 +1,7 @@
 var nest = require('unofficial-nest-api');
 var NestConnection = require('./lib/nest-connection.js');
 var inherits = require('util').inherits;
+var Promise = require('bluebird');
 
 var Service, Characteristic, Accessory, uuid, Away;
 var DeviceAccessory, ThermostatAccessory, ProtectAccessory, CamAccessory;
@@ -83,7 +84,7 @@ var setupConnection = function(config, log) {
 
 		var conn = new NestConnection(token, log);
 		if (token) {
-			resolve(conn)
+			resolve(conn);
 		} else {
 			conn.auth(clientId, clientSecret, code)
 				.then(function(token) {
@@ -200,7 +201,7 @@ NestPlatform.prototype = {
 
 					function subscribeDone(id, data, type) {
 						// data if set, is also stored here: nest.lastStatus.shared[thermostatID]
-						if (id && type != undefined && data && (that.accessoryLookup[id] || that.accessoryLookupByStructureId[id])) {
+						if (id && type !== undefined && data && (that.accessoryLookup[id] || that.accessoryLookupByStructureId[id])) {
 							that.log('Update to Device: ' + id + " type: " + type);
 							var accessory = that.accessoryLookup[id] || that.accessoryLookupByStructureId[id];
 							if (accessory) {
@@ -224,12 +225,12 @@ NestPlatform.prototype = {
 					}
 
 					subscribe();
-					callback(foundAccessories)
+					callback(foundAccessories);
 				});
 			}
 		});
 	}
-}
+};
 
 function NestThermostatAccessory(log, name, device, deviceId, initialData, structure, structureId) {
 	// device info
@@ -322,7 +323,7 @@ NestThermostatAccessory.prototype.getServices = function () {
 };
 
 NestThermostatAccessory.prototype.updateData = function (data) {
-	if (data != undefined) {
+	if (data !== undefined) {
 		this.currentData = data;
 	}
 	var thermostat = this.getService(Service.Thermostat);
@@ -344,7 +345,7 @@ NestThermostatAccessory.prototype.getCurrentHeatingCooling = function () {
 	var low = isRange ? this.currentData.target_temperature_low : this.currentData.target_temperature;
 
 	// Add threshold
-	var threshold = .2;
+	var threshold = 0.2;
 	high += threshold;
 	low -= threshold;
 
@@ -462,4 +463,4 @@ NestThermostatAccessory.prototype.setAway = function (away, callback) {
 	this.log("Setting Away for " + this.name + " to: " + away);
 	nest.setAway(Boolean(away), this.structureId);
 	if (callback) callback(null, away);
-}
+};

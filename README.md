@@ -14,7 +14,7 @@ It is **Strongly advised that you switch to the new API** but it is not required
 
 Until an alternative is determined (like Nest Weave which hasn't been released yet or setting up a website for generating tokens specifically for HomeBridge-Nest), you will have to setup an developer account for Nest.  Its a simple process and if you specify that it is for Individual, then you are auto approved (at least in my experience).
 
-_WARNING: Switching to the new API means it will show up as brand new device.  This is do to the fact that the unofficial API used a different device id and we have no way to link it to the official cloud device id. This means any configurations, alarms, scenes, etc to which the Nest was associated will have need to be updated with the new Nest device._
+_WARNING: Switching to the new API means it will show up as brand new device.  This is due to the fact that the unofficial API used a different device id and we have no way to link it to the official cloud device id. This means any configurations, alarms, scenes, etc to which the Nest was associated will have need to be updated with the new Nest device._
 
 _Note: The name of the device will change as well.  It matches the name displayed in the Nest app.  In my case, I originally configured the Nest app so the the "Where" of my Nest was "Hallway" and I also added a label which was "Nest", so the display was "Hallway (Nest)".  To fix the name to say "Nest", you can use the Nest app and blank out the "Label" and use the custom "Where" of "Nest". Anther option to fix the name is through HomeKit.  HomeKit allows you to rename Accessories and Services, but it requires an app like [Insteon+](https://itunes.apple.com/us/app/insteon+/id919270334?uo=2&at=11la2C) that has the ability to change the name._
 
@@ -33,9 +33,10 @@ _Note: The name of the device will change as well.  It matches the name displaye
 6. Then just agree to the terms and submit
 7. Go to **Products** and create a new product
 8. Fill in:
-	* **Product Name**: _HomeBridge_
+	* **Product Name**: _HomeBridge_ + your name (must be unique)
 	* **Description**: _Open source project to provide HomeKit integration_
-	* **Categories**: _HomeAutomation_
+	* **Categories**: _Home Automation_
+	* **Users**: _Individual_
 	* **Support URL**: _https://github.com/kraigm/homebridge-nest_
 	* **Redirect URL**:  _[LEAVE BLANK]_
 	* **Permissions (minimum)**: 
@@ -43,7 +44,8 @@ _Note: The name of the device will change as well.  It matches the name displaye
 		* Enable **Away** with **read/write v2**
 		* Enable **Smoke+CO alarm** with **read v4** (if you ever might want Nest Protect)
 		* Enable **Camera** with **read v2** (if you ever might want Nest Cam, motion detection only)
-9. Now you should have a product. Now locate the **Keys** section on the right of your product's page
+		* Permission description: fill in anything
+9. Now you should have a product. Now locate the id/secret section on the right of your product's page
 10. Copy the **Product ID** to your HomeBridge config as the **clientId** in the Nest config
 11. Copy the **Product Secret** to your HomeBridge config as the **clientSecret** in the Nest config
 12. Navigate to the **Authorization URL**
@@ -65,11 +67,11 @@ Configuration sample:
 		{
 			"platform": "Nest",
 			
-			"token" : "c.5ABsTpo88k5yfNIxZlh...",
+			"token" : "token will be generated upon first run of homebridge without a token",
 			
-			"clientId": "developer client id",
-			"clientSecret": "developer client secret.",
-			"code": "Pin Code",
+			"clientId": "developer Product ID",
+			"clientSecret": "developer Product Secret.",
+			"code": "your Pincode from Nest",
 			
 			"username" : "username",
 			"password" : "password"
