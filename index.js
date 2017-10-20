@@ -2,7 +2,7 @@ var NestConnection = require('./lib/nest-connection.js');
 var inherits = require('util').inherits;
 var Promise = require('bluebird');
 
-var Service, Characteristic, Accessory, uuid, EcoMode, Away, StatusEnergySaving;
+var Service, Characteristic, Accessory, uuid, EcoMode, Away, EnergySaving, Fan, FanTimer;
 var DeviceAccessory, ThermostatAccessory, ProtectAccessory, CamAccessory;
 
 module.exports = function (homebridge) {
@@ -10,19 +10,6 @@ module.exports = function (homebridge) {
 	Characteristic = homebridge.hap.Characteristic;
 	Accessory = homebridge.hap.Accessory;
 	uuid = homebridge.hap.uuid;
-
-	/**
-	 * Characteristic "EcoMode"
-	 */
-	EcoMode = function () {
-		Characteristic.call(this, 'Eco Mode', 'D6D47D29-4638-4F44-B53C-D84015DAEBDB');
-		this.setProps({
-			format: Characteristic.Formats.BOOL,
-			perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
-		});
-		this.value = this.getDefaultValue();
-	};
-	inherits(EcoMode, Characteristic);
 
 	/**
 	 * Characteristic "Away"
@@ -38,26 +25,71 @@ module.exports = function (homebridge) {
 	inherits(Away, Characteristic);
 
 	/**
-	 * Characteristic "StatusEnergySaving"
+	 * Characteristic "EcoMode"
 	 */
-	StatusEnergySaving = function () {
-		Characteristic.call(this, 'Status Energy Saving', 'D6D47D29-4640-4F44-B53C-D84015DAEBDB');
+	EcoMode = function () {
+		Characteristic.call(this, 'Eco Mode', 'D6D47D29-4638-4F44-B53C-D84015DAEBDB');
+		this.setProps({
+			format: Characteristic.Formats.BOOL,
+			perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
+		});
+		this.value = this.getDefaultValue();
+	};
+	inherits(EcoMode, Characteristic);
+
+	/**
+	 * Characteristic "EnergySaving"
+	 */
+	EnergySaving = function () {
+		Characteristic.call(this, 'Energy Saving', 'D6D47D29-4640-4F44-B53C-D84015DAEBDB');
 		this.setProps({
 			format: Characteristic.Formats.BOOL,
 			perms: [Characteristic.Perms.READ, Characteristic.Perms.NOTIFY]
 		});
 		this.value = this.getDefaultValue();
 	};
-	inherits(StatusEnergySaving, Characteristic);
+	inherits(EnergySaving, Characteristic);
+
+	/**
+	 * Characteristic "Fan"
+	 */
+	Fan = function () {
+		Characteristic.call(this, 'Fan', 'D6D47D29-4641-4F44-B53C-D84015DAEBDB');
+		this.setProps({
+			format: Characteristic.Formats.BOOL,
+			perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
+		});
+		this.value = this.getDefaultValue();
+	};
+	inherits(Fan, Characteristic);
+
+	/**
+	 * Characteristic "FanTimer"
+	 */
+	FanTimer = function () {
+		Characteristic.call(this, 'Fan Timer', 'D6D47D29-4642-4F44-B53C-D84015DAEBDB');
+		this.setProps({
+			format: Characteristic.Formats.UINT8,
+			unit: Characteristic.Units.MINUTES,
+			maxValue: 60,
+			minValue: 15,
+			minStep: 15,
+			perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
+		});
+		this.value = this.getDefaultValue();
+	};
+	inherits(FanTimer, Characteristic);
 
 	var exportedTypes = {
 		Accessory: Accessory,
 		Service: Service,
 		Characteristic: Characteristic,
 		uuid: uuid,
-		EcoMode: EcoMode,
 		Away: Away,
-		StatusEnergySaving: StatusEnergySaving
+		EcoMode: EcoMode,
+		EnergySaving: EnergySaving,
+		Fan: Fan,
+		FanTimer: FanTimer
 	};
 
 	DeviceAccessory = require('./lib/nest-device-accessory.js')(exportedTypes);
