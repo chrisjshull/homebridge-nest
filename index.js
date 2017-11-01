@@ -2,8 +2,9 @@ var NestConnection = require('./lib/nest-connection.js');
 var inherits = require('util').inherits;
 var Promise = require('bluebird');
 
-var Service, Characteristic, Accessory, uuid, EcoMode, Away, EnergySaving, Fan, FanTimer;
+var Service, Characteristic, Accessory, uuid;
 var DeviceAccessory, ThermostatAccessory, ProtectAccessory, CamAccessory;
+var Away, EcoMode, FanTimerActive, FanTimerDuration, HasLeaf, ManualTestActive, SunlightCorrectionEnabled, SunlightCorrectionActive, UsingEmergencyHeat;
 
 module.exports = function (homebridge) {
 	Service = homebridge.hap.Service;
@@ -11,11 +12,13 @@ module.exports = function (homebridge) {
 	Accessory = homebridge.hap.Accessory;
 	uuid = homebridge.hap.uuid;
 
+// Define custom characteristics
+
 	/**
 	 * Characteristic "Away"
 	 */
 	Away = function () {
-		Characteristic.call(this, 'Away', 'D6D47D29-4639-4F44-B53C-D84015DAEBDB');
+		Characteristic.call(this, 'Away', 'D6D47D29-4638-4F44-B53C-D84015DAEBDB');
 		this.setProps({
 			format: Characteristic.Formats.BOOL,
 			perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
@@ -28,7 +31,7 @@ module.exports = function (homebridge) {
 	 * Characteristic "EcoMode"
 	 */
 	EcoMode = function () {
-		Characteristic.call(this, 'Eco Mode', 'D6D47D29-4638-4F44-B53C-D84015DAEBDB');
+		Characteristic.call(this, 'Eco Mode', 'D6D47D29-4639-4F44-B53C-D84015DAEBDB');
 		this.setProps({
 			format: Characteristic.Formats.BOOL,
 			perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
@@ -38,36 +41,23 @@ module.exports = function (homebridge) {
 	inherits(EcoMode, Characteristic);
 
 	/**
-	 * Characteristic "EnergySaving"
+	 * Characteristic "FanTimerActive"
 	 */
-	EnergySaving = function () {
-		Characteristic.call(this, 'Energy Saving', 'D6D47D29-4640-4F44-B53C-D84015DAEBDB');
-		this.setProps({
-			format: Characteristic.Formats.BOOL,
-			perms: [Characteristic.Perms.READ, Characteristic.Perms.NOTIFY]
-		});
-		this.value = this.getDefaultValue();
-	};
-	inherits(EnergySaving, Characteristic);
-
-	/**
-	 * Characteristic "Fan"
-	 */
-	Fan = function () {
-		Characteristic.call(this, 'Fan', 'D6D47D29-4641-4F44-B53C-D84015DAEBDB');
+	FanTimerActive = function () {
+		Characteristic.call(this, 'Fan Timer Active', 'D6D47D29-4640-4F44-B53C-D84015DAEBDB');
 		this.setProps({
 			format: Characteristic.Formats.BOOL,
 			perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
 		});
 		this.value = this.getDefaultValue();
 	};
-	inherits(Fan, Characteristic);
+	inherits(FanTimerActive, Characteristic);
 
 	/**
-	 * Characteristic "FanTimer"
+	 * Characteristic "FanTimerDuration"
 	 */
-	FanTimer = function () {
-		Characteristic.call(this, 'Fan Timer', 'D6D47D29-4642-4F44-B53C-D84015DAEBDB');
+	FanTimerDuration = function () {
+		Characteristic.call(this, 'Fan Timer Duraton', 'D6D47D29-4641-4F44-B53C-D84015DAEBDB');
 		this.setProps({
 			format: Characteristic.Formats.UINT8,
 			unit: Characteristic.Units.MINUTES,
@@ -78,7 +68,72 @@ module.exports = function (homebridge) {
 		});
 		this.value = this.getDefaultValue();
 	};
-	inherits(FanTimer, Characteristic);
+	inherits(FanTimerDuration, Characteristic);
+
+	/**
+	 * Characteristic "HasLeaf"
+	 */
+	HasLeaf = function () {
+		Characteristic.call(this, 'Has Leaf', 'D6D47D29-4642-4F44-B53C-D84015DAEBDB');
+		this.setProps({
+			format: Characteristic.Formats.BOOL,
+			perms: [Characteristic.Perms.READ, Characteristic.Perms.NOTIFY]
+		});
+		this.value = this.getDefaultValue();
+	};
+	inherits(HasLeaf, Characteristic);
+
+	/**
+	 * Characteristic "ManualTestActive"
+	 */
+	ManualTestActive = function () {
+		Characteristic.call(this, 'Manual Test Active', 'D6D47D29-4643-4F44-B53C-D84015DAEBDB');
+		this.setProps({
+			format: Characteristic.Formats.BOOL,
+			perms: [Characteristic.Perms.READ, Characteristic.Perms.NOTIFY]
+		});
+		this.value = this.getDefaultValue();
+	};
+	inherits(ManualTestActive, Characteristic);
+
+	/**
+	 * Characteristic "SunlightCorrectionEnabled"
+	 */
+	SunlightCorrectionEnabled = function () {
+		Characteristic.call(this, 'Sunlight Correction Enabled', 'D6D47D29-4644-4F44-B53C-D84015DAEBDB');
+		this.setProps({
+			format: Characteristic.Formats.BOOL,
+			perms: [Characteristic.Perms.READ, Characteristic.Perms.NOTIFY]
+		});
+		this.value = this.getDefaultValue();
+	};
+	inherits(SunlightCorrectionEnabled, Characteristic);
+
+	/**
+	 * Characteristic "SunlightCorrectionActive"
+	 */
+	SunlightCorrectionActive = function () {
+		Characteristic.call(this, 'Sunlight Correction Active', 'D6D47D29-4645-4F44-B53C-D84015DAEBDB');
+		this.setProps({
+			format: Characteristic.Formats.BOOL,
+			perms: [Characteristic.Perms.READ, Characteristic.Perms.NOTIFY]
+		});
+		this.value = this.getDefaultValue();
+	};
+	inherits(SunlightCorrectionActive, Characteristic);
+
+	/**
+	 * Characteristic "UsingEmergencyHeat"
+	 */
+	UsingEmergencyHeat = function () {
+		Characteristic.call(this, 'Using Emergency Heat', 'D6D47D29-4646-4F44-B53C-D84015DAEBDB');
+		this.setProps({
+			format: Characteristic.Formats.BOOL,
+			perms: [Characteristic.Perms.READ, Characteristic.Perms.NOTIFY]
+		});
+		this.value = this.getDefaultValue();
+	};
+	inherits(UsingEmergencyHeat, Characteristic);
 
 	var exportedTypes = {
 		Accessory: Accessory,
@@ -87,9 +142,13 @@ module.exports = function (homebridge) {
 		uuid: uuid,
 		Away: Away,
 		EcoMode: EcoMode,
-		EnergySaving: EnergySaving,
-		Fan: Fan,
-		FanTimer: FanTimer
+		FanTimerActive: FanTimerActive,
+		FanTimerDuration: FanTimerDuration,
+		HasLeaf: HasLeaf,
+		ManualTestActive: ManualTestActive,
+		SunlightCorrectionEnabled: SunlightCorrectionEnabled,
+		SunlightCorrectionActive: SunlightCorrectionActive,
+		UsingEmergencyHeat: UsingEmergencyHeat
 	};
 
 	DeviceAccessory = require('./lib/nest-device-accessory.js')(exportedTypes);
