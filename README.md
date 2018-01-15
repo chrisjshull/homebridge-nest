@@ -1,4 +1,4 @@
-# homebridge-nest
+# homebridge-nest-stemwinder
 Nest plugin for [HomeBridge](https://github.com/nfarina/homebridge)
 
 This repository contains the Nest plugin for homebridge that was previously bundled in the main `homebridge` repository. 

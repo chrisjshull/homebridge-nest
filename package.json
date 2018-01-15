@@ -1,10 +1,10 @@
 {
   "name": "homebridge-nest-stemwinder",
   "description": "Nest plugin for homebridge",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "repository": {
     "type": "git",
-    "url": "git://github.com/stemwinder/homebridge-nest.git"
+    "url": "git://github.com/stemwinder/homebridge-nest-stemwinder.git"
   },
   "license": "ISC",
   "preferGlobal": true,
