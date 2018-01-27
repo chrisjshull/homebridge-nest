@@ -1,4 +1,4 @@
-# homebridge-nest
+# homebridge-nest-stemwinder
 Nest plugin for [HomeBridge](https://github.com/nfarina/homebridge)
 
 This repository contains the Nest plugin for homebridge that was previously bundled in the main `homebridge` repository. 
@@ -72,9 +72,6 @@ Configuration sample:
 			"clientId": "developer Product ID",
 			"clientSecret": "developer Product Secret.",
 			"code": "your Pincode from Nest",
-			
-			"username" : "username",
-			"password" : "password"
 		}
 	],
 
@@ -88,10 +85,4 @@ Fields:
 * "clientId": Can be anything (required for new api, if token not yet determined)
 * "clientSecret": Can be anything (required for new api, if token not yet determined)
 * "code": Can be anything (required for new api if trying to determine token)
-
-
-Legacy Fields: 
-
-* "username": Nest login username, same as app (required for legacy api)
-* "password": Nest login password, same as app (required for legacy api)
 
