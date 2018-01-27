@@ -49,7 +49,7 @@ _Note: The name of the device matches the name displayed in the Nest app.  In my
 14. Run HomeBridge once _(do not include the **token** in the config at this time)_ and you should find a log that says something like _"CODE IS ONLY VALID ONCE! Update config to use {'token':'c.5ABsTpo88k5yfNIxZlh...'} instead."_  Copy the **_c.5ABsTpo88k5yfNIxZlh..._** portion to your HomeBridge config as the **token** in the Nest config
 15. You should be able to **restart HomeBridge** and it should succeed with the new token.
 
-After that you will be **FINALLY** done (Huzzah!). If the token is working correctly, you no longer NEED the other three configs (clientId, clientSecret, and code) nor the original username and password from the legacy system (but you can keep them around if you wish, they will be ignored).
+After that you will be **FINALLY** done (Huzzah!). If the token is working correctly, you no longer NEED the other three configs (clientId, clientSecret, and code), but you can keep them around if you wish, they will be ignored.
 
 
 
