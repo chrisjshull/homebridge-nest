@@ -3,7 +3,7 @@ var inherits = require('util').inherits;
 var Promise = require('bluebird');
 
 var Service, Characteristic, Accessory, uuid;
-var DeviceAccessory, ThermostatAccessory, ProtectAccessory, CamAccessory;
+var DeviceAccessory, ThermostatAccessory, StructureAccessory, ProtectAccessory, CamAccessory;
 var Away, EcoMode, FanTimerActive, FanTimerDuration, HasLeaf, ManualTestActive, SunlightCorrectionEnabled, SunlightCorrectionActive, UsingEmergencyHeat;
 
 module.exports = function (homebridge) {
@@ -152,6 +152,7 @@ module.exports = function (homebridge) {
 	};
 
 	DeviceAccessory = require('./lib/nest-device-accessory.js')(exportedTypes);
+	StructureAccessory = require('./lib/nest-structure-accessory.js')(exportedTypes);
 	ThermostatAccessory = require('./lib/nest-thermostat-accessory.js')(exportedTypes);
 	ProtectAccessory = require('./lib/nest-protect-accessory.js')(exportedTypes);
 	CamAccessory = require('./lib/nest-cam-accessory.js')(exportedTypes);
@@ -228,6 +229,7 @@ NestPlatform.prototype = {
 				}
 			}.bind(this);
 
+			loadDevices(StructureAccessory);
 			loadDevices(ThermostatAccessory);
 			loadDevices(ProtectAccessory);
 			loadDevices(CamAccessory);
