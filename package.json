@@ -13,7 +13,7 @@
     "nest"
   ],
   "engines": {
-    "node": ">=0.12.0",
+    "node": ">=7.0.0",
     "homebridge": ">=0.2.5"
   },
   "dependencies": {
