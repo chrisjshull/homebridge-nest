@@ -67,6 +67,7 @@ Configuration sample:
 			"clientId": "developer Product ID",
 			"clientSecret": "developer Product Secret.",
 			"code": "your Pincode from Nest",
+			"structureId": "your structure's ID" // optional
 		}
 	],
 

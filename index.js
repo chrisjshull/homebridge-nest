@@ -220,6 +220,10 @@ NestPlatform.prototype = {
 					if (list.hasOwnProperty(deviceId)) {
 						var device = list[deviceId];
 						var structureId = device['structure_id'];
+						if (this.config["structureId"] && this.config["structureId"] !== structureId) {
+							this.log("Skipping device " + deviceId + " because it is not in the required structure. Has " + structureId + ", looking for " + this.config["structureId"] + ".");
+							continue;
+						}
 						var structure = data.structures[structureId];
 						var accessory = new DeviceType(this.conn, this.log, device, structure);
 						that.accessoryLookup[deviceId] = accessory;
