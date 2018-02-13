@@ -221,7 +221,7 @@ NestPlatform.prototype = {
 						var device = list[deviceId];
 						var structureId = device['structure_id'];
 						if (this.config["structureId"] && this.config["structureId"] !== structureId) {
-							this.log("Skipping device " + deviceId + " because it is not in the required structure. Has " + structureId + ", look for " + this.config["structureId"] + ".");
+							this.log("Skipping device " + deviceId + " because it is not in the required structure. Has " + structureId + ", looking for " + this.config["structureId"] + ".");
 							continue;
 						}
 						var structure = data.structures[structureId];
