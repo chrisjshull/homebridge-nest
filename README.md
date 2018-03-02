@@ -61,13 +61,9 @@ Configuration sample:
 "platforms": [
 		{
 			"platform": "Nest",
-
-			"token" : "token will be generated upon first run of homebridge without a token",
-
-			"clientId": "developer Product ID",
-			"clientSecret": "developer Product Secret.",
-			"code": "your Pincode from Nest",
-			"structureId": "your structure's ID" // optional structureId to filter to (see logs on first run for each device's structureId)
+			"clientId": "developer Product ID from Nest",
+			"clientSecret": "developer Product Secret from Nest",
+			"code": "your Pincode from Nest"
 		}
 	],
 
@@ -76,8 +72,8 @@ Configuration sample:
 Fields:
 
 * "platform": Must always be "Nest" (required)
-* "token": The only (and final) authentication piece you need to use the new API (required for new api, after determined)
-
-* "clientId": Can be anything (required for new api, if token not yet determined)
-* "clientSecret": Can be anything (required for new api, if token not yet determined)
-* "code": Can be anything (required for new api if trying to determine token)
+* "clientId": developer Product ID (see instructions)
+* "clientSecret": developer Product Secret (see instructions)
+* "code": your Pincode from Nest (see instructions)
+* "token": The only (and final) authentication piece you need to use the new API (see instructions)
+* "structureId": "your structure's ID" // optional structureId to filter to (see logs on first run for each device's structureId)
