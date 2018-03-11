@@ -207,6 +207,9 @@ const setupConnection = function(config, log) {
 };
 
 NestPlatform.prototype = {
+  shouldEnableFeature: function (key) {
+    return !this.config.disable || !this.config.disable.includes(key);
+  },
   accessories: function (callback) {
     this.log("Fetching Nest devices.");
 
@@ -225,8 +228,8 @@ NestPlatform.prototype = {
             continue;
           }
           const structure = data.structures[structureId];
-          const accessory = new DeviceType(this.conn, this.log, device, structure);
-          that.accessoryLookup[deviceId] = accessory;
+          const accessory = new DeviceType(this.conn, this.log, device, structure, this);
+          this.accessoryLookup[deviceId] = accessory;
           foundAccessories.push(accessory);
         }
       }.bind(this);

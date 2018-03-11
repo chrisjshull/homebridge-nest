@@ -22,7 +22,7 @@ _Note: The name of the device matches the name displayed in the Nest app.  In my
 4. Fill in you info in 'Step 1'
 5. In 'Step 2' set:
 	* **Company Name**: _HomeBridge-Nest_
-	* **Company URL**: _https://github.com/kraigm/homebridge-nest_
+	* **Company URL**: _https://github.com/chrisjshull/homebridge-nest_
 	* **Country**: _[Your Country]_
 	* **Size of Company**: _Individual_
 6. Then just agree to the terms and submit
@@ -32,13 +32,13 @@ _Note: The name of the device matches the name displayed in the Nest app.  In my
 	* **Description**: _Open source project to provide HomeKit integration_
 	* **Categories**: _Home Automation_
 	* **Users**: _Individual_
-	* **Support URL**: _https://github.com/kraigm/homebridge-nest_
+	* **Support URL**: _https://github.com/chrisjshull/homebridge-nest_
 	* **Redirect URL**:  _[LEAVE BLANK]_
 	* **Permissions (minimum)**:
-		* Enable **Thermostat** with **read/write v4**
-		* Enable **Away** with **read/write v2**
-		* Enable **Smoke+CO alarm** with **read v4** (if you ever might want Nest Protect)
-		* Enable **Camera** with **read v2** (if you ever might want Nest Cam, motion detection only)
+		* Enable **Thermostat** with **read/write**
+		* Enable **Away** with **read/write**
+		* Enable **Smoke+CO alarm** with **read** (if you ever might want Nest Protect)
+		* Enable **Camera** with **read** (if you ever might want Nest Cam, motion detection only)
 		* Permission description: fill in anything
 9. Now you should have a product. Now locate the id/secret section on the right of your product's page
 10. Copy the **Product ID** to your HomeBridge config as the **clientId** in the Nest config
@@ -77,3 +77,4 @@ Fields:
 * "code": your Pincode from Nest (see instructions)
 * "token": The only (and final) authentication piece you need to use the new API (see instructions)
 * "structureId": "your structure's ID" // optional structureId to filter to (see logs on first run for each device's structureId)
+* "disable": [] // optional list of features to disable ("Thermostat.Fan", "Thermostat.Home", "Thermostat.Eco")
