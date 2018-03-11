@@ -6,6 +6,11 @@
     "type": "git",
     "url": "git://github.com/chrisjshull/homebridge-nest.git"
   },
+  "scripts": {
+    "lint": "eslint lib *.js",
+    "prepublishOnly": "npm run lint",
+    "preversion": "npm run lint"
+  },
   "license": "ISC",
   "preferGlobal": true,
   "keywords": [
@@ -18,6 +23,7 @@
   },
   "dependencies": {
     "bluebird": "^3.2.2",
+    "eslint": "^4.18.2",
     "firebase": "^2.3.2",
     "lodash.debounce": "^4.0.8",
     "request-promise": "^1.0.2"
