@@ -151,7 +151,8 @@ module.exports = function (homebridge) {
     UsingEmergencyHeat: UsingEmergencyHeat
   };
 
-  // DeviceAccessory = require('./lib/nest-device-accessory.js')(exportedTypes);
+  // DeviceAccessory =
+  require('./lib/nest-device-accessory.js')(exportedTypes); // eslint-disable-line global-require
   ThermostatAccessory = require('./lib/nest-thermostat-accessory.js')(exportedTypes); // eslint-disable-line global-require
   ProtectAccessory = require('./lib/nest-protect-accessory.js')(exportedTypes); // eslint-disable-line global-require
   CamAccessory = require('./lib/nest-cam-accessory.js')(exportedTypes); // eslint-disable-line global-require
@@ -215,9 +216,9 @@ NestPlatform.prototype = {
       const foundAccessories = [];
 
       const loadDevices = function(DeviceType) {
-        const list = data.devices && data.devices[DeviceType.deviceGroup];
-        for (const deviceId of Object.keys(list)) {
-          const device = list[deviceId];
+        const devices = (data.devices && data.devices[DeviceType.deviceGroup]) || {};
+        for (const deviceId of Object.keys(devices)) {
+          const device = devices[deviceId];
           const structureId = device.structure_id;
           if (this.config.structureId && this.config.structureId !== structureId) {
             this.log("Skipping device " + deviceId + " because it is not in the required structure. Has " + structureId + ", looking for " + this.config.structureId + ".");
