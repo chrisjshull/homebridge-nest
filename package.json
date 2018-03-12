@@ -1,7 +1,7 @@
 {
   "name": "homebridge-nest",
   "description": "Nest plugin for homebridge",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "repository": {
     "type": "git",
     "url": "git://github.com/chrisjshull/homebridge-nest.git"
