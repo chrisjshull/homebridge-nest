@@ -1,0 +1,109 @@
+/**
+ * Created by kraig on 3/11/16.
+ */
+
+const inherits = require('util').inherits;
+let Service, Characteristic;
+const NestDeviceAccessory = require('./nest-device-accessory')();
+
+'use strict';
+
+module.exports = function(exportedTypes) {
+  if (exportedTypes && !Service) {
+    Service = exportedTypes.Service;
+    Characteristic = exportedTypes.Characteristic;
+
+    const acc = NestAwayAccessory.prototype;
+    inherits(NestAwayAccessory, NestDeviceAccessory);
+    NestAwayAccessory.prototype.parent = NestDeviceAccessory.prototype;
+    for (const mn in acc) {
+      NestAwayAccessory.prototype[mn] = acc[mn];
+    }
+
+    NestAwayAccessory.deviceType = 'structure_id';
+    NestAwayAccessory.deviceGroup = 'structures';
+    NestAwayAccessory.prototype.deviceType = NestAwayAccessory.deviceType;
+    NestAwayAccessory.prototype.deviceGroup = NestAwayAccessory.deviceGroup;
+  }
+  return NestAwayAccessory;
+};
+
+function NestAwayAccessory(conn, log, device, structure, platform) {
+  NestDeviceAccessory.call(this, conn, log, device, structure, platform);
+
+  const occupancySvc = this.addService(Service.OccupancySensor);
+  this.bindCharacteristic(occupancySvc, Characteristic.OccupancyDetected, "Occupancy",
+    getOccupancyDetectionState.bind(this), null, formatOccupancyDetectionState.bind(this));
+
+  this.addCharacteristic.SecuritySystemCurrentState(occupancySvc);
+  this.bindCharacteristic(occupancySvc, Characteristic.SecuritySystemCurrentState, "Current Away State",
+    getCurrentSecurityState.bind(this), null, formatCurrentSecurityState.bind(this));
+
+  this.addCharacteristic.SecuritySystemTargetState(occupancySvc);
+  this.bindCharacteristic(occupancySvc, Characteristic.SecuritySystemTargetState, "Target Away State",
+    setTargetSecurityState.bind(this), null, formatTargetSecurityState.bind(this));
+
+  this.updateData();
+}
+
+// --- Occupancy Detection State ---
+
+const getOccupancyDetectionState = function() {
+  switch (this.structure.away) {
+  case "home":
+    return Characteristic.OccupancyDetected.OCCUPANCY_DETECTED = 1;
+  case "away":
+  default:
+    return Characteristic.OccupancyDetected.OCCUPANCY_NOT_DETECTED = 0;
+  }
+};
+
+const formatOccupancyState = function(val) {
+  if (val === "away") {
+    return "Nest Away - Occupancy not Detected";
+  } else if (val === "home"){
+    return "Nest Home - Occupancy Detected";
+  }
+};
+
+// --- Security System Current State --- //
+
+const getCurrentSecurityState = function() {
+  switch (this.structure.away) {
+  case "away":
+    return Characteristic.SecuritySystemCurrentState.AWAY_ARM = 1;
+  case "home":
+  default:
+    return Characteristic.SecuritySystemCurrentState.STAY_ARM = 0;
+  }
+};
+
+const formatCurrentSecurityState = function (val) {
+  switch (val) {
+  case Characteristic.SecuritySystemCurrentState.STAY_ARM = 0: 
+    return "home";
+  case Characteristic.SecuritySystemCurrentState.AWAY_ARM = 1:
+    return "away";
+  }
+};
+
+// --- Security System Target State --- //
+
+const setTargetSecurityState = function() {
+  switch (this.structure.away) {
+  case "away":
+    return Characteristic.SecuritySystemCurrentState.AWAY_ARM = 1;
+  case "home":
+  default:
+    return Characteristic.SecuritySystemCurrentState.STAY_ARM = 0;
+  }
+};
+
+const formatTargetSecurityState = function (val) {
+  switch (val) {
+  case Characteristic.SecuritySystemCurrentState.STAY_ARM = 0: 
+    return "home";
+  case Characteristic.SecuritySystemCurrentState.AWAY_ARM = 1:
+    return "away";
+  }
+};
