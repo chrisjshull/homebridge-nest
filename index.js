@@ -3,7 +3,7 @@ const inherits = require('util').inherits;
 const Promise = require('bluebird');
 
 let Service, Characteristic, Accessory, uuid;
-let ThermostatAccessory, ProtectAccessory, CamAccessory; // DeviceAccessory,
+let ThermostatAccessory, ProtectAccessory, CamAccessory, AwayAccessory; // DeviceAccessory,
 let Away, EcoMode, FanTimerActive, FanTimerDuration, HasLeaf, ManualTestActive, SunlightCorrectionEnabled, SunlightCorrectionActive, UsingEmergencyHeat;
 
 module.exports = function (homebridge) {
