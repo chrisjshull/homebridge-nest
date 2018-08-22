@@ -156,6 +156,7 @@ module.exports = function (homebridge) {
   ThermostatAccessory = require('./lib/nest-thermostat-accessory.js')(exportedTypes); // eslint-disable-line global-require
   ProtectAccessory = require('./lib/nest-protect-accessory.js')(exportedTypes); // eslint-disable-line global-require
   CamAccessory = require('./lib/nest-cam-accessory.js')(exportedTypes); // eslint-disable-line global-require
+  AwayAccessory = require('./lib/nest-away-accessory.js')(exportedTypes); // eslint-disable-line global-require
 
   homebridge.registerPlatform("homebridge-nest", "Nest", NestPlatform);
 };
@@ -230,6 +231,7 @@ NestPlatform.prototype = {
           const structure = data.structures[structureId];
           const accessory = new DeviceType(this.conn, this.log, device, structure, this);
           this.accessoryLookup[deviceId] = accessory;
+          this.accessoryLookup[structureId] = accessory;
           foundAccessories.push(accessory);
         }
       }.bind(this);
@@ -237,6 +239,7 @@ NestPlatform.prototype = {
       loadDevices(ThermostatAccessory);
       loadDevices(ProtectAccessory);
       loadDevices(CamAccessory);
+      loadDevices(AwayAccessory);
 
       return foundAccessories;
     }.bind(this);
