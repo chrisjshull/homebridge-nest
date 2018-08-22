@@ -20,7 +20,7 @@ module.exports = function(exportedTypes) {
       NestAwayAccessory.prototype[mn] = acc[mn];
     }
 
-    NestAwayAccessory.deviceType = 'structure_id';
+    NestAwayAccessory.deviceType = 'structure';
     NestAwayAccessory.deviceGroup = 'structures';
     NestAwayAccessory.prototype.deviceType = NestAwayAccessory.deviceType;
     NestAwayAccessory.prototype.deviceGroup = NestAwayAccessory.deviceGroup;
