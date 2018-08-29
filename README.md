@@ -11,7 +11,7 @@ This repository contains the Nest plugin for homebridge that was previously bund
 
 Until an alternative is determined (like Nest Weave which hasn't been released yet or setting up a website for generating tokens specifically for HomeBridge-Nest), you will have to setup an developer account for Nest.  It's a simple process and if you specify that it is for Individual, then you are auto approved (at least in my experience).
 
-_Note: The name of the device matches the name displayed in the Nest app.  In my case, I originally configured the Nest app so the the "Where" of my Nest was "Hallway" and I also added a label which was "Nest", so the display was "Hallway (Nest)".  To fix the name to say "Nest", you can use the Nest app and blank out the "Label" and use the custom "Where" of "Nest". Anther option to fix the name is through HomeKit.  HomeKit allows you to rename Accessories and Services, but it requires an app like [Insteon+](https://itunes.apple.com/us/app/insteon+/id919270334?uo=2&at=11la2C) that has the ability to change the name._
+_Note: The name of the device matches the name displayed in the Nest app.  In my case, I originally configured the Nest app so the "Where" of my Nest was "Hallway" and I also added a label which was "Nest", so the display was "Hallway (Nest)".  To fix the name to say "Nest", you can use the Nest app and blank out the "Label" and use the custom "Where" of "Nest". Anther option to fix the name is through HomeKit.  HomeKit allows you to rename Accessories and Services, but it requires an app like [Insteon+](https://itunes.apple.com/us/app/insteon+/id919270334?uo=2&at=11la2C) that has the ability to change the name._
 
 
 ## How to Setup New API
