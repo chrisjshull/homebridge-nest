@@ -22,13 +22,13 @@
     "homebridge": ">=0.2.5"
   },
   "dependencies": {
-    "bluebird": "^3.2.2",
+    "bluebird": "^3.5.4",
     "firebase": "^2.3.2",
     "lodash.debounce": "^4.0.8",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
   },
   "devDependencies": {
-    "eslint": "^5.14.0"
+    "eslint": "^5.16.0"
   }
 }
