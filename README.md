@@ -1,3 +1,7 @@
+# NEED NEW OWNER
+
+After Nest's latest API announcements I've decided to switch to an ecobee. If you would like to take over this repo and npm package, please file an issue requesting ownership.
+
 # homebridge-nest
 Nest plugin for [HomeBridge](https://github.com/nfarina/homebridge)
 
