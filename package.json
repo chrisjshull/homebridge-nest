@@ -8,12 +8,12 @@
     "request-promise": "^1.0.2"
   },
   "deprecated": false,
-  "description": "Nest native API plugin for homebridge",
+  "description": "Nest Thermostat and Protect plug-in for homebridge",
   "engines": {
     "homebridge": ">=0.2.5",
     "node": ">=7.0.0"
   },
-  "homepage": "https://github.com/adriancable/homebridge-nest-native#readme",
+  "homepage": "https://github.com/chrisjshull/homebridge-nest#readme",
   "keywords": [
     "homebridge-plugin",
     "nest"
