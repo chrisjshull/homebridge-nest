@@ -42,7 +42,7 @@ Note: The name of the device that appears in HomeKit matches the name displayed 
 
 Two-factor authentication is supported if enabled in your Nest account. On starting Homebridge, you will be prompted to enter a PIN code which will be sent to the mobile device number registered to your Nest account.
 
-If you are running Homebridge as a service, you cannot manually enter the PIN in the console. In this case, when you start Homebridge and receive the PIN code, edit config.json and add the PIN received under "pin" (see 'Configuration' above). Then, restart Homebridge. Using 2FA is not recommended if Homebridge is run as a service, because if the connection to the Nest service is interrupted for any reason, homebridge-nest-native will not be able to automatically reconnect.
+If you are running Homebridge as a service, you cannot manually enter the PIN in the console. In this case, when you start Homebridge and receive the PIN code, edit config.json and add the PIN received under "pin" (see 'Configuration' above). Then, restart Homebridge. Using 2FA is not recommended if Homebridge is run as a service, because if the connection to the Nest service is interrupted for any reason, homebridge-nest will not be able to automatically reconnect.
 
 # HomeKit Accessory Types
 
