@@ -1,84 +1,70 @@
-# NEED NEW OWNER
-
-After Nest's latest API announcements I've decided to switch to an ecobee. If you would like to take over this repo and npm package, please file an issue requesting ownership.
-
 # homebridge-nest
-Nest plugin for [HomeBridge](https://github.com/nfarina/homebridge)
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API.
 
-This repository contains the Nest plugin for homebridge that was previously bundled in the main `homebridge` repository.
+Integrate your Nest Thermostat and Nest Protect devices into your HomeKit system. **homebridge-nest no longer uses the 'Works With Nest' API and will be unaffected by its shutdown in August 2019.**
+
+Currently, homebridge-nest supports Nest Thermostat and Nest Protect devices. Camera and Nest Secure support may come later. (I don't currently own those devices.)
 
 # Installation
 
 1. Install homebridge using: `npm install -g homebridge`
-2. Install this plugin using: `npm install -g homebridge-nest`
+1. Install this plug-in using: `npm install -g homebridge-nest`
 3. Update your configuration file. See `sample-config.json` snippet below.
 
-Until an alternative is determined (like Nest Weave which hasn't been released yet or setting up a website for generating tokens specifically for HomeBridge-Nest), you will have to setup an developer account for Nest.  It's a simple process and if you specify that it is for Individual, then you are auto approved (at least in my experience).
-
-_Note: The name of the device matches the name displayed in the Nest app.  In my case, I originally configured the Nest app so the "Where" of my Nest was "Hallway" and I also added a label which was "Nest", so the display was "Hallway (Nest)".  To fix the name to say "Nest", you can use the Nest app and blank out the "Label" and use the custom "Where" of "Nest". Anther option to fix the name is through HomeKit.  HomeKit allows you to rename Accessories and Services, but it requires an app like [Insteon+](https://itunes.apple.com/us/app/insteon+/id919270334?uo=2&at=11la2C) that has the ability to change the name._
-
-
-## How to Setup New API
-
-1. Go to [https://developer.nest.com](https://developer.nest.com)
-2. Choose **Sign In**
-3. Use your normal account to sign in
-4. Fill in you info in 'Step 1'
-5. In 'Step 2' set:
-	* **Company Name**: _HomeBridge-Nest_
-	* **Company URL**: _https://github.com/chrisjshull/homebridge-nest_
-	* **Country**: _[Your Country]_
-	* **Size of Company**: _Individual_
-6. Then just agree to the terms and submit
-7. Go to **Products** and create a new product
-8. Fill in:
-	* **Product Name**: _HomeBridge_ + your name (must be unique)
-	* **Description**: _Open source project to provide HomeKit integration_
-	* **Categories**: _Home Automation_
-	* **Users**: _Individual_
-	* **Support URL**: _https://github.com/chrisjshull/homebridge-nest_
-	* **Redirect URL**:  _[LEAVE BLANK]_
-	* **Permissions (minimum)**:
-		* Enable **Thermostat** with **read/write**
-		* Enable **Away** with **read/write**
-		* Enable **Smoke+CO alarm** with **read** (if you ever might want Nest Protect)
-		* Enable **Camera** with **read** (if you ever might want Nest Cam, motion detection only)
-		* Permission description: fill in anything
-9. Now you should have a product. Now locate the id/secret section on the right of your product's page
-10. Copy the **Product ID** to your HomeBridge config as the **clientId** in the Nest config
-11. Copy the **Product Secret** to your HomeBridge config as the **clientSecret** in the Nest config
-12. Navigate to the **Authorization URL**
-13. Accept the terms and copy the **Pin Code** to your HomeBridge config as the **code** in the Nest config
-14. Run HomeBridge once _(do not include the **token** in the config at this time)_ and you should find a log that says something like _"CODE IS ONLY VALID ONCE! Update config to use {'token':'c.5ABsTpo88k5yfNIxZlh...'} instead."_  Copy the **_c.5ABsTpo88k5yfNIxZlh..._** portion to your HomeBridge config as the **token** in the Nest config
-15. You should be able to **restart HomeBridge** and it should succeed with the new token.
-
-After that you will be **FINALLY** done (Huzzah!). If the token is working correctly, you no longer NEED the other three configs (clientId, clientSecret, and code), but you can keep them around if you wish, they will be ignored.
-
-
-
+You will need your Nest account email address and password - the same credentials you use with the Nest app. A 'Works With Nest' developer account and tokens are not required.
 
 # Configuration
 
-Configuration sample:
+Configuration sample (edit ~/.homebridge/config.json):
 
- ```
+```
 "platforms": [
 		{
 			"platform": "Nest",
-			"clientId": "developer Product ID from Nest",
-			"clientSecret": "developer Product Secret from Nest",
-			"code": "your Pincode from Nest"
+			"email": "your Nest account email address",
+			"password": "your Nest account password"
 		}
 	],
-
 ```
 
 Fields:
 
 * "platform": Must always be "Nest" (required)
-* "clientId": developer Product ID (see instructions)
-* "clientSecret": developer Product Secret (see instructions)
-* "code": your Pincode from Nest (see instructions)
-* "token": The only (and final) authentication piece you need to use the new API (see instructions)
-* "structureId": "your structure's ID" // optional structureId to filter to (see logs on first run for each device's structureId)
-* "disable": [] // optional list of features to disable ("Thermostat.Fan", "Thermostat.Home", "Thermostat.Eco")
+* "email": Your Nest account email address (required)
+* "password": Your Nest account password (required)
+* "pin": "number" // PIN code sent to your mobile device for 2-factor authentication - see below (optional)
+* "structureId": "your structure's ID" // optional structureId to filter to (see logs on first run for each device's structureId) - Nest "structures" are equivalent to HomeKit "homes"
+* "disable": [] // optional list of features to disable ("Thermostat.Fan", "Thermostat.Home", "Thermostat.Eco", "Protect.Home")
+
+Note: The name of the device that appears in HomeKit matches the name displayed in the Nest app. This plug-in creates 4 accessories for each Thermostat (temperature, home/away mode, eco mode, fan) and 2 accessories for each Protect (smoke and CO sensors). If you have multiple thermostats or Protects, you should assign them a Label in the Nest app so you know which is which (select your device in the app, then go to Settings, then go to Where, then set a Label). You can also change the names of the individual accessories in the Apple Home app if you wish.
+
+# Two-Factor Authentication
+
+Two-factor authentication is supported if enabled in your Nest account. On starting Homebridge, you will be prompted to enter a PIN code which will be sent to the mobile device number registered to your Nest account.
+
+If you are running Homebridge as a service, you cannot manually enter the PIN in the console. In this case, when you start Homebridge and receive the PIN code, edit config.json and add the PIN received under "pin" (see 'Configuration' above). Then, restart Homebridge. Using 2FA is not recommended if Homebridge is run as a service, because if the connection to the Nest service is interrupted for any reason, homebridge-nest-native will not be able to automatically reconnect.
+
+# HomeKit Accessory Types
+
+## Nest Thermostat
+
+* *Thermostat* accessory with ambient temperature and humidity sensors, mode control (heat/cool/auto/off), and target temperature control
+* *Switch* accessory (Home Occupied) indicating detected Home/Away state - can be manually changed. Disable by adding "Thermostat.Home" to "disable" field in config.json
+* *Switch* accessory (Eco Mode) indicating current eco mode state - can be manually changed. Disable by adding "Thermostat.Eco" to "disable" field in config.json
+* *Fan* accessory indicating whether the fan is running - can be manually changed. Disable by adding "Thermostat.Fan" to "disable" field in config.json
+
+## Nest Protect
+
+* *SmokeSensor* accessory (Smoke) indicating smoke detected
+* *CarbonMonoxideSensor* accessory (Carbon Monoxide) indicating CO detected
+* *OccupancySensor* accessory (Home Occupied) indicating detected occupancy (Home/Away) state. Disable by adding "Protect.Home" to "disable" field in config.json - you will want to do this if your home has both a Thermostat and Protects to avoid a duplicate home/away accessory
+
+# Donate to Support homebridge-nest
+
+homebridge-nest is a labour of love. It's provided under the ISC licence and is completely free to do whatever you want with. But if you'd like to show your appreciation for its continued development, please consider [clicking here to make a small donation](https://paypal.me/adriancable586) or send me a thank-you card:
+
+Adrian Cable  
+PO Box 370365  
+Montara, CA 94037  
+
+I appreciate your feedback and support in whatever form!
