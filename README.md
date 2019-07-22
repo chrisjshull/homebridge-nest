@@ -35,6 +35,7 @@ Fields:
 * "pin": "number" // PIN code sent to your mobile device for 2-factor authentication - see below (optional)
 * "structureId": "your structure's ID" // optional structureId to filter to (see logs on first run for each device's structureId) - Nest "structures" are equivalent to HomeKit "homes"
 * "disable": [] // optional list of features to disable ("Thermostat.Fan", "Thermostat.Home", "Thermostat.Eco", "Thermostat.TemperatureSensors", "Protect.Home")
+* "fanDurationMinutes": number of minutes to run the fan when manually turned on (optional, default is 15)
 
 # Two-Factor Authentication
 
