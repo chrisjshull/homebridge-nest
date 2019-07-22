@@ -214,8 +214,8 @@ const setupConnection = function(config, log) {
 };
 
 NestPlatform.prototype = {
-    shouldEnableFeature: function (key) {
-        return !this.config.disable || !this.config.disable.includes(key);
+    optionSet: function (key) {
+        return this.config.options && this.config.options.includes(key);
     },
     accessories: function (callback) {
         this.log('Fetching Nest devices.');

@@ -20,12 +20,12 @@ Configuration sample (edit `~/.homebridge/config.json`):
 
 ```
 "platforms": [
-		{
-			"platform": "Nest",
-			"email": "your Nest account email address",
-			"password": "your Nest account password"
-		}
-	],
+        {
+            "platform": "Nest",
+            "email": "your Nest account email address",
+            "password": "your Nest account password"
+        }
+    ],
 ```
 
 Fields:
@@ -35,7 +35,7 @@ Fields:
 * "password": Your Nest account password (required)
 * "pin": "number" // PIN code sent to your mobile device for 2-factor authentication - see below (optional)
 * "structureId": "your structure's ID" // optional structureId to filter to (see logs on first run for each device's structureId) - Nest "structures" are equivalent to HomeKit "homes"
-* "disable": [] // optional list of features to disable ("Thermostat.Fan", "Thermostat.Home", "Thermostat.Eco", "Thermostat.TemperatureSensors", "Protect.Home")
+* "options": [ "feature1", "feature2", ... ] // optional list of features to enable/disable (see below)
 * "fanDurationMinutes": number of minutes to run the fan when manually turned on (optional, default is 15)
 
 # Two-Factor Authentication
@@ -49,16 +49,39 @@ If you are running Homebridge as a service, you cannot manually enter the PIN in
 ## Nest Thermostat
 
 * *Thermostat* accessory with ambient temperature and humidity sensors, mode control (heat/cool/auto/off), and target temperature control
-* *Switch* accessory (Home Occupied) indicating detected Home/Away state - can be manually changed. Disable by adding "Thermostat.Home" to "disable" field in config.json
-* *Switch* accessory (Eco Mode) indicating current eco mode state - can be manually changed. Disable by adding "Thermostat.Eco" to "disable" field in config.json
-* *Fan* accessory indicating whether the fan is running - can be manually changed. Disable by adding "Thermostat.Fan" to "disable" field in config.json
-* *TemperatureSensor* accessory indicating the ambient temperature where each additional Nest Temperature Sensor is located. Disable by adding "Thermostat.TemperatureSensors" to "disable" field in config.json
+* *Switch* accessory (Home Occupied) indicating detected Home/Away state - can be manually changed
+* *Switch* accessory (Eco Mode) indicating current eco mode state - can be manually changed
+* *Fan* accessory indicating whether the fan is running - can be manually changed
+* *TemperatureSensor* accessory indicating the ambient temperature where each additional Nest Temperature Sensor is located
+* *TemperatureSensor* accessory indicating the ambient temperature at the thermostat (disabled by default - temperature is reported by the base *Thermostat* accessory)
+* *HumiditySensor* accessory indicating the relative humidity at the thermostat (disabled by default - humidity is reported by the base *Thermostat* accessory)
 
 ## Nest Protect
 
 * *SmokeSensor* accessory (Smoke) indicating smoke detected
 * *CarbonMonoxideSensor* accessory (Carbon Monoxide) indicating CO detected
-* *OccupancySensor* accessory (Home Occupied) indicating detected occupancy (Home/Away) state. Disable by adding "Protect.Home" to "disable" field in config.json - you will want to do this if your home has both a Thermostat and Protects to avoid a duplicate home/away accessory
+* *OccupancySensor* accessory (Home Occupied) indicating detected occupancy (Home/Away) state
+
+# Feature Options
+
+Set `"options"` in `config.json` to an array of strings chosen from the following to customise feature options:
+
+* `"Thermostat.Fan.Disable"` - do not create a *Fan* accessory for the thermostat
+* `"Thermostat.HomeAway.Disable"` - do not create a *Switch* accessory to indicate/control Home/Away status
+* `"Thermostat.Eco.Disable"` - do not create a *Switch* accessory to indicate/control Eco Mode status
+* `"Thermostat.TemperatureSensors.Disable"` - do not create *TemperatureSensor* accessories for each connected Nest Temperature Sensor
+* `"Thermostat.SeparateBuiltInTemperatureSensor.Enable"` - create an additional *TemperatureSensor* accessory to report the ambient temperature at the thermostat
+* `"Thermostat.SeparateBuiltInHumiditySensor.Enable"` - create an additional *HumiditySensor* accessory to report the relative humidity at the thermostat
+* `"Protect.OccupancySensor.Disable"` - do not create an *OccupancySensor* accessory indicating detected occupancy (Home/Away) state for each Nest Protect
+
+# Things to try with Siri
+
+* Hey Siri, *set the temperature to 72 degrees*. (in heat-only or cool-only mode)
+* Hey Siri, *set the temperature range to between 65 and 70 degrees*. (in auto mode, for systems that can heat and cool)
+* Hey Siri, *set the thermostat to cool*. (try heat, cool, auto, or off)
+* Hey Siri, *what's the temperature at home*?
+* Hey Siri, *what's the temperature in the Basement*? (get the temperature from a Nest Temperature Sensor)
+* Hey Siri, *what's the status of my smoke detector*?
 
 # Donate to Support homebridge-nest
 
