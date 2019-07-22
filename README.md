@@ -1,9 +1,9 @@
 # homebridge-nest
 Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API.
 
-Integrate your Nest Thermostat, Nest Detect and Nest Protect devices into your HomeKit system. **homebridge-nest no longer uses the 'Works With Nest' API and will be unaffected by its shutdown in August 2019.**
+Integrate your Nest Thermostat (including Nest Temperature Sensors) and Nest Protect devices into your HomeKit system. **homebridge-nest no longer uses the 'Works With Nest' API and will be unaffected by its shutdown in August 2019.**
 
-Currently, homebridge-nest supports Nest Thermostat, Nest Detect and Nest Protect devices. Camera and Nest Secure support may come later. (I don't currently own those devices.)
+Currently, homebridge-nest supports Nest Thermostat and Nest Protect devices. Camera and Nest Secure/Detect support may come later. (I don't currently own those devices.)
 
 # Installation
 
@@ -34,7 +34,7 @@ Fields:
 * "password": Your Nest account password (required)
 * "pin": "number" // PIN code sent to your mobile device for 2-factor authentication - see below (optional)
 * "structureId": "your structure's ID" // optional structureId to filter to (see logs on first run for each device's structureId) - Nest "structures" are equivalent to HomeKit "homes"
-* "disable": [] // optional list of features to disable ("Thermostat.Fan", "Thermostat.Home", "Thermostat.Eco", "Thermostat.Detect", "Protect.Home")
+* "disable": [] // optional list of features to disable ("Thermostat.Fan", "Thermostat.Home", "Thermostat.Eco", "Thermostat.TemperatureSensors", "Protect.Home")
 
 # Two-Factor Authentication
 
@@ -50,10 +50,7 @@ If you are running Homebridge as a service, you cannot manually enter the PIN in
 * *Switch* accessory (Home Occupied) indicating detected Home/Away state - can be manually changed. Disable by adding "Thermostat.Home" to "disable" field in config.json
 * *Switch* accessory (Eco Mode) indicating current eco mode state - can be manually changed. Disable by adding "Thermostat.Eco" to "disable" field in config.json
 * *Fan* accessory indicating whether the fan is running - can be manually changed. Disable by adding "Thermostat.Fan" to "disable" field in config.json
-
-## Nest Detect
-
-* *TemperatureSensor* accessory indicating the ambient temperature where the Detect is located. Disable by adding "Thermostat.Detect" to "disable" field in config.json
+* *TemperatureSensor* accessory indicating the ambient temperature where each additional Nest Temperature Sensor is located. Disable by adding "Thermostat.TemperatureSensors" to "disable" field in config.json
 
 ## Nest Protect
 
