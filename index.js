@@ -187,7 +187,7 @@ const setupConnection = function(config, log) {
 
         const conn = new NestConnection(token, log);
         conn.config = config;
-        conn.mutex = new NestMutex();
+        conn.mutex = new NestMutex(log);
         if (token) {
             resolve(conn);
         } else {
