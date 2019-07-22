@@ -79,6 +79,7 @@ Set `"options"` in `config.json` to an array of strings chosen from the followin
 * Hey Siri, *set the temperature to 72 degrees*. (in heat-only or cool-only mode)
 * Hey Siri, *set the temperature range to between 65 and 70 degrees*. (in auto mode, for systems that can heat and cool)
 * Hey Siri, *set the thermostat to cool*. (try heat, cool, auto, or off)
+* Hey Siri, *turn Eco Mode on*.
 * Hey Siri, *what's the temperature at home*?
 * Hey Siri, *what's the temperature in the Basement*? (get the temperature from a Nest Temperature Sensor)
 * Hey Siri, *what's the status of my smoke detector*?
