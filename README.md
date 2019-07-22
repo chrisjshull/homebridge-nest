@@ -15,7 +15,7 @@ You will need your Nest account email address and password - the same credential
 
 # Configuration
 
-Configuration sample (edit ~/.homebridge/config.json):
+Configuration sample (edit `~/.homebridge/config.json`):
 
 ```
 "platforms": [
