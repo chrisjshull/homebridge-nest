@@ -1,4 +1,5 @@
 const NestConnection = require('./lib/nest-connection.js');
+const NestMutex = require('./lib/nest-mutex.js');
 const inherits = require('util').inherits;
 const Promise = require('bluebird');
 
@@ -185,6 +186,8 @@ const setupConnection = function(config, log) {
         }
 
         const conn = new NestConnection(token, log);
+        conn.config = config;
+        conn.mutex = new NestMutex();
         if (token) {
             resolve(conn);
         } else {
