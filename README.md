@@ -9,7 +9,7 @@ Currently, homebridge-nest supports Nest Thermostat and Nest Protect devices. Ca
 
 <!-- 2. Install this plug-in using: `npm install -g homebridge-nest` -->
 1. Install homebridge using: `npm install -g homebridge`
-2. Clone (or pull) this repository from github. Note: the code currently on GitHub is in beta, and is newer than the latest published version of this package on `npm`
+2. Clone (or pull) this repository from github into the same path Homebridge lives (usually `/usr/local/lib/node_modules`). Note: the code currently on GitHub is in beta, and is newer than the latest published version of this package on `npm`
 3. Update your configuration file. See `sample-config.json` snippet below.
 
 You will need your Nest account email address and password - the same credentials you use with the Nest app. A 'Works With Nest' developer account and tokens are not required.
