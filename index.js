@@ -4,7 +4,7 @@ const inherits = require('util').inherits;
 const Promise = require('bluebird');
 
 let Service, Characteristic, Accessory, uuid;
-let ThermostatAccessory, ProtectAccessory, CamAccessory; // DeviceAccessory,
+let ThermostatAccessory, ProtectAccessory, CamAccessory;
 
 module.exports = function (homebridge) {
     Service = homebridge.hap.Service;
@@ -19,7 +19,6 @@ module.exports = function (homebridge) {
         uuid: uuid,
     };
 
-    // DeviceAccessory =
     require('./lib/nest-device-accessory.js')(exportedTypes); // eslint-disable-line global-require
     ThermostatAccessory = require('./lib/nest-thermostat-accessory.js')(exportedTypes); // eslint-disable-line global-require
     ProtectAccessory = require('./lib/nest-protect-accessory.js')(exportedTypes); // eslint-disable-line global-require
