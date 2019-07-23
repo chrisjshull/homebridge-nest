@@ -108,10 +108,16 @@ NestPlatform.prototype = {
                 }
             }.bind(this);
 
-            loadDevices(ThermostatAccessory);
-            loadDevices(TempSensorAccessory);
-            loadDevices(ProtectAccessory);
-            loadDevices(CamAccessory);
+            if (!this.optionSet('Thermostat.All.Disable')) {
+                loadDevices(ThermostatAccessory);
+            }
+            if (!this.optionSet('TempSensor.All.Disable')) {
+                loadDevices(TempSensorAccessory);
+            }
+            if (!this.optionSet('Protect.All.Disable')) {
+                loadDevices(ProtectAccessory);
+            }
+            // loadDevices(CamAccessory);
 
             return foundAccessories;
         }.bind(this);

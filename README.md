@@ -66,13 +66,15 @@ If you are running Homebridge as a service, you cannot manually enter the PIN in
 
 Set `"options"` in `config.json` to an array of strings chosen from the following to customise feature options:
 
+* `"Thermostat.All.Disable"` - exclude all Nest Thermostats from HomeKit
 * `"Thermostat.Fan.Disable"` - do not create a *Fan* accessory for the thermostat
 * `"Thermostat.HomeAway.Disable"` - do not create a *Switch* accessory to indicate/control Home/Away status
 * `"Thermostat.Eco.Disable"` - do not create a *Switch* accessory to indicate/control Eco Mode status
-* `"Thermostat.TemperatureSensors.Disable"` - do not create *TemperatureSensor* accessories for each connected Nest Temperature Sensor
 * `"Thermostat.SeparateBuiltInTemperatureSensor.Enable"` - create an additional *TemperatureSensor* accessory to report the ambient temperature at the thermostat
 * `"Thermostat.SeparateBuiltInHumiditySensor.Enable"` - create an additional *HumiditySensor* accessory to report the relative humidity at the thermostat
+* `"TempSensor.All.Disable"` - exclude all Nest Temperature Sensors from HomeKit
 * `"Protect.OccupancySensor.Disable"` - do not create an *OccupancySensor* accessory indicating detected occupancy (Home/Away) state for each Nest Protect
+* `"Protect.All.Disable"` - exclude all Nest Protects from HomeKit
 
 # Things to try with Siri
 
