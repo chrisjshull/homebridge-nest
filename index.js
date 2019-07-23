@@ -81,8 +81,8 @@ const setupConnection = function(config, log) {
 };
 
 NestPlatform.prototype = {
-    optionSet: function (key) {
-        return this.config.options && this.config.options.includes(key);
+    optionSet: function (key, serialNumber, deviceId) {
+        return key && this.config.options && (this.config.options.includes(key) || (serialNumber && this.config.options.includes(key + '.' + serialNumber)) || (deviceId && this.config.options.includes(key + '.' + deviceId)));
     },
     accessories: function (callback) {
         this.log('Fetching Nest devices.');
@@ -93,30 +93,34 @@ NestPlatform.prototype = {
             const foundAccessories = [];
 
             const loadDevices = function(DeviceType) {
+                const disableFlags = {
+                    'thermostat': 'Thermostat.Disable',
+                    'temp_sensor': 'TempSensor.Disable',
+                    'protect': 'Protect.Disable'
+                };
+
                 const devices = (data.devices && data.devices[DeviceType.deviceGroup]) || {};
                 for (const deviceId of Object.keys(devices)) {
                     const device = devices[deviceId];
-                    const structureId = device.structure_id;
-                    if (this.config.structureId && this.config.structureId !== structureId) {
-                        this.log('Skipping device ' + deviceId + ' because it is not in the required structure. Has ' + structureId + ', looking for ' + this.config.structureId + '.');
-                        continue;
+                    const serialNumber = device.serial_number;
+                    // console.log(disableFlags[DeviceType.deviceType], serialNumber, deviceId);
+                    if (!this.optionSet(disableFlags[DeviceType.deviceType], serialNumber, deviceId)) {
+                        const structureId = device.structure_id;
+                        if (this.config.structureId && this.config.structureId !== structureId) {
+                            this.log('Skipping device ' + deviceId + ' because it is not in the required structure. Has ' + structureId + ', looking for ' + this.config.structureId + '.');
+                            continue;
+                        }
+                        const structure = data.structures[structureId];
+                        const accessory = new DeviceType(this.conn, this.log, device, structure, this);
+                        this.accessoryLookup[deviceId] = accessory;
+                        foundAccessories.push(accessory);
                     }
-                    const structure = data.structures[structureId];
-                    const accessory = new DeviceType(this.conn, this.log, device, structure, this);
-                    this.accessoryLookup[deviceId] = accessory;
-                    foundAccessories.push(accessory);
                 }
             }.bind(this);
 
-            if (!this.optionSet('Thermostat.All.Disable')) {
-                loadDevices(ThermostatAccessory);
-            }
-            if (!this.optionSet('TempSensor.All.Disable')) {
-                loadDevices(TempSensorAccessory);
-            }
-            if (!this.optionSet('Protect.All.Disable')) {
-                loadDevices(ProtectAccessory);
-            }
+            loadDevices(ThermostatAccessory);
+            loadDevices(TempSensorAccessory);
+            loadDevices(ProtectAccessory);
             // loadDevices(CamAccessory);
 
             return foundAccessories;
