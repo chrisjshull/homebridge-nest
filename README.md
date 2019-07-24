@@ -30,7 +30,7 @@ Configuration sample (edit `~/.homebridge/config.json`):
 
 Fields:
 
-* `"platform"`: Must always be "Nest" (required)
+* `"platform"`: Must always be `"Nest"` (required)
 * `"email"`: Your Nest account email address (required)
 * `"password"`: Your Nest account password (required)
 * `"pin"`: `"number"` // PIN code sent to your mobile device for 2-factor authentication - see below (optional)
@@ -78,7 +78,7 @@ Set `"options"` in `config.json` to an array of strings chosen from the followin
 * `"Protect.OccupancySensor.Disable"` - do not create an *OccupancySensor* accessory indicating detected occupancy (Home/Away) state for each Nest Protect
 * `"Protect.Disable"` - exclude Nest Protects from HomeKit
 
-By default, options set apply to all devices. To set an option for a specific device only, add `.*device_id*` to the corresponding `option`, where `*device_id*` is shown in the Homebridge logs, or in HomeKit itself as *Serial Number* in the Settings page for your device. For example, to disable the Home/Away accessory for one specific thermostat with serial number 09AC01AC31180349, add `Thermostat.HomeAway.Disable.09AC01AC31180349` to `"options"`.
+By default, options set apply to all devices. To set an option for a specific device only, add `.device_id` to the corresponding `option`, where `device_id` is shown in the Homebridge logs, or in HomeKit itself as *Serial Number* in the Settings page for your device. For example, to disable the Home/Away accessory for one specific thermostat with serial number 09AC01AC31180349, add `Thermostat.HomeAway.Disable.09AC01AC31180349` to `"options"`.
 
 # Things to try with Siri
 
