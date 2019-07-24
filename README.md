@@ -1,5 +1,5 @@
 # homebridge-nest
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API.
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.1.0](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.1.0).
 
 Integrate your Nest Thermostat (including Nest Temperature Sensors) and Nest Protect devices into your HomeKit system. **homebridge-nest no longer uses the 'Works With Nest' API and will be unaffected by its shutdown in August 2019.**
 
@@ -7,9 +7,9 @@ Currently, homebridge-nest supports Nest Thermostat and Nest Protect devices. Ca
 
 # Installation
 
-<!-- 2. Install this plug-in using: `npm install -g homebridge-nest` -->
+<!-- 2. Clone (or pull) this repository from github into the same path Homebridge lives (usually `/usr/local/lib/node_modules`). Note: the code currently on GitHub is in beta, and is newer than the latest published version of this package on `npm` -->
 1. Install homebridge using: `npm install -g homebridge`
-2. Clone (or pull) this repository from github into the same path Homebridge lives (usually `/usr/local/lib/node_modules`). Note: the code currently on GitHub is in beta, and is newer than the latest published version of this package on `npm`
+2. Install this plug-in using: `npm install -g homebridge-nest`
 3. Update your configuration file. See `sample-config.json` snippet below.
 
 You will need your Nest account email address and password - the same credentials you use with the Nest app. A 'Works With Nest' developer account and tokens are not required.
@@ -30,13 +30,13 @@ Configuration sample (edit `~/.homebridge/config.json`):
 
 Fields:
 
-* "platform": Must always be "Nest" (required)
-* "email": Your Nest account email address (required)
-* "password": Your Nest account password (required)
-* "pin": "number" // PIN code sent to your mobile device for 2-factor authentication - see below (optional)
-* "structureId": "your structure's ID" // optional structureId to filter to (see logs on first run for each device's structureId) - Nest "structures" are equivalent to HomeKit "homes"
-* "options": [ "feature1", "feature2", ... ] // optional list of features to enable/disable (see below)
-* "fanDurationMinutes": number of minutes to run the fan when manually turned on (optional, default is 15)
+* `"platform"`: Must always be "Nest" (required)
+* `"email"`: Your Nest account email address (required)
+* `"password"`: Your Nest account password (required)
+* `"pin"`: `"number"` // PIN code sent to your mobile device for 2-factor authentication - see below (optional)
+* `"structureId"`: `"your structure's ID"` // optional structureId to filter to (see logs on first run for each device's structureId) - Nest "structures" are equivalent to HomeKit "homes"
+* `"options"`: `[ "feature1", "feature2", ... ]` // optional list of features to enable/disable (see below)
+* `"fanDurationMinutes"`: number of minutes to run the fan when manually turned on (optional, default is 15)
 
 Note: the syntax for setting features to enable/disable has changed since 3.0.0. The `"disabled"` configuration option is no longer supported in 3.1.0 - please use `"options"` instead.
 
