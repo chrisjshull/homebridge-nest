@@ -1,10 +1,9 @@
 const NestConnection = require('./lib/nest-connection.js');
 const NestMutex = require('./lib/nest-mutex.js');
-const inherits = require('util').inherits;
 const Promise = require('bluebird');
 
 let Service, Characteristic, Accessory, uuid;
-let ThermostatAccessory, TempSensorAccessory, ProtectAccessory, CamAccessory;
+let ThermostatAccessory, TempSensorAccessory, ProtectAccessory; //, CamAccessory;
 
 module.exports = function (homebridge) {
     Service = homebridge.hap.Service;
@@ -23,7 +22,7 @@ module.exports = function (homebridge) {
     ThermostatAccessory = require('./lib/nest-thermostat-accessory.js')(exportedTypes); // eslint-disable-line global-require
     TempSensorAccessory = require('./lib/nest-tempsensor-accessory.js')(exportedTypes); // eslint-disable-line global-require
     ProtectAccessory = require('./lib/nest-protect-accessory.js')(exportedTypes); // eslint-disable-line global-require
-    CamAccessory = require('./lib/nest-cam-accessory.js')(exportedTypes); // eslint-disable-line global-require
+    // CamAccessory = require('./lib/nest-cam-accessory.js')(exportedTypes); // eslint-disable-line global-require
 
     homebridge.registerPlatform('homebridge-nest', 'Nest', NestPlatform);
 };
