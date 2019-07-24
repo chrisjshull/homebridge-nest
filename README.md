@@ -52,10 +52,10 @@ If you are running Homebridge as a service, you cannot manually enter the PIN in
 
 * *Thermostat* accessory with ambient temperature and humidity sensors, mode control (heat/cool/auto/off), and target temperature control
 * *Switch* accessory (Home Occupied) indicating detected Home/Away state - can be manually changed
-* *Switch* accessory (Eco Mode) indicating current eco mode state - can be manually changed
-* *Fan* accessory indicating whether the fan is running - can be manually changed
-* *TemperatureSensor* accessory indicating the ambient temperature where each additional Nest Temperature Sensor is located
+* *Switch* accessory (Eco Mode) for turning on and off Eco Mode
+* *Fan* accessory for controlling the fan
 * *TemperatureSensor* accessory indicating the ambient temperature at the thermostat (disabled by default - temperature is reported by the base *Thermostat* accessory)
+* *TemperatureSensor* accessory indicating the ambient temperature where each additional Nest Temperature Sensor is located
 * *HumiditySensor* accessory indicating the relative humidity at the thermostat (disabled by default - humidity is reported by the base *Thermostat* accessory)
 
 ## Nest Protect
