@@ -103,7 +103,6 @@ NestPlatform.prototype = {
                 for (const deviceId of Object.keys(devices)) {
                     const device = devices[deviceId];
                     const serialNumber = device.serial_number;
-                    // console.log(disableFlags[DeviceType.deviceType], serialNumber, deviceId);
                     if (!this.optionSet(disableFlags[DeviceType.deviceType], serialNumber, deviceId)) {
                         const structureId = device.structure_id;
                         if (this.config.structureId && this.config.structureId !== structureId) {

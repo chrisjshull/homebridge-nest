@@ -38,6 +38,8 @@ Fields:
 * "options": [ "feature1", "feature2", ... ] // optional list of features to enable/disable (see below)
 * "fanDurationMinutes": number of minutes to run the fan when manually turned on (optional, default is 15)
 
+Note: the syntax for setting features to enable/disable has changed since 3.0.0. The `"disabled"` configuration option is no longer supported in 3.1.0 - please use `"options"` instead.
+
 # Two-Factor Authentication
 
 Two-factor authentication is supported if enabled in your Nest account. On starting Homebridge, you will be prompted to enter a PIN code which will be sent to the mobile device number registered to your Nest account.
@@ -83,6 +85,7 @@ By default, options set apply to all devices. To set an option for a specific de
 * Hey Siri, *set the temperature to 72 degrees*. (in heat-only or cool-only mode)
 * Hey Siri, *set the temperature range to between 65 and 70 degrees*. (in auto mode, for systems that can heat and cool)
 * Hey Siri, *set the thermostat to cool*. (try heat, cool, auto, or off)
+* Hey Siri, *turn on the air conditioning*.
 * Hey Siri, *turn Eco Mode on*.
 * Hey Siri, *what's the temperature at home*?
 * Hey Siri, *what's the temperature in the Basement*? (get the temperature from a Nest Temperature Sensor)
