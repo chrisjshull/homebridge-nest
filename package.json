@@ -5,7 +5,8 @@
     "eslint": "^5.16.0",
     "lodash.debounce": "^4.0.8",
     "prompt-promise": "^1.0.3",
-    "request-promise": "^1.0.2"
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
   },
   "repository": {
     "type": "git",
