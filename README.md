@@ -1,5 +1,5 @@
 # homebridge-nest
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.1.1](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.1.1).
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. <!-- See what's new in [release 3.1.1](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.1.1). -->
 
 Integrate your Nest Thermostat (including Nest Temperature Sensors) and Nest Protect devices into your HomeKit system. **homebridge-nest no longer uses the 'Works With Nest' API and will be unaffected by its shutdown in August 2019.**
 
@@ -7,9 +7,9 @@ Currently, homebridge-nest supports Nest Thermostat and Nest Protect devices. Ca
 
 # Installation
 
-<!-- 2. Clone (or pull) this repository from github into the same path Homebridge lives (usually `/usr/local/lib/node_modules`). Note: the code currently on GitHub is in beta, and is newer than the latest published version of this package on `npm` -->
+<!-- 2. Install this plug-in using: `npm install -g homebridge-nest` -->
 1. Install homebridge using: `npm install -g homebridge`
-2. Install this plug-in using: `npm install -g homebridge-nest`
+2. Clone (or pull) this repository from github into the same path Homebridge lives (usually `/usr/local/lib/node_modules`). Note: the code currently on GitHub is in beta, and is newer than the latest published version of this package on `npm`
 3. Update your configuration file. See `sample-config.json` snippet below.
 
 You will need your Nest account email address and password - the same credentials you use with the Nest app. A 'Works With Nest' developer account and tokens are not required.
@@ -48,10 +48,13 @@ If you are running Homebridge as a service, you cannot manually enter the PIN in
 
 # HomeKit Accessory Types
 
+## Home
+
+* *Switch* accessory (Home Occupied) indicating detected Home/Away state - can be manually changed
+
 ## Nest Thermostat
 
 * *Thermostat* accessory with ambient temperature and humidity sensors, mode control (heat/cool/auto/off), and target temperature control
-* *Switch* accessory (Home Occupied) indicating detected Home/Away state - can be manually changed
 * *Switch* accessory (Eco Mode) for turning on and off Eco Mode
 * *Fan* accessory for controlling the fan
 * *TemperatureSensor* accessory indicating the ambient temperature at the thermostat (disabled by default - temperature is reported by the base *Thermostat* accessory)
@@ -62,7 +65,6 @@ If you are running Homebridge as a service, you cannot manually enter the PIN in
 
 * *SmokeSensor* accessory (Smoke) indicating smoke detected
 * *CarbonMonoxideSensor* accessory (Carbon Monoxide) indicating CO detected
-* *OccupancySensor* accessory (Home Occupied) indicating detected occupancy (Home/Away) state
 
 # Feature Options
 
@@ -70,15 +72,15 @@ Set `"options"` in `config.json` to an array of strings chosen from the followin
 
 * `"Thermostat.Disable"` - exclude Nest Thermostats from HomeKit
 * `"Thermostat.Fan.Disable"` - do not create a *Fan* accessory for the thermostat
-* `"Thermostat.HomeAway.Disable"` - do not create a *Switch* accessory to indicate/control Home/Away status
 * `"Thermostat.Eco.Disable"` - do not create a *Switch* accessory to indicate/control Eco Mode status
 * `"Thermostat.SeparateBuiltInTemperatureSensor.Enable"` - create an additional *TemperatureSensor* accessory to report the ambient temperature at the thermostat
 * `"Thermostat.SeparateBuiltInHumiditySensor.Enable"` - create an additional *HumiditySensor* accessory to report the relative humidity at the thermostat
 * `"TempSensor.Disable"` - exclude Nest Temperature Sensors from HomeKit
-* `"Protect.OccupancySensor.Disable"` - do not create an *OccupancySensor* accessory indicating detected occupancy (Home/Away) state for each Nest Protect
+* `"HomeAway.Disable"` - exclude Home/Away switch from HomeKit
+* `"HomeAway.AsOccupancySensor"` - create Home/Away indicator as an *OccupancySensor* instead of a *Switch* - useful for automations
 * `"Protect.Disable"` - exclude Nest Protects from HomeKit
 
-By default, options set apply to all devices. To set an option for a specific device only, add `.device_id` to the corresponding `option`, where `device_id` is shown in the Homebridge logs, or in HomeKit itself as *Serial Number* in the Settings page for your device. For example, to disable the Home/Away accessory for one specific thermostat with serial number 09AC01AC31180349, add `Thermostat.HomeAway.Disable.09AC01AC31180349` to `"options"`.
+By default, options set apply to all devices. To set an option for a specific device only, add `.device_id` to the corresponding `option`, where `device_id` is shown in the Homebridge logs, or in HomeKit itself as *Serial Number* in the Settings page for your device. For example, to disable one specific thermostat with serial number 09AC01AC31180349, add `Thermostat.Disable.09AC01AC31180349` to `"options"`.
 
 # Things to try with Siri
 

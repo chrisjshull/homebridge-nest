@@ -3,7 +3,7 @@ const NestMutex = require('./lib/nest-mutex.js');
 const Promise = require('bluebird');
 
 let Service, Characteristic, Accessory, uuid;
-let ThermostatAccessory, TempSensorAccessory, ProtectAccessory; //, CamAccessory;
+let ThermostatAccessory, HomeAwayAccessory, TempSensorAccessory, ProtectAccessory; //, CamAccessory;
 
 module.exports = function (homebridge) {
     Service = homebridge.hap.Service;
@@ -20,6 +20,7 @@ module.exports = function (homebridge) {
 
     require('./lib/nest-device-accessory.js')(exportedTypes); // eslint-disable-line global-require
     ThermostatAccessory = require('./lib/nest-thermostat-accessory.js')(exportedTypes); // eslint-disable-line global-require
+    HomeAwayAccessory = require('./lib/nest-homeaway-accessory.js')(exportedTypes); // eslint-disable-line global-require
     TempSensorAccessory = require('./lib/nest-tempsensor-accessory.js')(exportedTypes); // eslint-disable-line global-require
     ProtectAccessory = require('./lib/nest-protect-accessory.js')(exportedTypes); // eslint-disable-line global-require
     // CamAccessory = require('./lib/nest-cam-accessory.js')(exportedTypes); // eslint-disable-line global-require
@@ -95,7 +96,8 @@ NestPlatform.prototype = {
                 const disableFlags = {
                     'thermostat': 'Thermostat.Disable',
                     'temp_sensor': 'TempSensor.Disable',
-                    'protect': 'Protect.Disable'
+                    'protect': 'Protect.Disable',
+                    'home_away_sensor': 'HomeAway.Disable'
                 };
 
                 const devices = (data.devices && data.devices[DeviceType.deviceGroup]) || {};
@@ -117,6 +119,7 @@ NestPlatform.prototype = {
             }.bind(this);
 
             loadDevices(ThermostatAccessory);
+            loadDevices(HomeAwayAccessory);
             loadDevices(TempSensorAccessory);
             loadDevices(ProtectAccessory);
             // loadDevices(CamAccessory);
