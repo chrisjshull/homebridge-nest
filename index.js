@@ -36,7 +36,7 @@ function NestPlatform(log, config) {
     this.accessoryLookup = {};
 }
 
-const setupConnection = function(config, log) {
+const setupConnection = function(config, log, verbose) {
     return new Promise(function (resolve, reject) {
         const email = config.email;
         const password = config.password;
@@ -52,7 +52,7 @@ const setupConnection = function(config, log) {
             return;
         }
 
-        const conn = new NestConnection(token, log);
+        const conn = new NestConnection(token, log, verbose);
         conn.config = config;
         conn.mutex = new NestMutex(log);
         if (token) {
@@ -139,7 +139,7 @@ NestPlatform.prototype = {
         const handleUpdates = function(data){
             updateAccessories(data, that.accessoryLookup);
         };
-        setupConnection(this.config, this.log)
+        setupConnection(this.config, this.log, this.optionSet('Debug.Verbose'))
             .then(function(conn){
                 that.conn = conn;
                 return that.conn.subscribe(handleUpdates);
