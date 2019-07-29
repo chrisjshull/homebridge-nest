@@ -78,6 +78,7 @@ Set `"options"` in `config.json` to an array of strings chosen from the followin
 * `"TempSensor.Disable"` - exclude Nest Temperature Sensors from HomeKit
 * `"HomeAway.Disable"` - exclude Home/Away switch from HomeKit
 * `"HomeAway.AsOccupancySensor"` - create Home/Away indicator as an *OccupancySensor* instead of a *Switch* - useful for automations
+* `"HomeAway.AsOccupancySensorAndSwitch"` - create Home/Away indicator as an *OccupancySensor* and a *Switch*
 * `"Protect.Disable"` - exclude Nest Protects from HomeKit
 
 By default, options set apply to all devices. To set an option for a specific device only, add `.device_id` to the corresponding `option`, where `device_id` is shown in the Homebridge logs, or in HomeKit itself as *Serial Number* in the Settings page for your device. For example, to disable one specific thermostat with serial number 09AC01AC31180349, add `Thermostat.Disable.09AC01AC31180349` to `"options"`.
