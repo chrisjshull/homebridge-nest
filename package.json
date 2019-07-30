@@ -4,7 +4,7 @@
     "bluebird": "^3.5.4",
     "eslint": "^5.16.0",
     "lodash.debounce": "^4.0.8",
-    "prompt-promise": "^1.0.3",
+    "promise-prompt": "^1.1.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
   },
