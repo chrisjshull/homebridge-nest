@@ -31,7 +31,7 @@
     "prepublishOnly": "npm run lint",
     "preversion": "npm run lint"
   },
-  "version": "3.2.3",
+  "version": "3.2.4",
   "warnings": [
     {
       "code": "ENOTSUP",
@@ -39,7 +39,7 @@
         "node": ">=7.0.0",
         "homebridge": ">=0.2.5"
       },
-      "pkgid": "homebridge-nest@3.2.3"
+      "pkgid": "homebridge-nest@3.2.4"
     }
   ]
 }
