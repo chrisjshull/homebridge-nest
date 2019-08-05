@@ -22,8 +22,7 @@ Configuration sample (edit `~/.homebridge/config.json`):
 "platforms": [
         {
             "platform": "Nest",
-            "email": "your Nest account email address",
-            "password": "your Nest account password"
+            "access_token": "long access token that you received by using cURL below",
         }
     ],
 ```
@@ -31,16 +30,42 @@ Configuration sample (edit `~/.homebridge/config.json`):
 Fields:
 
 * `"platform"`: Must always be `"Nest"` (required)
-* `"email"`: Your Nest account email address (required)
-* `"password"`: Your Nest account password (required)
+* `"email"`: Your Nest account email address (required, unless access_token is used)
+* `"password"`: Your Nest account password (required, unless access_token is used)
 * `"pin"`: `"number"` // PIN code sent to your mobile device for 2-factor authentication - see below (optional)
+* `"access_token"`: Access token to Nest - see below (required, unless email + password options are used)
 * `"structureId"`: `"your structure's ID"` // optional structureId to filter to (see logs on first run for each device's structureId) - Nest "structures" are equivalent to HomeKit "homes"
 * `"options"`: `[ "feature1", "feature2", ... ]` // optional list of features to enable/disable (see below)
 * `"fanDurationMinutes"`: number of minutes to run the fan when manually turned on (optional, default is 15)
 
 Note: the syntax for setting features to enable/disable has changed since 3.0.0. The `"disabled"` configuration option is no longer supported in 3.1.0 - please use `"options"` instead.
 
-# Two-Factor Authentication
+# Authentication
+
+There are two options for authenticiation, first is email + password + pin (for 2FA), the second is access token. Access token is prefered if you do have a setup that automaticly updates and restarts frequently. Email + password + pin is recommended if you do not restart frequently and are concerned about the access token expiring.
+
+## How to get Access Token?
+
+You can get access token from your Nest account by running the following command in terminal. If your account does not have 2FA enabled, you should be able to see `access_token` in the response.
+
+```
+curl -X "POST" "https://home.nest.com/session" \
+     -H 'User-Agent: iPhone iPhone OS 11.0 Dropcam/5.14.0 com.nestlabs.jasper.release Darwin' \
+     -H 'Content-Type: application/x-www-form-urlencoded; charset=utf-8' \
+     --data-urlencode "email=YOUR_NEST_EMAIL" \
+     --data-urlencode "password=YOUR_PASSWORD"
+```
+
+If your account has 2FA enabled, after running the command above, you should see a `2fa_token` in the response, use that and the code you received from SMS to make the second request. If success, you should see `access_token` in the response.
+
+```
+curl -X "POST" "https://home.nest.com/api/0.1/2fa/verify_pin" \
+     -H 'User-Agent: iPhone iPhone OS 11.0 Dropcam/5.14.0 com.nestlabs.jasper.release Darwin' \
+     -H 'Content-Type: application/json; charset=utf-8' \
+     -d $'{"pin": "CODE_FROM_SMS","2fa_token": "TOKEN_FROM_PRIOR_REQUEST"}'
+```
+
+## Two-Factor Authentication
 
 Two-factor authentication is supported if enabled in your Nest account. On starting Homebridge, you will be prompted to enter a PIN code which will be sent to the mobile device number registered to your Nest account.
 

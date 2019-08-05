@@ -41,11 +41,11 @@ const setupConnection = function(config, log, verbose) {
         const email = config.email;
         const password = config.password;
         const pin = config.pin;
-        const token = '';
+        const token = config.access_token;
 
         let err;
-        if (!email || !password) {
-            err = 'You did not specify your Nest app {\'email\',\'password\'} in config.json';
+        if ((!email || !password) && (!token)) {
+            err = 'You did not specify your Nest app {\'email\',\'password\'} nor {\'access_token\'} in config.json';
         }
         if (err) {
             reject(new Error(err));
@@ -55,7 +55,11 @@ const setupConnection = function(config, log, verbose) {
         const conn = new NestConnection(token, log, verbose);
         conn.config = config;
         conn.mutex = new NestMutex(log);
-        if (token) {
+        if (config.access_token) {
+            conn.initSession().then(() => {
+                resolve(conn);
+            });
+        } else if (token) {
             resolve(conn);
         } else {
             conn.auth(email, password, pin)
