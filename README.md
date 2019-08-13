@@ -1,5 +1,5 @@
 # homebridge-nest
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.3.0](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.3.0).
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.3.1](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.3.1).
 
 Integrate your Nest Thermostat (including Nest Temperature Sensors) and Nest Protect devices into your HomeKit system. **homebridge-nest no longer uses the 'Works With Nest' API and will be unaffected by its shutdown in August 2019.**
 
