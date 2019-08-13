@@ -1,16 +1,16 @@
 # homebridge-nest
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.2.4](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.2.4).
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.3.0](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.3.0).
 
 Integrate your Nest Thermostat (including Nest Temperature Sensors) and Nest Protect devices into your HomeKit system. **homebridge-nest no longer uses the 'Works With Nest' API and will be unaffected by its shutdown in August 2019.**
 
-Currently, homebridge-nest supports Nest Thermostat and Nest Protect devices. Camera and Nest Secure/Detect support may come later. (I don't currently own those devices.)
+Currently, homebridge-nest supports all Nest Thermostat and Nest Protect models, except the UK model of the Thermostat E with Heat Link. Camera and Nest Secure/Detect support may come later. (I don't currently own those devices.)
 
 # Installation
 
 <!-- 2. Clone (or pull) this repository from github into the same path Homebridge lives (usually `/usr/local/lib/node_modules`). Note: the code currently on GitHub is in beta, and is newer than the latest published version of this package on `npm` -->
 1. Install homebridge using: `npm install -g homebridge`
 2. Install this plug-in using: `npm install -g homebridge-nest`
-3. Update your configuration file. See `sample-config.json` snippet below.
+3. Update your configuration file. See example `config.json` snippet below.
 
 You will need your Nest account email address and password - the same credentials you use with the Nest app. A 'Works With Nest' developer account and tokens are not required.
 
@@ -33,6 +33,7 @@ Fields:
 * `"platform"`: Must always be `"Nest"` (required)
 * `"email"`: Your Nest account email address (required)
 * `"password"`: Your Nest account password (required)
+* `"access_token"`: Nest access token (optional, see below - you almost certainly don't need this)
 * `"pin"`: `"number"` // PIN code sent to your mobile device for 2-factor authentication - see below (optional)
 * `"structureId"`: `"your structure's ID"` // optional structureId to filter to (see logs on first run for each device's structureId) - Nest "structures" are equivalent to HomeKit "homes"
 * `"options"`: `[ "feature1", "feature2", ... ]` // optional list of features to enable/disable (see below)
@@ -44,7 +45,13 @@ Note: the syntax for setting features to enable/disable has changed since 3.0.0.
 
 Two-factor authentication is supported if enabled in your Nest account. On starting Homebridge, you will be prompted to enter a PIN code which will be sent to the mobile device number registered to your Nest account.
 
-If you are running Homebridge as a service, you cannot manually enter the PIN in the console. In this case, when you start Homebridge and receive the PIN code, edit config.json and add the PIN received under "pin" (see 'Configuration' above). Then, restart Homebridge. Using 2FA is not recommended if Homebridge is run as a service, because if the connection to the Nest service is interrupted for any reason, homebridge-nest will not be able to automatically reconnect.
+If you are running Homebridge as a service, you cannot manually enter the PIN in the console. In this case, when you start Homebridge and receive the PIN code, edit `config.json` and add the PIN received under `"pin"` (see 'Configuration' above). Then, restart Homebridge. Using 2FA is not recommended if Homebridge is run as a service, because if the connection to the Nest service is interrupted for any reason, homebridge-nest will not be able to automatically reconnect.
+
+# Access Token Mode
+
+As an alternative to specifying `"email"` and `"password"` in `config.json`, you may provide an `"access_token"` instead (which can be obtained, for example, by logging into `home.nest.com` from your browser and extracting the token from the response of the `session` API call). This may be useful, for example, if your primary account has 2FA enabled and you are running Homebridge in a Docker container or similar where you cannot enter a PIN when Homebridge starts.
+
+However, we don't recommend this usage - if the token expires, homebridge-nest will not be able to automatically reconnect. Instead, we recommend you use Nest's Family Sharing feature to create an alternative login to the service without 2FA, and use those credentials for homebridge-nest.
 
 # HomeKit Accessory Types
 
@@ -81,7 +88,7 @@ Set `"options"` in `config.json` to an array of strings chosen from the followin
 * `"HomeAway.AsOccupancySensorAndSwitch"` - create Home/Away indicator as an *OccupancySensor* and a *Switch*
 * `"Protect.Disable"` - exclude Nest Protects from HomeKit
 
-By default, options set apply to all devices. To set an option for a specific device only, add `.device_id` to the corresponding `option`, where `device_id` is shown in the Homebridge logs, or in HomeKit itself as *Serial Number* in the Settings page for your device. For example, to disable one specific thermostat with serial number 09AC01AC31180349, add `Thermostat.Disable.09AC01AC31180349` to `"options"`.
+By default, options set apply to all devices. To set an option for a specific device only, add `.device_id` to the corresponding `option`, where `device_id` is shown in the Homebridge logs, or in HomeKit itself as *Serial Number* in the Settings page for your device. For example, to disable one specific thermostat with serial number 09AC01AC31180349, add `"Thermostat.Disable.09AC01AC31180349"` to the `"options"` array.
 
 # Things to try with Siri
 

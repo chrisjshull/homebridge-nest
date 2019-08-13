@@ -1,11 +1,10 @@
 const NestConnection = require('./lib/nest-connection.js');
-const NestMutex = require('./lib/nest-mutex.js');
 const Promise = require('bluebird');
 
 let Service, Characteristic, Accessory, uuid;
 let ThermostatAccessory, HomeAwayAccessory, TempSensorAccessory, ProtectAccessory; //, CamAccessory;
 
-module.exports = function (homebridge) {
+module.exports = function(homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
     Accessory = homebridge.hap.Accessory;
@@ -38,45 +37,15 @@ function NestPlatform(log, config) {
 
 const setupConnection = function(config, log, verbose) {
     return new Promise(function (resolve, reject) {
-        const email = config.email;
-        const password = config.password;
-        const pin = config.pin;
-        const token = '';
-
-        let err;
-        if (!email || !password) {
-            err = 'You did not specify your Nest app {\'email\',\'password\'} in config.json';
-        }
-        if (err) {
-            reject(new Error(err));
+        if (!config.access_token && (!config.email || !config.password)) {
+            log.error('You did not specify your Nest app credentials {\'email\',\'password\'}, or an access_token, in config.json');
+            reject({ code: 'no_credentials' });
             return;
         }
 
-        const conn = new NestConnection(token, log, verbose);
+        const conn = new NestConnection(log, verbose);
         conn.config = config;
-        conn.mutex = new NestMutex(log);
-        if (token) {
-            resolve(conn);
-        } else {
-            conn.auth(email, password, pin)
-                .then(() => {
-                    resolve(conn);
-                })
-                .catch(function(authError){
-                    if (log) {
-                        if (authError.code == 400) {
-                            log.warn('Auth failed: email/password is not valid. Check you are using the correct email/password for your Nest account');
-                        } else if (authError.code == 429) {
-                            log.warn('Auth failed: rate limit exceeded. Please try again in 60 minutes');
-                        } else if (authError.code == '2fa_error') {
-                            log.warn('Auth failed: 2FA PIN was rejected');
-                        } else {
-                            log.warn('Auth failed: could not connect to Nest service. Check your Internet connection');
-                        }
-                    }
-                    reject(authError);
-                });
-        }
+        conn.auth(config.email, config.password, config.pin, config.access_token).then(() => resolve(conn));
     });
 };
 
@@ -136,7 +105,7 @@ NestPlatform.prototype = {
             });
         };
 
-        const handleUpdates = function(data){
+        const handleUpdates = function(data) {
             updateAccessories(data, that.accessoryLookup);
         };
         setupConnection(this.config, this.log, this.optionSet('Debug.Verbose'))
