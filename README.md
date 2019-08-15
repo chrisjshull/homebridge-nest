@@ -49,7 +49,9 @@ If you are running Homebridge as a service, you cannot manually enter the PIN in
 
 # Access Token Mode
 
-As an alternative to specifying `"email"` and `"password"` in `config.json`, you may provide an `"access_token"` instead (which can be obtained, for example, by logging into `home.nest.com` from your browser and extracting the token from the response of the `session` API call). This may be useful, for example, if your primary account has 2FA enabled and you are running Homebridge in a Docker container or similar where you cannot enter a PIN when Homebridge starts.
+As an alternative to specifying `"email"` and `"password"` in `config.json`, you may provide an `"access_token"` instead. This may be useful, for example, if your primary account has 2FA enabled and you are running Homebridge in a Docker container or similar where you cannot enter a PIN when Homebridge starts.
+
+To generate the access token, the easiest way is download the 'generateNestToken.sh' script and run it. It will ask for your email and password (and if you have 2fa enabled, the SMS code).
 
 However, we don't recommend this usage - if the token expires, homebridge-nest will not be able to automatically reconnect. Instead, we recommend you use Nest's Family Sharing feature to create an alternative login to the service without 2FA, and use those credentials for homebridge-nest.
 
