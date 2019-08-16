@@ -42,9 +42,8 @@ const setupConnection = function(config, log, verbose) {
             return;
         }
 
-        const conn = new NestConnection(log, verbose);
-        conn.config = config;
-        conn.auth(config.email, config.password, config.pin, config.access_token).then(connected => {
+        const conn = new NestConnection(config, log, verbose);
+        conn.auth().then(connected => {
             if (connected) {
                 resolve(conn);
             } else {
