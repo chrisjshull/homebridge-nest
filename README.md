@@ -1,7 +1,7 @@
 # homebridge-nest
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.3.4](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.3.4).
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.4.0](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.4.0).
 
-Integrate your Nest Thermostat (including Nest Temperature Sensors) and Nest Protect devices into your HomeKit system. **homebridge-nest no longer uses the 'Works With Nest' API and will be unaffected by its shutdown in August 2019.**
+Integrate your Nest Thermostat (including Nest Temperature Sensors) and Nest Protect devices into your HomeKit system. Both Nest Accounts (pre-August 2019) and Google Accounts are supported.
 
 Currently, homebridge-nest supports all Nest Thermostat and Nest Protect models, except the UK model of the Thermostat E with Heat Link. Camera and Nest Secure/Detect support may come later. (I don't currently own those devices.)
 
@@ -12,7 +12,7 @@ Currently, homebridge-nest supports all Nest Thermostat and Nest Protect models,
 2. Install this plug-in using: `npm install -g homebridge-nest`
 3. Update your configuration file. See example `config.json` snippet below.
 
-You will need your Nest account email address and password - the same credentials you use with the Nest app. A 'Works With Nest' developer account and tokens are not required.
+You will need your Nest Account (or Google Account) email address and password - the same credentials you use with the Nest app. A 'Works With Nest' developer account and tokens are not required.
 
 # Configuration
 
@@ -22,30 +22,68 @@ Configuration sample (edit `~/.homebridge/config.json`):
 "platforms": [
         {
             "platform": "Nest",
-            "email": "your Nest account email address",
-            "password": "your Nest account password"
+            "email": "your Nest Account email address",
+            "password": "your Nest Account password"
         }
     ],
 ```
 
-Fields:
+Required fields when using a Nest Account:
 
-* `"platform"`: Must always be `"Nest"` (required)
-* `"email"`: Your Nest account email address (required)
-* `"password"`: Your Nest account password (required)
-* `"access_token"`: Nest access token (optional, see below - you almost certainly don't need this)
+* `"platform"`: Must always be `"Nest"`
+* `"email"`: Your Nest Account email address
+* `"password"`: Your Nest Account password
+
+Required fields when using a Google Account: (see below for set-up info)
+
+* `"platform"`: Must always be `"Nest"`
+* `"googleAuth"`: Google authentication information (see below)
+
+Required fields when using access token: (see below - you almost certainly won't need this more)
+
+* `"platform"`: Must always be `"Nest"`
+* `"access_token"`: Nest service access token
+
+Optional fields:
+
 * `"pin"`: `"number"` // PIN code sent to your mobile device for 2-factor authentication - see below (optional)
 * `"structureId"`: `"your structure's ID"` // optional structureId to filter to (see logs on first run for each device's structureId) - Nest "structures" are equivalent to HomeKit "homes"
 * `"options"`: `[ "feature1", "feature2", ... ]` // optional list of features to enable/disable (see below)
 * `"fanDurationMinutes"`: number of minutes to run the fan when manually turned on (optional, default is 15)
 
-Note: the syntax for setting features to enable/disable has changed since 3.0.0. The `"disabled"` configuration option is no longer supported in 3.1.0 - please use `"options"` instead.
+# Using a Nest Account
 
-# Two-Factor Authentication
+Simply set `"email"` to your Nest Account email address, and `"password"` to your Nest Account password.
 
-Two-factor authentication is supported if enabled in your Nest account. On starting Homebridge, you will be prompted to enter a PIN code which will be sent to the mobile device number registered to your Nest account.
+Two-factor authentication is supported if enabled in your Nest Account. On starting Homebridge, you will be prompted to enter a PIN code which will be sent to the mobile device number registered to your Nest Account.
 
 If you are running Homebridge as a service, you cannot manually enter the PIN in the console. In this case, when you start Homebridge and receive the PIN code, edit `config.json` and add the PIN received under `"pin"` (see 'Configuration' above). Then, restart Homebridge. Using 2FA is not recommended if Homebridge is run as a service, because if the connection to the Nest service is interrupted for any reason, homebridge-nest will not be able to automatically reconnect.
+
+# Using a Google Account
+
+Google Accounts (mandatory for new Nest devices after August 2019, with an optional migration for earlier accounts) are now supported. Setting up a Google Account with homebridge-nest is a pain, but only needs to be done once, as long as you don't log out of your Google Account.
+
+Google Accounts are configured using the `"googleAuth"` object in `config.json`, which contains two fields, `"issueToken"` and `"cookies"` and looks like this:
+
+```
+      "googleAuth": {
+        "issueToken": "https://accounts.google.com/o/oauth2/iframerpc?action=issueToken...",
+        "cookies": "OCAK=TOMPYI3cCPAt..."
+      },
+```
+
+The values of `"issueToken"` and `"cookies"` are specific to your Google Account. To get them, follow these steps (only needs to be done once, as long as you stay logged into your Google Account).
+
+1. Open a Chrome browser tab in Incognito Mode (or clear your cache).
+2. Open Developer Tools (View/Developer/Developer Tools).
+3. Click on 'Network' tab. Make sure 'Preserve Log' is checked.
+4. In the 'Filter' box, enter `issueToken`
+5. Go to `home.nest.com`, and click 'Sign in with Google'. Log into your account.
+6. One network call (beginning with `iframerpc`) will appear in the Dev Tools window. Click on it.
+7. In the Headers tab, under General, copy the entire `Request URL` (beginning with `https://accounts.google.com`, ending with `nest.com`). This is your `"issueToken"` in `config.json`.
+8. In the 'Filter' box, enter `oauth2/iframe`
+9. Several network calls will appear in the Dev Tools window. Click on the last `iframe` call.
+10. In the Headers tab, under Request Headers, copy the entire `cookie` (beginning with `OCAK=...` - do not include the `cookie:` name). This is your `"cookies"` in `config.json`.
 
 # Access Token Mode
 

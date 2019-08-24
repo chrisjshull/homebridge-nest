@@ -37,8 +37,8 @@ function NestPlatform(log, config) {
 
 const setupConnection = function(config, log, verbose) {
     return new Promise(function (resolve, reject) {
-        if (!config.access_token && (!config.email || !config.password)) {
-            reject('You did not specify your Nest app credentials {\'email\',\'password\'}, or an access_token, in config.json');
+        if (!config.access_token && !config.googleAuth && (!config.email || !config.password)) {
+            reject('You did not specify your Nest account credentials {\'email\',\'password\'}, or an access_token, or googleAuth, in config.json');
             return;
         }
 
