@@ -1,5 +1,5 @@
 # homebridge-nest
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.4.0](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.4.0).
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.4.1](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.4.1).
 
 Integrate your Nest Thermostat (including Nest Temperature Sensors) and Nest Protect devices into your HomeKit system. Both Nest Accounts (pre-August 2019) and Google Accounts are supported.
 
@@ -63,16 +63,17 @@ If you are running Homebridge as a service, you cannot manually enter the PIN in
 
 Google Accounts (mandatory for new Nest devices after August 2019, with an optional migration for earlier accounts) are now supported. Setting up a Google Account with homebridge-nest is a pain, but only needs to be done once, as long as you don't log out of your Google Account.
 
-Google Accounts are configured using the `"googleAuth"` object in `config.json`, which contains two fields, `"issueToken"` and `"cookies"` and looks like this:
+Google Accounts are configured using the `"googleAuth"` object in `config.json`, which contains three fields, `"issueToken"`, `"cookies"` and `"apiKey"`, and looks like this:
 
 ```
       "googleAuth": {
         "issueToken": "https://accounts.google.com/o/oauth2/iframerpc?action=issueToken...",
-        "cookies": "OCAK=TOMPYI3cCPAt..."
+        "cookies": "OCAK=TOMPYI3cCPAt...",
+        "apiKey": "AIzaS..."
       },
 ```
 
-The values of `"issueToken"` and `"cookies"` are specific to your Google Account. To get them, follow these steps (only needs to be done once, as long as you stay logged into your Google Account).
+The values of `"issueToken"`, `"cookies"` and `"apiKey"` are specific to your Google Account. To get them, follow these steps (only needs to be done once, as long as you stay logged into your Google Account).
 
 1. Open a Chrome browser tab in Incognito Mode (or clear your cache).
 2. Open Developer Tools (View/Developer/Developer Tools).
@@ -84,6 +85,9 @@ The values of `"issueToken"` and `"cookies"` are specific to your Google Account
 8. In the 'Filter' box, enter `oauth2/iframe`
 9. Several network calls will appear in the Dev Tools window. Click on the last `iframe` call.
 10. In the Headers tab, under Request Headers, copy the entire `cookie` (beginning with `OCAK=...` - do not include the `cookie:` name). This is your `"cookies"` in `config.json`.
+11. In the 'Filter' box, enter `issue_jwt`
+12. Click on the last `issue_jwt` call.
+13. In the Headers tab, under Request Headers, copy the entire `x-goog-api-key` (do not include the `x-goog-api-key:` name). This is your `"apiKey"` in `config.json`.
 
 # Access Token Mode
 

@@ -42,6 +42,11 @@ const setupConnection = function(config, log, verbose) {
             return;
         }
 
+        if (config.googleAuth && (!config.googleAuth.issueToken || !config.googleAuth.cookies || !config.googleAuth.apiKey)) {
+            reject('When using googleAuth, you must provide issueToken, cookies and apiKey in config.json. Please see README.md for instructions');
+            return;
+        }
+
         const conn = new NestConnection(config, log, verbose);
         conn.auth().then(connected => {
             if (connected) {
