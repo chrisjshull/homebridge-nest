@@ -39,7 +39,7 @@ Required fields when using a Google Account: (see below for set-up info)
 * `"platform"`: Must always be `"Nest"`
 * `"googleAuth"`: Google authentication information (see below)
 
-Required fields when using access token: (see below - you almost certainly won't need this more)
+Required fields when using access token: (see below - you probably won't need this mode)
 
 * `"platform"`: Must always be `"Nest"`
 * `"access_token"`: Nest service access token
@@ -91,7 +91,7 @@ The values of `"issueToken"`, `"cookies"` and `"apiKey"` are specific to your Go
 
 # Access Token Mode
 
-As an alternative to specifying `"email"` and `"password"` in `config.json`, you may provide an `"access_token"` instead. This may be useful, for example, if your primary account has 2FA enabled and you are running Homebridge in a Docker container or similar where you cannot enter a PIN when Homebridge starts.
+If you use a Nest Account, as an alternative to specifying `"email"` and `"password"` in `config.json`, you may provide an `"access_token"` instead. This may be useful, for example, if your primary account has 2FA enabled and you are running Homebridge in a Docker container or similar where you cannot enter a PIN when Homebridge starts.
 
 To generate the access token, the easiest way is to use the `generateNestToken.sh` script. It will ask for your email and password (and if you have 2FA enabled, the SMS code). Alternatively, you can log into `home.nest.com` from your browser and extract the token from the response of the `session` API call.
 
