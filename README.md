@@ -116,7 +116,7 @@ However, we don't recommend this usage - if the token expires, homebridge-nest w
 
 * *SmokeSensor* accessory (Smoke) indicating smoke detected
 * *CarbonMonoxideSensor* accessory (Carbon Monoxide) indicating CO detected
-* *MotionSensor* accessory (Motion) indicating motion detected near the Protect device
+* *MotionSensor* accessory (Motion) indicating motion detected near the Protect device (AC wired Protects only)
 
 # Feature Options
 
