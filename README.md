@@ -1,5 +1,5 @@
 # homebridge-nest
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.4.1](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.4.1).
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.5.0](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.5.0).
 
 Integrate your Nest Thermostat (including Nest Temperature Sensors) and Nest Protect devices into your HomeKit system. Both Nest Accounts (pre-August 2019) and Google Accounts are supported.
 
@@ -116,6 +116,7 @@ However, we don't recommend this usage - if the token expires, homebridge-nest w
 
 * *SmokeSensor* accessory (Smoke) indicating smoke detected
 * *CarbonMonoxideSensor* accessory (Carbon Monoxide) indicating CO detected
+* *MotionSensor* accessory (Motion) indicating motion detected near the Protect device
 
 # Feature Options
 
@@ -131,6 +132,7 @@ Set `"options"` in `config.json` to an array of strings chosen from the followin
 * `"HomeAway.AsOccupancySensor"` - create Home/Away indicator as an *OccupancySensor* instead of a *Switch* - useful for automations
 * `"HomeAway.AsOccupancySensorAndSwitch"` - create Home/Away indicator as an *OccupancySensor* and a *Switch*
 * `"Protect.Disable"` - exclude Nest Protects from HomeKit
+* `"Protect.MotionSensor.Disable"` - disable *MotionDetector* accessory for Nest Protects
 
 By default, options set apply to all devices. To set an option for a specific device only, add `.device_id` to the corresponding `option`, where `device_id` is shown in the Homebridge logs, or in HomeKit itself as *Serial Number* in the Settings page for your device. For example, to disable one specific thermostat with serial number 09AC01AC31180349, add `"Thermostat.Disable.09AC01AC31180349"` to the `"options"` array.
 
