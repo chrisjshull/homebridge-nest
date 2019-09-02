@@ -84,7 +84,7 @@ The values of `"issueToken"`, `"cookies"` and `"apiKey"` are specific to your Go
 7. In the Headers tab, under General, copy the entire `Request URL` (beginning with `https://accounts.google.com`, ending with `nest.com`). This is your `"issueToken"` in `config.json`.
 8. In the 'Filter' box, enter `oauth2/iframe`
 9. Several network calls will appear in the Dev Tools window. Click on the last `iframe` call.
-10. In the Headers tab, under Request Headers, copy the entire `cookie` (beginning with `OCAK=...` - do not include the `cookie:` name). This is your `"cookies"` in `config.json`.
+10. In the Headers tab, under Request Headers, copy the entire `cookie` (beginning `OCAK=...` - **include the whole string which is several lines long and has many field/value pairs** - do not include the `cookie:` name). This is your `"cookies"` in `config.json`.
 11. In the 'Filter' box, enter `issue_jwt`
 12. Click on the last `issue_jwt` call.
 13. In the Headers tab, under Request Headers, copy the entire `x-goog-api-key` (do not include the `x-goog-api-key:` name). This is your `"apiKey"` in `config.json`.
