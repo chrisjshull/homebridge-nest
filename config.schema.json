@@ -1,0 +1,45 @@
+{
+    "pluginAlias": "Nest",
+    "pluginType": "platform",
+    "schema": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "title": "Name",
+                "type": "string",
+                "required": true,
+                "default": "Nest",
+                "description": "The name that will appear in your homebridge log."
+            },
+            "platform": {
+                "title": "Platform",
+                "type": "string",
+                "default": "Nest",
+                "required": true,
+                "description": "This must be Nest."
+            },
+            "email": {
+                "title": "E-Mail",
+                "type": "string",
+                "placeholder": "YOUR-NEST-USERNAME",
+                "format": "email",
+                "required": true,
+                "description": "Your username of the Sengled account you used to register the device with in the Sengled app."
+            },
+            "password": {
+                "title": "Password",
+                "type": "string",
+                "placeholder": "YOUR-NEST-PASSWORD",
+                "required": true,
+                "description": "Your password of the Sengled account you used to register the device with in the Sengled app."
+            },
+            "googleAuth": {
+                "title": "Google Auth",
+                "type": "string",
+                "required": false,
+                "minLength": 2,
+                "description": "This is a required fields when using a Google Account."
+            }
+        }
+    }
+}
