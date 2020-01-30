@@ -11,13 +11,6 @@
                 "default": "Nest",
                 "description": "The name that will appear in your homebridge log."
             },
-            "platform": {
-                "title": "Platform",
-                "type": "string",
-                "default": "Nest",
-                "required": true,
-                "description": "This must be Nest."
-            },
             "email": {
                 "title": "E-Mail",
                 "type": "string",
