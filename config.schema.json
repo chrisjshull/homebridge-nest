@@ -124,6 +124,7 @@
     {
       "type": "fieldset",
       "title": "Google Account",
+      "description": "Expand when using a Google Account",
       "expandable": true,
       "displayFlex": true,
       "items": [
