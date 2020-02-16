@@ -1,9 +1,9 @@
 # homebridge-nest
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.5.1](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.5.1).
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API.
 
 Integrate your Nest Thermostat (including Nest Temperature Sensors) and Nest Protect devices into your HomeKit system. Both Nest Accounts (pre-August 2019) and Google Accounts are supported.
 
-Currently, homebridge-nest supports all Nest Thermostat and Nest Protect models, except the UK model of the Thermostat E with Heat Link. Camera and Nest Secure/Detect support may come later. (I don't currently own those devices.)
+Currently, homebridge-google-nest supports all Nest Thermostat and Nest Protect models, except the UK model of the Thermostat E with Heat Link.
 
 # Installation
 
@@ -147,16 +147,6 @@ By default, options set apply to all devices. To set an option for a specific de
 * Hey Siri, *what's the temperature in the Basement*? (get the temperature from a Nest Temperature Sensor)
 * Hey Siri, *what's the status of my smoke detector*?
 
-# Starling Home Hub
+# Credit
 
-If you want a plug-and-play Nest integration solution, check out [Starling Home Hub](https://starlinghome.io). It's basically "homebridge-nest in a box" and connects to your home router, so you'll be up and running in minutes without needing to set up a Homebridge server or manually edit configuration files.
-
-# Donate to Support homebridge-nest
-
-homebridge-nest is a labour of love. It's provided under the ISC licence and is completely free to do whatever you want with. But if you'd like to show your appreciation for its continued development, please consider [clicking here to make a small donation](https://paypal.me/adriancable586) or send me a thank-you card:
-
-Adrian Cable  
-PO Box 370365  
-Montara, CA 94037  
-
-I appreciate your feedback and support in whatever form!
+homebridge-google-nest is a fork of [homebridge-nest](https://github.com/chrisjshull/homebridge-nest). Please give appreciation to the original author for making this plugin possible.
