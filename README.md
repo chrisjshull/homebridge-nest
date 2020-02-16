@@ -1,15 +1,15 @@
-# homebridge-nest
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 3.5.1](https://github.com/chrisjshull/homebridge-nest/releases/tag/v3.5.1).
+# homebridge-google-nest
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API.
 
 Integrate your Nest Thermostat (including Nest Temperature Sensors) and Nest Protect devices into your HomeKit system. Both Nest Accounts (pre-August 2019) and Google Accounts are supported.
 
-Currently, homebridge-nest supports all Nest Thermostat and Nest Protect models, except the UK model of the Thermostat E with Heat Link. Camera and Nest Secure/Detect support may come later. (I don't currently own those devices.)
+Currently, homebridge-google-nest supports all Nest Thermostat and Nest Protect models, except the UK model of the Thermostat E with Heat Link.
 
 # Installation
 
 <!-- 2. Clone (or pull) this repository from github into the same path Homebridge lives (usually `/usr/local/lib/node_modules`). Note: the code currently on GitHub is in beta, and is newer than the latest published version of this package on `npm` -->
 1. Install homebridge using: `npm install -g homebridge`
-2. Install this plug-in using: `npm install -g homebridge-nest`
+2. Install this plug-in using: `npm install -g homebridge-google-nest`
 3. Update your configuration file. See example `config.json` snippet below.
 
 You will need your Nest Account (or Google Account) email address and password - the same credentials you use with the Nest app. A 'Works With Nest' developer account and tokens are not required.
@@ -57,11 +57,11 @@ Simply set `"email"` to your Nest Account email address, and `"password"` to you
 
 Two-factor authentication is supported if enabled in your Nest Account. On starting Homebridge, you will be prompted to enter a PIN code which will be sent to the mobile device number registered to your Nest Account.
 
-If you are running Homebridge as a service, you cannot manually enter the PIN in the console. In this case, when you start Homebridge and receive the PIN code, edit `config.json` and add the PIN received under `"pin"` (see 'Configuration' above). Then, restart Homebridge. Using 2FA is not recommended if Homebridge is run as a service, because if the connection to the Nest service is interrupted for any reason, homebridge-nest will not be able to automatically reconnect.
+If you are running Homebridge as a service, you cannot manually enter the PIN in the console. In this case, when you start Homebridge and receive the PIN code, edit `config.json` and add the PIN received under `"pin"` (see 'Configuration' above). Then, restart Homebridge. Using 2FA is not recommended if Homebridge is run as a service, because if the connection to the Nest service is interrupted for any reason, homebridge-google-nest will not be able to automatically reconnect.
 
 # Using a Google Account
 
-Google Accounts (mandatory for new Nest devices after August 2019, with an optional migration for earlier accounts) are now supported. Setting up a Google Account with homebridge-nest is a pain, but only needs to be done once, as long as you don't log out of your Google Account.
+Google Accounts (mandatory for new Nest devices after August 2019, with an optional migration for earlier accounts) are now supported. Setting up a Google Account with homebridge-google-nest is a pain, but only needs to be done once, as long as you don't log out of your Google Account.
 
 Google Accounts are configured using the `"googleAuth"` object in `config.json`, which contains three fields, `"issueToken"`, `"cookies"` and `"apiKey"`, and looks like this:
 
@@ -95,7 +95,7 @@ If you use a Nest Account, as an alternative to specifying `"email"` and `"passw
 
 To generate the access token, the easiest way is to use the `generateNestToken.sh` script. It will ask for your email and password (and if you have 2FA enabled, the SMS code). Alternatively, you can log into `home.nest.com` from your browser and extract the token from the response of the `session` API call.
 
-However, we don't recommend this usage - if the token expires, homebridge-nest will not be able to automatically reconnect. Instead, we recommend you use Nest's Family Sharing feature to create an alternative login to the service without 2FA, and use those credentials for homebridge-nest.
+However, we don't recommend this usage - if the token expires, homebridge-google-nest will not be able to automatically reconnect. Instead, we recommend you use Nest's Family Sharing feature to create an alternative login to the service without 2FA, and use those credentials for homebridge-google-nest.
 
 # HomeKit Accessory Types
 
@@ -147,16 +147,6 @@ By default, options set apply to all devices. To set an option for a specific de
 * Hey Siri, *what's the temperature in the Basement*? (get the temperature from a Nest Temperature Sensor)
 * Hey Siri, *what's the status of my smoke detector*?
 
-# Starling Home Hub
+# Credit
 
-If you want a plug-and-play Nest integration solution, check out [Starling Home Hub](https://starlinghome.io). It's basically "homebridge-nest in a box" and connects to your home router, so you'll be up and running in minutes without needing to set up a Homebridge server or manually edit configuration files.
-
-# Donate to Support homebridge-nest
-
-homebridge-nest is a labour of love. It's provided under the ISC licence and is completely free to do whatever you want with. But if you'd like to show your appreciation for its continued development, please consider [clicking here to make a small donation](https://paypal.me/adriancable586) or send me a thank-you card:
-
-Adrian Cable  
-PO Box 370365  
-Montara, CA 94037  
-
-I appreciate your feedback and support in whatever form!
+homebridge-google-nest is a fork of [homebridge-nest](https://github.com/chrisjshull/homebridge-nest). Please give appreciation to the original author for making this plugin possible.

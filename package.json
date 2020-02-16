@@ -1,16 +1,18 @@
 {
   "bundleDependencies": false,
   "dependencies": {
-    "bluebird": "^3.5.4",
+    "bluebird": "^3.7.2",
+    "chalk": "^3.0.0",
     "eslint": "^5.16.0",
+    "hap-nodejs": "^0.5.6",
     "lodash.debounce": "^4.0.8",
-    "promise-prompt": "^1.1.0",
+    "promise-prompt": "^1.1.1",
     "request": "^2.88.0",
-    "request-promise": "^4.2.4"
+    "request-promise": "^4.2.5"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/chrisjshull/homebridge-nest.git"
+    "url": "git://github.com/ryanleesmith/homebridge-google-nest.git"
   },
   "deprecated": false,
   "description": "Nest Thermostat and Protect plug-in for homebridge",
@@ -18,13 +20,14 @@
     "homebridge": ">=0.2.5",
     "node": ">=7.0.0"
   },
-  "homepage": "https://github.com/chrisjshull/homebridge-nest#readme",
+  "homepage": "https://github.com/ryanleesmith/homebridge-google-nest#readme",
   "keywords": [
     "homebridge-plugin",
+    "google-nest",
     "nest"
   ],
   "license": "ISC",
-  "name": "homebridge-nest",
+  "name": "homebridge-google-nest",
   "preferGlobal": true,
   "scripts": {
     "lint": "eslint lib *.js",
@@ -39,7 +42,7 @@
         "node": ">=7.0.0",
         "homebridge": ">=0.2.5"
       },
-      "pkgid": "homebridge-nest@3.5.2"
+      "pkgid": "homebridge-google-nest@3.5.2"
     }
   ]
 }
