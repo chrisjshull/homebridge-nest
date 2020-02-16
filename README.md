@@ -1,4 +1,4 @@
-# homebridge-nest
+# homebridge-google-nest
 Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API.
 
 Integrate your Nest Thermostat (including Nest Temperature Sensors) and Nest Protect devices into your HomeKit system. Both Nest Accounts (pre-August 2019) and Google Accounts are supported.
