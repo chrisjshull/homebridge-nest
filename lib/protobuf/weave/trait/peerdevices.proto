@@ -1,0 +1,38 @@
+// Protobuf schema for response to Nest Observe API call
+
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package weave.trait.peerdevices;
+
+// Messages
+
+message PeerDevicesTrait {
+  message PeerDevice {
+    message PeerDeviceInfo {
+      String_Indirect device_id = 1;
+      String_Indirect device_type = 2;
+      string fw_version = 5;
+    }
+    
+    PeerDeviceInfo data = 2;
+  }
+  
+  repeated PeerDevice devices = 1;
+  // repeated bytes data = 2;
+}
+
+// Indirects
+
+message String_Indirect {
+  string value = 1;
+}
+
+message Float_Indirect {
+  float value = 1;
+}
+
+message Int32_Indirect {
+  int32 value = 1;
+}

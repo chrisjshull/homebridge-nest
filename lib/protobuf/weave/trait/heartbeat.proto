@@ -1,0 +1,39 @@
+// Protobuf schema for response to Nest Observe API call
+
+syntax = "proto3";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+package weave.trait.heartbeat;
+
+message LivenessTrait {
+    LivenessDeviceStatus status = 1;
+    google.protobuf.Timestamp timeStatusChanged = 2;
+    google.protobuf.Duration maxInactivityDuration = 3;
+    LivenessDeviceStatus heartbeatStatus = 4;
+    google.protobuf.Timestamp timeHeartbeatStatusChanged = 5;
+    google.protobuf.BoolValue notifyRequestUnresponsiveness = 6;
+    google.protobuf.Timestamp notifyRequestUnresponsivenessTimeStatusChanged = 7;
+    google.protobuf.BoolValue commandRequestUnresponsiveness = 8;
+    google.protobuf.Timestamp commandRequestUnresponsivenessTimeStatusChanged = 9;
+
+    enum LivenessDeviceStatus {
+        LIVENESS_DEVICE_STATUS_UNSPECIFIED = 0;
+        LIVENESS_DEVICE_STATUS_ONLINE = 1;
+        LIVENESS_DEVICE_STATUS_UNREACHABLE = 2;
+        LIVENESS_DEVICE_STATUS_UNINITIALIZED = 3;
+        LIVENESS_DEVICE_STATUS_REBOOTING = 4;
+        LIVENESS_DEVICE_STATUS_UPGRADING = 5;
+        LIVENESS_DEVICE_STATUS_SCHEDULED_DOWN = 6;
+    }
+
+    message LivenessChangeEvent {
+        LivenessDeviceStatus status = 1;
+        LivenessDeviceStatus heartbeatStatus = 2;
+        google.protobuf.BoolValue notifyRequestUnresponsiveness = 3;
+        google.protobuf.BoolValue commandRequestUnresponsiveness = 4;
+        LivenessDeviceStatus prevStatus = 5;
+    }
+}

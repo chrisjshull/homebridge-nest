@@ -1,0 +1,41 @@
+// Protobuf schema for response to Nest Observe API call
+
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package nest.trait.sensor;
+
+// Messages
+
+message HumidityTrait {
+  message X1 {
+    Float_Indirect value = 1;
+  }
+  
+  X1 humidity = 1;
+}
+
+message TemperatureTrait {
+  message X1 {
+    Float_Indirect value = 1;
+  }
+  
+  X1 temperature = 1;
+}
+
+// Enums
+
+// Indirects
+
+message String_Indirect {
+  string value = 1;
+}
+
+message Float_Indirect {
+  float value = 1;
+}
+
+message Int32_Indirect {
+  int32 value = 1;
+}

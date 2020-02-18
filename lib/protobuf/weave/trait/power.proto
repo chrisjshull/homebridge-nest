@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "../../weave/common.proto";
+
+package weave.trait.power;
+
+message PowerSourceCapabilitiesTrait {
+    PowerSourceType type = 1;
+    weave.common.StringRef description = 2;
+    float nominalVoltage = 3;
+    google.protobuf.FloatValue maximumCurrent = 4;
+    PowerSourceCurrentType currentType = 5;
+    uint32 order = 6;
+    bool removable = 7;
+
+    enum PowerSourceType {
+        POWER_SOURCE_TYPE_UNSPECIFIED = 0;
+        POWER_SOURCE_TYPE_BATTERY = 1;
+    }
+
+    enum PowerSourceCurrentType {
+        POWER_SOURCE_CURRENT_TYPE_UNSPECIFIED = 0;
+        POWER_SOURCE_CURRENT_TYPE_DC = 1;
+        POWER_SOURCE_CURRENT_TYPE_AC = 2;
+    }
+}
+
+message PowerSourceTrait {
+    PowerSourceCapabilitiesTrait.PowerSourceType type = 1;
+    google.protobuf.FloatValue assessedVoltage = 2;
+    google.protobuf.FloatValue assessedCurrent = 3;
+    google.protobuf.FloatValue assessedFrequency = 4;
+    PowerSourceCondition condition = 5;
+    PowerSourceStatus status = 6;
+    bool present = 7;
+
+    enum PowerSourceCondition {
+        POWER_SOURCE_CONDITION_UNSPECIFIED = 0;
+        POWER_SOURCE_CONDITION_NOMINAL = 1;
+        POWER_SOURCE_CONDITION_CRITICAL = 2;
+    }
+
+    enum PowerSourceStatus {
+        POWER_SOURCE_STATUS_UNSPECIFIED = 0;
+        POWER_SOURCE_STATUS_ACTIVE = 1;
+        POWER_SOURCE_STATUS_STANDBY = 2;
+        POWER_SOURCE_STATUS_INACTIVE = 3;
+    }
+
+    message PowerSourceChangedEvent {
+        PowerSourceCondition condition = 1;
+        PowerSourceStatus status = 2;
+    }
+}
+
+message BatteryPowerSourceTrait {
+    PowerSourceCapabilitiesTrait.PowerSourceType type = 1;
+    google.protobuf.FloatValue assessedVoltage = 2;
+    google.protobuf.FloatValue assessedCurrent = 3;
+    google.protobuf.FloatValue assessedFrequency = 4;
+    PowerSourceTrait.PowerSourceCondition condition = 5;
+    PowerSourceTrait.PowerSourceStatus status = 6;
+    bool present = 7;
+    BatteryReplacementIndicator replacementIndicator = 32;
+    BatteryRemaining remaining = 33;
+
+    enum BatteryReplacementIndicator {
+        BATTERY_REPLACEMENT_INDICATOR_UNSPECIFIED = 0;
+        BATTERY_REPLACEMENT_INDICATOR_NOT_AT_ALL = 1;
+        BATTERY_REPLACEMENT_INDICATOR_SOON = 2;
+        BATTERY_REPLACEMENT_INDICATOR_IMMEDIATELY = 3;
+    }
+
+    message BatteryRemaining {
+        google.protobuf.FloatValue remainingPercent = 1;
+        weave.common.Timer remainingTime = 2;
+    }
+
+    message BatteryChangedEvent {
+        PowerSourceTrait.PowerSourceCondition condition = 1;
+        PowerSourceTrait.PowerSourceStatus status = 2;
+        BatteryReplacementIndicator replacementIndicator = 16;
+        BatteryRemaining remaining = 17;
+    }
+}

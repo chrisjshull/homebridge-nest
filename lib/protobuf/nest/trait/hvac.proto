@@ -1,0 +1,248 @@
+// Protobuf schema for response to Nest Observe API call
+
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+import "../../weave/common.proto";
+
+package nest.trait.hvac;
+
+// Messages
+
+message TargetTemperatureSettingsTrait {
+  message TemperatureSetPoint {
+    HeatCoolMode hvac_mode = 1;
+    Float_Indirect target_temperature_heat = 4;
+    Float_Indirect target_temperature_cool = 5;
+    UpdateStamp update_info = 6;
+    UpdateStamp original_update_info = 7;
+  }
+  
+  TemperatureSetPoint settings = 1;
+  Int32_Indirect active = 2;
+}
+
+message HvacControlTrait {
+  message HvacState {
+    int32 is_cooling = 1;
+    int32 is_heating = 4;    
+  }
+  
+  HvacState settings = 1;
+  int32 is_delayed = 2;
+  Int32_Indirect timestamp = 3;
+}
+
+message EcoModeStateTrait {
+  EcoModeState eco_enabled = 1;
+  EcoModeChangeReason ecoModeChangeReason = 2;
+  UpdateStamp update_info = 3;
+}
+
+message EcoModeSettingsTrait {
+  message EcoTemperatureSetting {
+    Float_Indirect temperature = 1;
+    int32 enabled = 2;
+  }
+
+  int32 auto_eco_enabled = 1;
+  EcoTemperatureSetting low = 2;
+  EcoTemperatureSetting high = 3;
+}
+
+message DisplaySettingsTrait {
+  int32 enabled = 1;
+  TemperatureUnit units = 2;
+}
+
+message FanControlSettingsTrait {
+    FanMode mode = 1;
+    FanSpeedSetting hvacOverrideSpeed = 2;
+    FanSpeedSetting scheduleSpeed = 3;
+    uint32 scheduleDutyCycle = 4;
+    uint32 scheduleStartTime = 5;
+    uint32 scheduleEndTime = 6;
+    FanSpeedSetting timerSpeed = 7;
+    Int32_Indirect fanTimerTimeout = 8;
+    Int32_Indirect timerDuration = 9;
+
+    enum FanMode {
+        FAN_MODE_UNSPECIFIED = 0;
+        FAN_MODE_AUTO = 1;
+        FAN_MODE_CONTINUOUS_ON = 2;
+        FAN_MODE_DUTY_CYCLE = 3;
+    }
+    
+    enum FanSpeedSetting {
+        FAN_SPEED_SETTING_UNSPECIFIED = 0;
+        FAN_SPEED_SETTING_STAGE1 = 1;
+        FAN_SPEED_SETTING_STAGE2 = 2;
+        FAN_SPEED_SETTING_STAGE3 = 3;
+        FAN_SPEED_SETTING_OFF = 4;
+        FAN_SPEED_SETTING_AUTO = 5;
+    }
+}
+
+message BackplateInfoTrait {
+  string serial_number = 1;
+  string backplate_model = 2;
+  string os_version = 3;
+  string os_build_string = 4;
+  string sw_version = 5;
+  string sw_info = 6;
+}
+
+message HvacEquipmentCapabilitiesTrait {
+  int32 can_cool = 1;
+  int32 can_heat = 4;
+}
+
+message RemoteComfortSensingSettingsTrait {
+    RcsControlMode rcsControlMode = 1;
+    RcsSourceSelection activeRcsSelection = 2;
+    // RcsSchedule rcsControlSchedule = 3;
+    repeated RcsSensorId associatedRcsSensors = 4;
+    MultiSensorSettings multiSensorSettings = 5;
+
+    enum RcsControlMode {
+        RCS_CONTROL_MODE_UNSPECIFIED = 0;
+        RCS_CONTROL_MODE_HOLD = 1;
+        RCS_CONTROL_MODE_SCHEDULE = 2;
+        RCS_CONTROL_MODE_SCHEDULE_OVERRIDE = 3;
+    }
+
+    enum RcsSourceType {
+        RCS_SOURCE_TYPE_UNSPECIFIED = 0;
+        RCS_SOURCE_TYPE_BACKPLATE = 1;
+        RCS_SOURCE_TYPE_SINGLE_SENSOR = 2;
+        RCS_SOURCE_TYPE_MULTI_SENSOR = 3;
+    }
+
+    enum StatusCode {
+        STATUS_CODE_UNSPECIFIED = 0;
+        STATUS_CODE_SUCCESS = 1;
+        STATUS_CODE_FAILURE = 2;
+        STATUS_CODE_SENSOR_ALREADY_ASSOCIATED = 4096;
+        STATUS_CODE_SENSOR_LIMIT_REACHED = 4097;
+        STATUS_CODE_SENSOR_NOT_ASSOCIATED = 8192;
+    }
+
+    message RcsSensorId {
+        weave.common.ResourceId deviceId = 1;
+        uint32 vendorId = 2;
+        uint32 productId = 3;
+    }
+
+    message MultiSensorSettings {
+        bool multiSensorEnabled = 1;
+        repeated weave.common.ResourceId multiSensorGroup = 2;
+    }
+
+    message RcsSourceSelection {
+        RcsSourceType rcsSourceType = 1;
+        weave.common.ResourceId activeRcsSensor = 2;
+    }
+
+    message RcsInterval {
+        RcsSourceSelection rcsSelection = 1;
+        uint32 startSecondsInDay = 2;
+        uint32 endSecondsInDay = 3;
+    }
+
+    message RcsSchedule {
+        map<uint32, RcsInterval> intervals = 1;
+    }
+
+    message AssociateRcsSensorRequest {
+        weave.common.ResourceId resourceId = 1;
+    }
+
+    message AssociateRcsSensorResponse {
+        StatusCode status = 1;
+    }
+
+    message DissociateRcsSensorRequest {
+        weave.common.ResourceId resourceId = 1;
+    }
+
+    message DissociateRcsSensorResponse {
+        StatusCode status = 1;
+    }
+}
+
+/*
+message RemoteComfortSensingSettingsTrait {
+  message TemperatureSensorInfo {
+    message TemperatureSensorInfo2 {
+      message TemperatureSensorInfo3 {
+        message TemperatureSensorInfo4 {
+          String_Indirect id = 2;
+        }
+        TemperatureSensorInfo4 device = 1;
+      }
+      TemperatureSensorInfo3 device = 2;
+    }
+    repeated TemperatureSensorInfo2 info = 1;
+  }
+  TemperatureSensorInfo temp_sensors = 3;
+}
+*/
+
+// Enums
+
+enum HeatCoolMode {
+  INVALID_0 = 0;
+  HEAT = 1;
+  COOL = 2;
+  RANGE = 3;
+}
+
+enum EcoModeState {
+  INVALID_0 = 0;
+  OFF = 1;
+  ON = 2;
+}
+
+enum EcoModeChangeReason {
+  ECO_MODE_CHANGE_REASON_UNSPECIFIED = 0;
+  ECO_MODE_CHANGE_REASON_MANUAL = 1;
+  ECO_MODE_CHANGE_REASON_STRUCTURE_MODE = 2;
+  ECO_MODE_CHANGE_REASON_OCCUPANCY = 3;
+  ECO_MODE_CHANGE_REASON_TEMPERATURE = 4;
+  ECO_MODE_CHANGE_REASON_FEATURE_ENABLE = 5;
+}
+
+enum UpdateSource {
+  INVALID_0 = 0;
+  INVALID_1 = 1;
+  INVALID_2 = 2;
+  DEVICE = 3;
+  INVALID_4 = 4;
+  USER = 5;
+}
+
+enum TemperatureUnit {
+  INVALID_0 = 0;
+  DEGREES_C = 1;
+  DEGREES_F = 2;
+}
+
+message UpdateStamp {
+  UpdateSource update_source = 1;
+  String_Indirect updated_by = 2;
+  Int32_Indirect timestamp = 3;
+}
+
+// Indirects
+
+message String_Indirect {
+  string value = 1;
+}
+
+message Float_Indirect {
+  float value = 1;
+}
+
+message Int32_Indirect {
+  int32 value = 1;
+}

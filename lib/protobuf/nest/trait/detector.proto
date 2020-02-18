@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+package nest.trait.detector;
+
+message OpenCloseTrait {
+    OpenCloseState openCloseState = 1;
+    google.protobuf.Timestamp firstObservedAt = 2;
+    google.protobuf.Timestamp firstObservedAtMs = 3;
+
+    enum OpenCloseState {
+        OPEN_CLOSE_STATE_UNSPECIFIED = 0;
+        OPEN_CLOSE_STATE_CLOSED = 1;
+        OPEN_CLOSE_STATE_OPEN = 2;
+        OPEN_CLOSE_STATE_UNKNOWN = 3;
+        OPEN_CLOSE_STATE_INVALID_CALIBRATION = 4;
+    }
+
+    message OpenCloseEvent {
+        OpenCloseState openCloseState = 1;
+        OpenCloseState priorOpenCloseState = 2;
+    }
+}
+
+message AmbientMotionTrait {
+    message AmbientMotionEvent {
+        google.protobuf.Timestamp startMotion = 1;
+        google.protobuf.Duration maxHoldOff = 2;
+    }
+}
+
+message AmbientMotionTimingSettingsTrait {
+    google.protobuf.Duration maxHoldOff = 1;
+    bool overrideMaxHoldOff = 2;
+}
+
+message AmbientMotionSettingsTrait {
+    bool enableDetection = 1;
+}

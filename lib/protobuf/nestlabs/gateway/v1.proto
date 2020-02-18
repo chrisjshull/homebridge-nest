@@ -1,0 +1,277 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+// import "google/rpc/status.proto";
+import "../../nest/messages.proto";
+import "../../weave/common.proto";
+
+package nestlabs.gateway.v1;
+
+message TraitStateNotification {
+    google.protobuf.Any state = 1;
+    google.protobuf.FieldMask stateMask = 2;
+    uint64 monotonicVersion = 3;
+    NotificationContext notificationContext = 4;
+    uint64 publisherVersion = 5;
+
+    enum NotificationContext {
+        NOTIFICATION_CONTEXT_UNSPECIFIED = 0;
+        INITIAL_OBSERVE_RESPONSE = 1;
+    }
+}
+
+message TraitEventsNotification {
+    repeated Event events = 1;
+    google.protobuf.Timestamp requestUtcTimestamp = 2;
+    uint64 requestSystemTimeOffsetMillis = 3;
+    google.protobuf.Timestamp serviceReceivedTimestamp = 4;
+}
+
+message Event {
+    google.protobuf.Any data = 1;
+    weave.common.EventImportance importance = 2;
+    uint64 eventId = 3;
+    weave.common.EventImportance relatedEventImportance = 4;
+    uint64 relatedEventId = 5;
+    google.protobuf.Timestamp utcTimestamp = 6;
+    uint64 systemTimeOffsetMillis = 7;
+    string relaybyResourceId = 8;
+    string subjectResourceId = 9;
+    string subjectPairerId = 10;
+    string subjectTypeName = 11;
+    string subjectInstanceId = 12;
+    nest.messages.SchemaVersion schemaVersion = 13;
+}
+
+message TraitRequest {
+    string resourceId = 1;
+    string traitLabel = 2;
+    string requestId = 3;
+}
+
+message TraitOperation {
+    TraitRequest traitRequest = 1;
+    State progress = 2;
+    nest.rpc.Status status = 3;
+    TraitEvent event = 4;
+    uint64 publisherAcceptedStateVersion = 5;
+    TraitCommand command = 6;
+    TraitUpdateStateRequest update = 7;
+
+    enum RequestCase {
+        REQUEST_NOT_SET = 0;
+        COMMAND = 6;
+        UPDATE = 7;
+    }
+
+    enum State {
+        STATE_UNSPECIFIED = 0;
+        QUEUED = 1;
+        PENDING = 2;
+        STARTED = 3;
+        COMPLETE = 4;
+    }
+}
+
+message TraitObserveRequest {
+    TraitRequest traitRequest = 1;
+    google.protobuf.FieldMask fieldMask = 2;
+    uint64 monotonicVersionFilter = 3;
+    bool includeConfirmedState = 4;
+    bool includePendingOperations = 5;
+}
+
+message TraitObserveResponse {
+    TraitRequest traitRequest = 1;
+    TraitStateNotification acceptedState = 2;
+    TraitInfo traitInfo = 3;
+    TraitStateNotification confirmedState = 4;
+    repeated TraitOperation pendingOperations = 5;
+}
+
+message TraitGetStateRequest {
+    TraitRequest traitRequest = 1;
+    google.protobuf.FieldMask fieldMask = 2;
+    uint64 monotonicVersionFilter = 3;
+    bool includeConfirmedState = 4;
+    bool includePendingOperations = 5;
+}
+
+message TraitGetStateResponse {
+    TraitRequest traitRequest = 1;
+    TraitStateNotification acceptedState = 2;
+    TraitInfo traitInfo = 3;
+    TraitStateNotification confirmedState = 4;
+}
+
+message TraitInfo {
+    string traitType = 1;
+    nest.messages.SchemaVersion schemaVersion = 2;
+}
+
+message TraitUpdateStateRequest {
+    TraitRequest traitRequest = 1;
+    google.protobuf.Any state = 2;
+    google.protobuf.FieldMask stateMask = 3;
+    uint64 matchPublisherVersion = 4;
+    nest.messages.SchemaVersion schemaVersion = 5;
+}
+
+message TraitNotifyRequest {
+    TraitRequest traitRequest = 1;
+    TraitStateNotification confirmedState = 2;
+    TraitEventsNotification events = 3;
+}
+
+message TraitNotifyResponse {
+    TraitRequest traitRequest = 1;
+}
+
+message TraitEvent {
+    google.protobuf.Any event = 1;
+}
+
+message TraitCommand {
+    TraitRequest traitRequest = 1;
+    google.protobuf.Any command = 2;
+    google.protobuf.Timestamp expiryTime = 3;
+    bytes authenticator = 4;
+    uint64 matchPublisherVersion = 5;
+    nest.messages.SchemaVersion schemaVersion = 6;
+    string namespaceId = 7;
+}
+
+message WeaveStatusReport {
+    uint32 profileId = 1;
+    uint32 statusCode = 2;
+}
+
+message ResourceRequest {
+    string resourceId = 1;
+    string requestId = 2;
+    string namespaceId = 3;
+}
+
+message ResourceObserveRequest {
+    ResourceRequest resourceRequest = 1;
+    repeated TraitStateObserve traitStateObserves = 2;
+    bool includeConfirmedState = 3;
+    bool includePendingOperations = 4;
+}
+
+message TraitStateObserve {
+    string traitLabel = 1;
+    google.protobuf.FieldMask fieldMask = 2;
+    uint64 monotonicVersionFilter = 3;
+}
+
+message ResourceObserveResponse {
+    ResourceRequest resourceRequest = 1;
+    ResourceInfo resourceInfo = 2;
+    repeated TraitObserveResponse traitResponses = 3;
+}
+
+message ResourceInfo {
+    string resourceType = 4;
+    map<string, TraitInfo> traitInfos = 5;
+    repeated IfaceInfo ifaceInfos = 6;
+    uint32 currentSchemaVersion = 7;
+}
+
+message IfaceInfo {
+    string ifaceType = 1;
+    repeated IfaceTraitInfo ifaceTraitInfos = 2;
+    nest.messages.SchemaVersion schemaVersion = 6;
+}
+
+message IfaceTraitInfo {
+    string ifaceTraitLabel = 1;
+    string resourceTraitLabel = 2;
+}
+
+message ResourceGetStateRequest {
+    ResourceRequest resourceRequest = 1;
+    repeated ResourceGetState resourceGetStates = 2;
+    bool includeConfirmedState = 3;
+    bool includePendingOperations = 4;
+}
+
+message ResourceGetState {
+    string traitLabel = 1;
+    google.protobuf.FieldMask fieldMask = 2;
+    uint64 monotonicVersionFilter = 3;
+}
+
+message ResourceGetStateResponse {
+    ResourceRequest resourceRequest = 1;
+    ResourceInfo resourceInfo = 2;
+    repeated TraitGetStateResponse traitResponses = 3;
+}
+
+message ResourceNotifyRequest {
+    ResourceRequest resourceRequest = 1;
+    repeated ResourceStateNotify resourceStateNotifies = 2;
+    repeated ResourceEventsNotify resourceEventsNotifies = 3;
+}
+
+message ResourceStateNotify {
+    string traitLabel = 1;
+    TraitStateNotification confirmedState = 2;
+}
+
+message ResourceEventsNotify {
+    string traitLabel = 1;
+    TraitEventsNotification events = 2;
+}
+
+message ResourceNotifyResponse {
+    ResourceRequest resourceRequest = 1;
+    repeated TraitNotifyResponse traitResponses = 2;
+}
+
+message ResourceCommandRequest {
+    ResourceRequest resourceRequest = 1;
+    repeated ResourceCommand resourceCommands = 2;
+}
+
+message ResourceCommand {
+    string traitLabel = 1;
+    google.protobuf.Any command = 2;
+    google.protobuf.Timestamp expiryTime = 3;
+    bytes authenticator = 4;
+    uint64 matchPublisherVersion = 5;
+    nest.messages.SchemaVersion schemaVersion = 6;
+}
+
+message ResourceCommandResponse {
+    ResourceRequest resourceRequest = 1;
+    repeated TraitOperation traitOperations = 2;
+}
+
+message BatchTraitUpdateStateRequest {
+    repeated TraitUpdateStateRequest requests = 1;
+}
+
+message BatchTraitOperation {
+    repeated TraitOperation traitOperation = 1;
+}
+
+message ResourceCommandResponseFromAPI {
+    repeated ResourceCommandResponse resouceCommandResponse = 1;
+    string unknown = 2;
+}
+
+/*
+
+// TODO: Not sure these services are correct.
+service TraitBatchApi {
+    rpc BatchUpdateState(BatchTraitUpdateStateRequest) returns (BatchTraitOperation);
+}
+
+service ResourceApi {
+    rpc SendCommand(ResourceCommandRequest) returns (ResourceCommandResponse);
+}
+
+*/

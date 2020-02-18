@@ -1,0 +1,516 @@
+syntax = "proto3";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "./detector.proto";
+import "./occupancy.proto";
+import "../../weave/common.proto";
+
+package nest.trait.security;
+
+message SecurityArmTrait {
+    SecurityArmState armState = 1;
+    uint32 securityArmSessionId = 2;
+    SecurityAllowanceState allowanceState = 3;
+    google.protobuf.Timestamp allowanceExpirationTime = 4;
+    google.protobuf.Duration exitAllowanceDuration = 5;
+    SecurityActor.SecurityActorStruct armActor = 6;
+    google.protobuf.Timestamp armTime = 7;
+
+    enum SecurityArmState {
+        SECURITY_ARM_STATE_UNSPECIFIED = 0;
+        SECURITY_ARM_STATE_DISARMED = 1;
+        SECURITY_ARM_STATE_SL1 = 2;
+        SECURITY_ARM_STATE_SL2 = 3;
+    }
+
+    enum SecurityAllowanceState {
+        SECURITY_ALLOWANCE_STATE_UNSPECIFIED = 0;
+        SECURITY_ALLOWANCE_STATE_OFF = 1;
+        SECURITY_ALLOWANCE_STATE_TIMED_ALLOWANCE = 2;
+    }
+
+    enum StatusCode {
+        STATUS_CODE_UNSPECIFIED = 0;
+        STATUS_CODE_ALREADY = 1;
+        STATUS_CODE_UNACKNOWLEDGED_ISSUES = 2;
+        STATUS_CODE_BLOCKING_ISSUES = 3;
+        STATUS_CODE_OUT_OF_SCHEDULE = 4;
+        STATUS_CODE_UNAUTHORIZED_STATE_CHANGE = 5;
+        STATUS_CODE_LOCATION_OUT_OF_SCOPE = 6;
+    }
+
+    enum SecurityArmResponseType {
+        SECURITY_ARM_RESPONSE_TYPE_UNSPECIFIED = 0;
+        SECURITY_ARM_RESPONSE_TYPE_SUCCESS = 1;
+        SECURITY_ARM_RESPONSE_TYPE_FAIL_ALREADY = 2;
+        SECURITY_ARM_RESPONSE_TYPE_FAIL_UNACKNOWLEDGED_ISSUES = 3;
+        SECURITY_ARM_RESPONSE_TYPE_FAIL_BLOCKING_ISSUES = 4;
+        SECURITY_ARM_RESPONSE_TYPE_FAIL_OUT_OF_SCHEDULE = 5;
+        SECURITY_ARM_RESPONSE_TYPE_FAIL_UNAUTHORIZED_STATE_CHANGE = 6;
+        SECURITY_ARM_RESPONSE_TYPE_FAIL_LOCATION_OUT_OF_SCOPE = 7;
+    }
+
+    enum SecurityArmCancelResponseType {
+        SECURITY_ARM_CANCEL_RESPONSE_TYPE_UNSPECIFIED = 0;
+        SECURITY_ARM_CANCEL_RESPONSE_TYPE_SUCCESS = 1;
+        SECURITY_ARM_CANCEL_RESPONSE_TYPE_FAIL_ALREADY = 2;
+        SECURITY_ARM_CANCEL_RESPONSE_TYPE_TOO_LATE = 3;
+        SECURITY_ARM_CANCEL_RESPONSE_TYPE_FAIL_UNAUTHORIZED_STATE_CHANGE = 4;
+        SECURITY_ARM_CANCEL_RESPONSE_TYPE_FAIL_LOCATION_OUT_OF_SCOPE = 5;
+    }
+
+    enum SecurityArmStateChangeReason {
+        SECURITY_ARM_STATE_CHANGE_REASON_UNSPECIFIED = 0;
+        SECURITY_ARM_STATE_CHANGE_REASON_ARM_REQUEST = 1;
+        SECURITY_ARM_STATE_CHANGE_REASON_ARM_CANCELLED = 2;
+    }
+
+    message SecurityArmRequest {
+        SecurityArmState armState = 1;
+        SecurityActor.SecurityActorStruct armActor = 2;
+        repeated SecurityDecisionFact.SecurityDecisionFactStruct acknowledgedIssuesSet = 3;
+        weave.common.ResourceId locationScope = 4;
+    }
+
+    message SecurityArmResponse {
+        SecurityArmResponseType responseType = 1;
+    }
+
+    message SecurityArmCancelRequest {
+        SecurityActor.SecurityActorStruct armActor = 1;
+        weave.common.ResourceId locationScope = 2;
+    }
+
+    message SecurityArmCancelResponse {
+        SecurityArmCancelResponseType responseType = 1;
+    }
+
+    message SecurityArmStateChangeEvent {
+        SecurityArmState armState = 1;
+        SecurityArmState priorArmState = 2;
+        SecurityActor.SecurityActorStruct armActor = 3;
+        uint32 securityArmSessionId = 4;
+        SecurityArmStateChangeReason changeReason = 5;
+        SecurityAllowanceState allowanceState = 6;
+        SecurityAllowanceState priorAllowanceState = 7;
+    }
+
+    message SecurityAllowanceStateChangeEvent {
+        SecurityAllowanceState allowanceState = 1;
+        SecurityAllowanceState priorAllowanceState = 2;
+        uint32 securityArmSessionId = 3;
+        google.protobuf.Duration duration = 4;
+    }
+}
+
+message AlarmSupervisorTrait {
+    AlarmSupervisorState alarmSupervisorState = 1;
+    google.protobuf.Timestamp alarmingStateTime = 2;
+    SecurityActor.SecurityActorStruct alarmAcknowledegeActor = 3;
+
+    enum AlarmSupervisorState {
+        ALARM_SUPERVISOR_STATE_UNSPECIFIED = 0;
+        ALARM_SUPERVISOR_STATE_IDLE = 1;
+        ALARM_SUPERVISOR_STATE_EVALUATING = 2;
+        ALARM_SUPERVISOR_STATE_SILENCED = 3;
+        ALARM_SUPERVISOR_STATE_ALARMING = 4;
+    }
+
+    enum AlarmSupervisorDecisionReason {
+        ALARM_SUPERVISOR_DECISION_REASON_UNSPECIFIED = 0;
+        ALARM_SUPERVISOR_DECISION_REASON_SMASH_AND_GRAB = 1;
+        ALARM_SUPERVISOR_DECISION_REASON_USER_SILENCING = 2;
+        ALARM_SUPERVISOR_DECISION_REASON_DEVICE_ALARMING_STATE_CHANGE = 3;
+    }
+
+    enum AlarmSupervisorResponseType {
+        ALARM_SUPERVISOR_RESPONSE_TYPE_UNSPECIFIED = 0;
+        ALARM_SUPERVISOR_RESPONSE_TYPE_SUCCESS = 1;
+        ALARM_SUPERVISOR_RESPONSE_TYPE_FAIL_ALREADY = 2;
+        ALARM_SUPERVISOR_RESPONSE_TYPE_FAIL_INTERNAL_ISSUES = 3;
+        ALARM_SUPERVISOR_RESPONSE_TYPE_UNAUTHORIZED_STATE_CHANGE = 4;
+    }
+
+    message AlarmSupervisorStateChangeEvent {
+        AlarmSupervisorState priorAlarmingState = 1;
+        AlarmSupervisorState alarmingState = 2;
+        repeated SecurityDecisionFact.SecurityDecisionFactStruct deviceAlarmReason = 3;
+        AlarmSupervisorDecisionReason alarmSupervisorReason = 4;
+        SecurityActor.SecurityActorStruct triggeringActor = 5;
+    }
+
+    message AlarmingAcknowledgeResponse {
+        AlarmSupervisorResponseType responseType = 1;
+    }
+
+    message AlarmingAcknowledgeRequest {
+        SecurityActor.SecurityActorStruct ackActor = 1;
+    }
+
+    message SetPrealarmTimerResponse {
+        AlarmSupervisorResponseType responseType = 1;
+    }
+
+    message SetPrealarmTimerRequest {
+        SecurityDecisionFact.SecurityDecisionFactStruct reason = 1;
+    }
+
+    message RemovePrealarmTimerResponse {
+        AlarmSupervisorResponseType responseType = 1;
+    }
+
+    message RemovePrealarmTimerRequest {
+        SecurityDecisionFact.SecurityDecisionFactStruct reason = 1;
+    }
+
+    message RaiseAlarmResponse {
+        AlarmSupervisorResponseType responseType = 1;
+    }
+
+    message RaiseAlarmRequest {
+        SecurityDecisionFact.SecurityDecisionFactStruct reason = 1;
+    }
+}
+
+message SecuritySettingsTrait {
+    bool bypassFeatureEnabled = 1;
+    bool petRejectionEnabled = 2;
+    bool motionDetectionEnabled = 3;
+    SecuritySettingsMode securitySettingsMode = 4;
+    bool automaticallyArmOnScheduledNight = 5;
+
+    enum SecuritySettingsMode {
+        SECURITY_SETTINGS_MODE_UNSPECIFIED = 0;
+        SECURITY_SETTINGS_MODE_NEST = 1;
+        SECURITY_SETTINGS_MODE_UL_CERT = 2;
+        SECURITY_SETTINGS_MODE_EU_CERT = 3;
+        SECURITY_SETTINGS_MODE_UK_CERT = 4;
+    }
+
+    enum LimitedSettingsAction {
+        LIMITED_SETTINGS_ACTION_UNSPECIFIED = 0;
+        LIMITED_SETTINGS_ACTION_ON = 1;
+        LIMITED_SETTINGS_ACTION_OFF = 2;
+    }
+
+    message SecuritySettingsModeChangeEvent {
+        SecuritySettingsMode previousSecuritySettingsMode = 1;
+        SecuritySettingsMode newSecuritySettingsMode = 2;
+        bool setToDefaults = 3;
+    }
+
+    message SecuritySettingsModeChangeRequest {
+        SecuritySettingsMode securitySettingsMode = 1;
+        bool setToDefaults = 2;
+    }
+
+    message ResetIntrusionSettingsByModeRequest {
+        SecurityIntrusionSettingsTrait.ExpandedSecurityState state = 1; // TODO: Not sure this is the correct enum
+    }
+
+    message LimitedSettingsChangeRequest {
+        LimitedSettingsAction action = 1;
+    }
+}
+
+message SecurityDecisionFact {
+    enum SecurityDecisionFactType {
+        SECURITY_DECISION_FACT_TYPE_UNSPECIFIED = 0;
+        SECURITY_DECISION_FACT_TYPE_OPEN_DOOR = 1;
+        SECURITY_DECISION_FACT_TYPE_OPEN_DOOR_BYPASS = 2;
+        SECURITY_DECISION_FACT_TYPE_CLOSE_DOOR = 3;
+        SECURITY_DECISION_FACT_TYPE_OPEN_WINDOW = 4;
+        SECURITY_DECISION_FACT_TYPE_OPEN_WINDOW_BYPASS = 5;
+        SECURITY_DECISION_FACT_TYPE_CLOSE_WINDOW = 6;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_AMBIENT_MOTION = 7;
+        SECURITY_DECISION_FACT_TYPE_HUB_AMBIENT_MOTION = 8;
+        SECURITY_DECISION_FACT_TYPE_HUB_DEVICE_MOVED = 9;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_OFFLINE = 10;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_ONLINE = 11;
+        SECURITY_DECISION_FACT_TYPE_HUB_OFFLINE = 12;
+        SECURITY_DECISION_FACT_TYPE_HUB_ONLINE = 13;
+        SECURITY_DECISION_FACT_TYPE_HUB_TAMPER = 14;
+        SECURITY_DECISION_FACT_TYPE_HUB_TAMPER_CLEARED = 15;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_TAMPER = 16;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_TAMPER_CLEARED = 17;
+        SECURITY_DECISION_FACT_TYPE_HUB_ONGOING_SOFTWARE_UPDATE = 18;
+        SECURITY_DECISION_FACT_TYPE_HUB_ONGOING_SOFTWARE_UPDATE_FINISHED = 19;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_ONGOING_SOFTWARE_UPDATE = 20;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_ONGOING_SOFTWARE_UPDATE_FINISHED = 21;
+        SECURITY_DECISION_FACT_TYPE_ACTIVE_JAMMING = 22;
+        SECURITY_DECISION_FACT_TYPE_ACTIVE_JAMMING_CLEARED = 23;
+        SECURITY_DECISION_FACT_TYPE_HUB_CHARGING_BATTERY = 24;
+        SECURITY_DECISION_FACT_TYPE_HUB_DISCHARGING_BATTERY_UNSAFE_LEVEL = 25;
+        SECURITY_DECISION_FACT_TYPE_HUB_DISCHARGING_BATTERY_SAFE_LEVEL = 26;
+        SECURITY_DECISION_FACT_TYPE_MULTIPLE_FAILED_AUTH_ATTEMPTS = 27;
+        SECURITY_DECISION_FACT_TYPE_HUB_BUTTON_PRESS = 28;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_BUTTON_PRESS = 29;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_BATTERY_NORMAL = 30;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_BATTERY_LOW = 31;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_BATTERY_CRITICALLY_LOW = 32;
+        SECURITY_DECISION_FACT_TYPE_THREAD_NETWORK_RESTORED = 33;
+        SECURITY_DECISION_FACT_TYPE_THREAD_NETWORK_DOWN = 34;
+        SECURITY_DECISION_FACT_TYPE_WIFI_NETWORK_RESTORED = 35;
+        SECURITY_DECISION_FACT_TYPE_WIFI_NETWORK_DOWN = 36;
+        SECURITY_DECISION_FACT_TYPE_CELLULAR_NETWORK_RESTORED = 37;
+        SECURITY_DECISION_FACT_TYPE_CELLULAR_NETWORK_DOWN = 38;
+        SECURITY_DECISION_FACT_TYPE_WEAVE_TUNNEL_RESTORED = 39;
+        SECURITY_DECISION_FACT_TYPE_WEAVE_TUNNEL_DOWN = 40;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_PIR_HEAT_RAMP = 41;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_PIR_HEAT_RAMP_CLEARED = 42;
+        SECURITY_DECISION_FACT_TYPE_HUB_HARDWARE_FAILURE = 43;
+        SECURITY_DECISION_FACT_TYPE_HUB_HARDWARE_FAILURE_CLEARED = 44;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_HARDWARE_FAILURE = 45;
+        SECURITY_DECISION_FACT_TYPE_REMOTE_SENSOR_HARDWARE_FAILURE_CLEARED = 46;
+        SECURITY_DECISION_FACT_TYPE_PANIC_ALARM_IDLE = 47;
+        SECURITY_DECISION_FACT_TYPE_PANIC_ALARM_NOT_IDLE = 48;
+        SECURITY_DECISION_FACT_TYPE_CREDENTIALS_PROBLEM = 49;
+        SECURITY_DECISION_FACT_TYPE_CREDENTIALS_PROBLEM_CLEARED = 50;
+        SECURITY_DECISION_FACT_TYPE_MISSED_CRITICAL_EVENTS = 51;
+        SECURITY_DECISION_FACT_TYPE_HUB_GLASS_BREAK = 52;
+        SECURITY_DECISION_FACT_TYPE_SOUND_CHECK_FAILURE = 53;
+        SECURITY_DECISION_FACT_TYPE_SOUND_CHECK_FAILURE_CLEARED = 54;
+    }
+
+    message SecurityDecisionFactStruct {
+        SecurityDecisionFactType factType = 1;
+        weave.common.ResourceId originResourceId = 2;
+        google.protobuf.Timestamp timestamp = 3;
+    }
+}
+
+message SecurityAlarmingTrait {
+    SecurityAlarmingState alarmingState = 1;
+    repeated SecurityDecisionFact.SecurityDecisionFactStruct alarmReason = 2;
+    google.protobuf.Timestamp prealarmExpirationTime = 3;
+    google.protobuf.Duration prealarmingDuration = 4;
+    google.protobuf.Timestamp alarmingStateTime = 5;
+
+    enum SecurityAlarmingState {
+        SECURITY_ALARMING_STATE_UNSPECIFIED = 0;
+        SECURITY_ALARMING_STATE_IDLE = 1;
+        SECURITY_ALARMING_STATE_PREALARMING = 2;
+        SECURITY_ALARMING_STATE_ALARMING = 3;
+    }
+
+    enum SecurityAlarmingStateChangeReason {
+        SECURITY_ALARMING_STATE_CHANGE_REASON_UNSPECIFIED = 0;
+        SECURITY_ALARMING_STATE_CHANGE_REASON_CLEARED = 1;
+        SECURITY_ALARMING_STATE_CHANGE_REASON_NEW_TRIGGER = 2;
+        SECURITY_ALARMING_STATE_CHANGE_REASON_TIMED_TRANSITION = 3;
+        SECURITY_ALARMING_STATE_CHANGE_REASON_RESUMED = 4;
+    }
+
+    enum SecurityAlarmingDecisionResult {
+        SECURITY_ALARMING_DECISION_RESULT_UNSPECIFIED = 0;
+        SECURITY_ALARMING_DECISION_RESULT_TRIGGERED_PREALARM = 1;
+        SECURITY_ALARMING_DECISION_RESULT_TRIGGERED_INSTANT_ALARM = 2;
+        SECURITY_ALARMING_DECISION_RESULT_RECONFIRMED_INTRUSION = 3;
+        SECURITY_ALARMING_DECISION_RESULT_NO_ACTION = 4;
+    }
+
+    message SecurityAlarmingStateChangeEvent {
+        SecurityAlarmingState alarmingState = 1;
+        SecurityAlarmingState priorAlarmingState = 2;
+        SecurityDecisionFact.SecurityDecisionFactStruct initialAlarmReason = 3;
+        uint32 securityArmSessionId = 4;
+        SecurityAlarmingStateChangeReason changeReason = 5;
+        SecurityDecisionFact.SecurityDecisionFactStruct latestAlarmReason = 6;
+    }
+
+    message SecurityAlarmingSetToIdleEvent {
+        SecurityActor.SecurityActorStruct alarmActor = 1;
+        SecurityAlarmingState priorAlarmingState = 2;
+        uint32 securityArmSessionId = 3;
+        repeated SecurityDecisionFact.SecurityDecisionFactStruct alarmReasons = 4;
+    }
+
+    message SecurityAlarmingDecisionEvent {
+        SecurityDecisionFact.SecurityDecisionFactStruct decisionFact = 1;
+        SecurityAlarmingDecisionResult result = 2;
+        uint32 securityArmSessionId = 3;
+        SecurityAlarmingState resultingState = 4;
+    }
+}
+
+message PanicAlarmingTrait {
+    PanicAlarmingState panicAlarmingState = 1;
+    SecurityActor.SecurityActorStruct panicAlarmActor = 2;
+    google.protobuf.Timestamp panicTime = 3;
+
+    enum PanicAlarmingState {
+        PANIC_ALARMING_STATE_UNSPECIFIED = 0;
+        PANIC_ALARMING_STATE_IDLE = 1;
+        PANIC_ALARMING_STATE_PREPANIC = 2;
+        PANIC_ALARMING_STATE_PANIC = 3;
+    }
+
+    enum PanicAlarmingStateResponseType {
+        PANIC_ALARMING_STATE_RESPONSE_TYPE_UNSPECIFIED = 0;
+        PANIC_ALARMING_STATE_RESPONSE_TYPE_SUCCESS = 1;
+        PANIC_ALARMING_STATE_RESPONSE_TYPE_FAIL_ALREADY = 2;
+        PANIC_ALARMING_STATE_RESPONSE_TYPE_FAIL_INVALID_STATE_REQUEST = 3;
+    }
+
+    message PanicAlarmingStateRequest {
+        PanicAlarmingState targetPanicAlarmingState = 1;
+        SecurityActor.SecurityActorStruct panicAlarmActor = 2;
+    }
+
+    message PanicAlarmingStateResponse {
+        PanicAlarmingStateResponseType responseType = 1;
+    }
+
+    message PanicAlarmingStateChangeEvent {
+        PanicAlarmingState panicAlarmingState = 1;
+        PanicAlarmingState priorPanicAlarmingState = 2;
+        SecurityActor.SecurityActorStruct panicAlarmActor = 3;
+    }
+}
+
+message SecurityActor {
+    enum SecurityActorMethod {
+        SECURITY_ACTOR_METHOD_UNSPECIFIED = 0;
+        SECURITY_ACTOR_METHOD_OTHER = 1;
+        SECURITY_ACTOR_METHOD_KEYPAD = 2;
+        SECURITY_ACTOR_METHOD_KEYPAD_PIN = 3;
+        SECURITY_ACTOR_METHOD_AUTH_TOKEN = 4;
+        SECURITY_ACTOR_METHOD_REMOTE_USER_EXPLICIT = 5;
+        SECURITY_ACTOR_METHOD_REMOTE_USER_IMPLICIT = 6;
+        SECURITY_ACTOR_METHOD_REMOTE_REMINDER_EXPLICIT = 7;
+        SECURITY_ACTOR_METHOD_REMOTE_REMINDER_IMPLICIT = 8;
+        SECURITY_ACTOR_METHOD_REMOTE_USER_OTHER = 9;
+        SECURITY_ACTOR_METHOD_REMOTE_DELEGATE = 10;
+        SECURITY_ACTOR_METHOD_LOW_POWER_SHUTDOWN = 11;
+        SECURITY_ACTOR_METHOD_VOICE_ASSISTANT = 12;
+        SECURITY_ACTOR_METHOD_PEER_LOCK = 13;
+        SECURITY_ACTOR_METHOD_REMOTE_SCHEDULE_IMPLICIT = 14;
+    }
+
+    message SecurityActorStruct {
+        SecurityActorMethod method = 1;
+        weave.common.ResourceId originator = 2;
+        weave.common.ResourceId agent = 3;
+    }
+}
+
+message SecurityIntrusionSettingsTrait {
+    bool ambientMotionForIntrusionEnabled = 3;
+    map<uint32, CustomIntrusionRule> customIntrusionRules = 4;
+
+    enum IntrusionAction {
+        INTRUSION_ACTION_UNSPECIFIED = 0;
+        INTRUSION_ACTION_NONE = 1;
+        INTRUSION_ACTION_PREALARM = 2;
+        INTRUSION_ACTION_INSTANTALARM = 3;
+    }
+
+    enum ExpandedSecurityState {
+        EXPANDED_SECURITY_STATE_UNSPECIFIED = 0;
+        EXPANDED_SECURITY_STATE_DISARMED = 1;
+        EXPANDED_SECURITY_STATE_ARMED_SL1 = 2;
+        EXPANDED_SECURITY_STATE_ARMED_SL1_NOT_IDLE = 3;
+        EXPANDED_SECURITY_STATE_ARMED_SL2_IN_EXIT_ALLOWANCE = 4;
+        EXPANDED_SECURITY_STATE_ARMED_SL2 = 5;
+        EXPANDED_SECURITY_STATE_ARMED_SL2_NOT_IDLE = 6;
+    }
+
+    message CustomIntrusionRule {
+        weave.common.ResourceId deviceId = 1;
+        ExpandedSecurityState state = 2;
+        SecurityDecisionFact.SecurityDecisionFactType factType = 3;
+        IntrusionAction action = 4;
+    }
+}
+
+message SecurityIssuesAndExceptionsTrait {
+    repeated SecurityDecisionFact.SecurityDecisionFactStruct blockingIssueSet = 1;
+    repeated SecurityDecisionFact.SecurityDecisionFactStruct nonblockingIssueSet = 2;
+    repeated SecurityDecisionFact.SecurityDecisionFactStruct exceptionSet = 3;
+
+    message SecurityBlockingIssuesChangeEvent {
+        repeated SecurityDecisionFact.SecurityDecisionFactStruct blockingIssueSet = 1;
+    }
+
+    message SecurityNonBlockingIssuesChangeEvent {
+        repeated SecurityDecisionFact.SecurityDecisionFactStruct nonblockingIssueSet = 1;
+    }
+
+    message SecurityExceptionsChangeEvent {
+        repeated SecurityDecisionFact.SecurityDecisionFactStruct exceptionSet = 1;
+    }
+
+    message SecurityNewIssuesByEndOfAllowanceEvent {
+        repeated SecurityDecisionFact.SecurityDecisionFactStruct issueSet = 1;
+    }
+}
+
+message SecurityActionOnNFCTokenSettingsTrait {
+    bool featureEnabled = 1;
+}
+
+message SecurityArmSettingsTrait {
+    google.protobuf.Duration exitAllowanceDuration = 1;
+    bool armingRequiresAuth = 2;
+    bool ignoringIssuesRequiresAuth = 3;
+    bool structureModeLinkingEnabled = 4;
+    bool disarmOnDoorUnlock = 5;
+}
+
+message EnhancedBoltLockSettingsTrait {
+    bool autoRelockOn = 1;
+    google.protobuf.Duration autoRelockDuration = 2;
+    repeated nest.trait.occupancy.StructureModeTrait.StructureMode ignoreAutoRelockOnStructureMode = 32;
+    bool oneTouchLock = 33;
+    bool homeAwayAssistLockOn = 34;
+}
+
+message SecurityActionOnNFCTokenGlobalSettingsTrait {
+    bool featureEnabled = 1;
+}
+
+message SecurityAlarmingSettingsTrait {
+    google.protobuf.Duration prealarmingDuration = 1;
+    google.protobuf.Duration prealarmingDurationSl1 = 2;
+    map<uint32, CustomPreAlarmRule> customPrealarmDurationRules = 3;
+    repeated uint32 advancedModeExceptions = 4; // TODO: Fix unknown enum
+
+    message CustomPreAlarmRule {
+        weave.common.ResourceId deviceId = 1;
+        SecurityArmTrait.SecurityArmState state = 2; // TODO: Not sure this is the correct enum
+        SecurityDecisionFact.SecurityDecisionFactType factType = 3;
+        google.protobuf.Duration prealarmDuration = 4;
+    }
+}
+
+message SecurityArmCommandSettingsTrait {
+    google.protobuf.Duration timeout = 1;
+}
+
+message SecurityOpenCloseTrait {
+    nest.trait.detector.OpenCloseTrait.OpenCloseState openCloseState = 1;
+    google.protobuf.Timestamp firstObservedAt = 2;
+    google.protobuf.Timestamp firstObservedAtMs = 3;
+    bool bypassRequested = 32;
+
+    message SecurityOpenCloseEvent {
+        nest.trait.detector.OpenCloseTrait.OpenCloseState openCloseState = 1;
+        nest.trait.detector.OpenCloseTrait.OpenCloseState priorOpenCloseState = 2;
+        bool bypassRequested = 32;
+    }
+}
+
+message DistributedSecurityTrait {
+    weave.common.ResourceId master = 1;
+}
+
+message SecurityActionOnUnlockSettingsTrait {
+    bool enabled = 1;
+    SecurityAction action = 2;
+
+    enum SecurityAction {
+        SECURITY_ACTION_UNSPECIFIED = 0;
+        SECURITY_ACTION_DISARM_TO_SL0 = 1;
+    }
+}

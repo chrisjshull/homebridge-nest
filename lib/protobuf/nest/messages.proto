@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package nest.messages;
+
+message SchemaVersion {
+    uint32 currentVersion = 1;
+    uint32 minCompatVersion = 2;
+}

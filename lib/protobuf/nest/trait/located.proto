@@ -1,0 +1,94 @@
+// Protobuf schema for response to Nest Observe API call
+
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package nest.trait.located;
+
+// Messages
+
+message DeviceLocatedSettingsTrait {
+  String_Indirect where_id = 2;
+  LocatedTrait.LocatedFixtureType fixtureType = 4;
+  Int32_Indirect timestamp = 9;
+}
+
+message LocatedAnnotationsTrait {
+  message Annotation {
+    message AnnotationInfo {
+      String_Indirect id = 1;
+      String_Indirect name = 2;
+    }
+    AnnotationInfo info = 2;
+  }
+  repeated Annotation annotations = 1;
+  repeated Annotation custom_annotations = 2;
+}
+
+message LocatedTrait {
+    enum LocatedMajorFixtureType {
+        LOCATED_MAJOR_FIXTURE_TYPE_UNSPECIFIED = 0;
+        LOCATED_MAJOR_FIXTURE_TYPE_DOOR = 1;
+        LOCATED_MAJOR_FIXTURE_TYPE_WINDOW = 2;
+        LOCATED_MAJOR_FIXTURE_TYPE_WALL = 3;
+        LOCATED_MAJOR_FIXTURE_TYPE_OBJECT = 4;
+    }
+
+    enum LocatedMinorFixtureTypeDoor {
+        LOCATED_MINOR_FIXTURE_TYPE_DOOR_UNSPECIFIED = 0;
+        LOCATED_MINOR_FIXTURE_TYPE_DOOR_GENERIC = 1;
+        LOCATED_MINOR_FIXTURE_TYPE_DOOR_HINGED = 2;
+        LOCATED_MINOR_FIXTURE_TYPE_DOOR_FRENCH = 3;
+        LOCATED_MINOR_FIXTURE_TYPE_DOOR_SLIDING = 4;
+        LOCATED_MINOR_FIXTURE_TYPE_DOOR_GARAGE_SEGMENTED = 5;
+        LOCATED_MINOR_FIXTURE_TYPE_DOOR_GARAGE_SINGLE_PANEL = 6;
+    }
+
+    enum LocatedMinorFixtureTypeWindow {
+        LOCATED_MINOR_FIXTURE_TYPE_WINDOW_UNSPECIFIED = 0;
+        LOCATED_MINOR_FIXTURE_TYPE_WINDOW_GENERIC = 1;
+        LOCATED_MINOR_FIXTURE_TYPE_WINDOW_VERTICAL_SINGLE_HUNG = 2;
+        LOCATED_MINOR_FIXTURE_TYPE_WINDOW_HORIZONTAL_SINGLE_HUNG = 3;
+        LOCATED_MINOR_FIXTURE_TYPE_WINDOW_VERTICAL_DOUBLE_HUNG = 4;
+        LOCATED_MINOR_FIXTURE_TYPE_WINDOW_HORIZONTAL_DOUBLE_HUNG = 5;
+        LOCATED_MINOR_FIXTURE_TYPE_WINDOW_VERTICAL_CASEMENT = 6;
+        LOCATED_MINOR_FIXTURE_TYPE_WINDOW_HORIZONTAL_CASEMENT = 7;
+        LOCATED_MINOR_FIXTURE_TYPE_WINDOW_TILTTURN = 8;
+        LOCATED_MINOR_FIXTURE_TYPE_WINDOW_ROOF = 9;
+    }
+
+    enum LocatedMinorFixtureTypeWall {
+        LOCATED_MINOR_FIXTURE_TYPE_WALL_UNSPECIFIED = 0;
+        LOCATED_MINOR_FIXTURE_TYPE_WALL_GENERIC = 1;
+        LOCATED_MINOR_FIXTURE_TYPE_WALL_CORNER = 2;
+        LOCATED_MINOR_FIXTURE_TYPE_WALL_FLUSH = 3;
+    }
+
+    enum LocatedMinorFixtureTypeObject {
+        LOCATED_MINOR_FIXTURE_TYPE_OBJECT_UNSPECIFIED = 0;
+        LOCATED_MINOR_FIXTURE_TYPE_OBJECT_GENERIC = 1;
+    }
+
+    message LocatedFixtureType {
+        LocatedMajorFixtureType majorType = 1;
+        LocatedMinorFixtureTypeDoor minorTypeDoor = 2;
+        LocatedMinorFixtureTypeWindow minorTypeWindow = 3;
+        LocatedMinorFixtureTypeWall minorTypeWall = 4;
+        LocatedMinorFixtureTypeObject minorTypeObject = 5;
+    }
+}
+
+// Indirects
+
+message String_Indirect {
+  string value = 1;
+}
+
+message Float_Indirect {
+  float value = 1;
+}
+
+message Int32_Indirect {
+  int32 value = 1;
+}

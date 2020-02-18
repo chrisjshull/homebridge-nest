@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+package weave.common;
+
+enum DayOfWeek {
+    DAY_OF_WEEK_UNSPECIFIED = 0;
+    DAY_OF_WEEK_SUNDAY = 1;
+    DAY_OF_WEEK_MONDAY = 2;
+    DAY_OF_WEEK_TUESDAY = 4;
+    DAY_OF_WEEK_WEDNESDAY = 8;
+    DAY_OF_WEEK_THURSDAY = 16;
+    DAY_OF_WEEK_FRIDAY = 32;
+    DAY_OF_WEEK_SATURDAY = 64;
+}
+
+enum MonthOfYear {
+    MONTH_OF_YEAR_UNSPECIFIED = 0;
+    MONTH_OF_YEAR_JANUARY = 1;
+    MONTH_OF_YEAR_FEBRUARY = 2;
+    MONTH_OF_YEAR_MARCH = 4;
+    MONTH_OF_YEAR_APRIL = 8;
+    MONTH_OF_YEAR_MAY = 16;
+    MONTH_OF_YEAR_JUNE = 32;
+    MONTH_OF_YEAR_JULY = 64;
+    MONTH_OF_YEAR_AUGUST = 128;
+    MONTH_OF_YEAR_SEPTEMBER = 256;
+    MONTH_OF_YEAR_OCTOBER = 512;
+    MONTH_OF_YEAR_NOVEMBER = 1024;
+    MONTH_OF_YEAR_DECEMBER = 2048;
+}
+
+enum ResourceType {
+    RESOURCE_TYPE_UNSPECIFIED = 0;
+    RESOURCE_TYPE_DEVICE = 1;
+    RESOURCE_TYPE_USER = 2;
+    RESOURCE_TYPE_ACCOUNT = 3;
+    RESOURCE_TYPE_AREA = 4;
+    RESOURCE_TYPE_FIXTURE = 5;
+    RESOURCE_TYPE_GROUP = 6;
+    RESOURCE_TYPE_ANNOTATION = 7;
+    RESOURCE_TYPE_STRUCTURE = 8;
+    RESOURCE_TYPE_GUEST = 9;
+    RESOURCE_TYPE_SERVICE = 10;
+}
+
+enum QuantityType {
+    QUANTITY_TYPE_UNSPECIFIED = 0;
+    LENGTH = 1;
+    MASS = 2;
+    DURATION = 3;
+    CURRENT = 4;
+    TEMPERATURE = 5;
+    LUMINOUS_INTENSITY = 6;
+    AREA = 7;
+    VOLUME = 8;
+    VELOCITY = 9;
+    ACCELERATION = 10;
+    FREQUENCY = 27;
+    ENERGY = 30;
+    ELECTRIC_CHARGE = 32;
+    VOLTAGE = 33;
+    RESISTANCE = 34;
+    MAGNETIC_FLUX_DENSITY = 38;
+    ILLUMINANCE = 42;
+    HUMIDITY = 46;
+    DBM = 47;
+    PPM = 48;
+    PIRMEASUREMENT = 256;
+    NORMALIZED = 257;
+}
+
+enum EventImportance {
+    EVENT_IMPORTANCE_UNSPECIFIED = 0;
+    EVENT_IMPORTANCE_PRODUCTION_CRITICAL = 1;
+    EVENT_IMPORTANCE_PRODUCTION_STANDARD = 2;
+    EVENT_IMPORTANCE_INFO = 3;
+    EVENT_IMPORTANCE_DEBUG = 4;
+}
+
+message Timer {
+    google.protobuf.Duration time = 1;
+    google.protobuf.Timestamp timeBasis = 2;
+}
+
+message TimeOfDay {
+    uint32 hour = 5;
+    uint32 minute = 6;
+    uint32 second = 7;
+}
+
+message ResourceId {
+    string resourceId = 1;
+}
+
+message ResourceName {
+    string resourceName = 1;
+}
+
+message TraitTypeId {
+    uint32 traitTypeId = 1;
+}
+
+message TraitTypeInstance {
+    TraitTypeId traitTypeId = 1;
+    uint32 instanceId = 2;
+}
+
+message TraitInstanceId {
+    string traitInstanceLabel = 1;
+    TraitTypeInstance traitInstanceId = 2;
+
+    enum TraitInstanceCase {
+        TRAIT_INSTANCE_NOT_SET = 0;
+        TRAIT_INSTANCE_LABEL = 1;
+        TRAIT_INSTANCE_ID = 2;
+    }
+}
+
+message FullTraitInstanceId {
+    ResourceId resourceId = 1;
+    TraitInstanceId traitInstanceId = 2;
+}
+
+message InterfaceName {
+    string interfaceName = 1;
+}
+
+message EventId {
+    ResourceId resourceId = 1;
+    EventImportance importance = 2;
+    uint64 id = 3;
+}
+
+message ProfileSpecificStatusCode {
+    uint32 profileId = 1;
+    uint32 statusCode = 2;
+}
+
+message StringRef {
+    string literal = 1;
+    uint32 reference = 2;
+
+    enum StringRefCase {
+        STRING_REF_NOT_SET = 0;
+        LITERAL = 1;
+        REFERENCE = 2;
+    }
+}

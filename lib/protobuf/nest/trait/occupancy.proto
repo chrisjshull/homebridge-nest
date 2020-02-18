@@ -1,0 +1,365 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "../../weave/common.proto";
+
+package nest.trait.occupancy;
+
+message StructureModeTrait {
+    StructureMode structureMode = 1;
+    Occupancy occupancy = 2;
+    Allowance allowance = 3;
+    StructureModeReason structureModeReason = 4;
+    weave.common.ResourceId structureModeSetter = 5;
+    google.protobuf.Timestamp structureModeEffectiveTime = 6;
+    StructureMode activityAgnosticStructureMode = 7;
+    google.protobuf.Timestamp activityAgnosticStructureModeEffectiveTime = 8;
+    PrivateTraitHandlerState privateState = 9;
+
+    enum StructureMode {
+        STRUCTURE_MODE_UNSPECIFIED = 0;
+        STRUCTURE_MODE_HOME = 1;
+        STRUCTURE_MODE_AWAY = 2;
+        STRUCTURE_MODE_SLEEP = 3;
+        STRUCTURE_MODE_VACATION = 4;
+    }
+
+    enum Activity {
+        ACTIVITY_UNSPECIFIED = 0;
+        ACTIVITY_ACTIVE = 1;
+        ACTIVITY_INACTIVE = 2;
+    }
+
+    enum Presence {
+        PRESENCE_UNSPECIFIED = 0;
+        PRESENCE_UNAVAILABLE = 1;
+        PRESENCE_PRESENT = 2;
+        PRESENCE_ABSENT = 3;
+    }
+
+    enum ModeStickiness {
+        MODE_STICKINESS_UNSPECIFIED = 0;
+        MODE_STICKINESS_NONE = 1;
+        MODE_STICKINESS_TIMED = 2;
+        MODE_STICKINESS_CONDITIONAL_TIMED = 3;
+    }
+
+    enum StructureModeReason {
+        STRUCTURE_MODE_REASON_UNSPECIFIED = 0;
+        STRUCTURE_MODE_REASON_EXPLICIT_INTENT = 1;
+        STRUCTURE_MODE_REASON_IMPLICIT_INTENT = 2;
+        STRUCTURE_MODE_REASON_ACTIVITY = 3;
+        STRUCTURE_MODE_REASON_EXTENDED_INACTIVITY = 4;
+        STRUCTURE_MODE_REASON_IDENTIFIED_PRESENCE = 5;
+        STRUCTURE_MODE_REASON_IDENTIFIED_ABSENCE = 6;
+        STRUCTURE_MODE_REASON_SCHEDULE = 7;
+    }
+
+    enum NonPropagatingChangeSourceType {
+        NON_PROPAGATING_CHANGE_SOURCE_TYPE_UNSPECIFIED = 0;
+        NON_PROPAGATING_CHANGE_SOURCE_TYPE_CZ = 1;
+    }
+
+    enum StructureModeChangeResponseType {
+        STRUCTURE_MODE_CHANGE_RESPONSE_TYPE_UNSPECIFIED = 0;
+        STRUCTURE_MODE_CHANGE_RESPONSE_TYPE_SUCCESS = 1;
+        STRUCTURE_MODE_CHANGE_RESPONSE_TYPE_FAIL_ALREADY = 2;
+    }
+
+    enum StructureModeCompleteUpdateResponseType {
+        STRUCTURE_MODE_COMPLETE_UPDATE_RESPONSE_TYPE_UNSPECIFIED = 0;
+        STRUCTURE_MODE_COMPLETE_UPDATE_RESPONSE_TYPE_SUCCESS = 1;
+        STRUCTURE_MODE_COMPLETE_UPDATE_RESPONSE_TYPE_FAIL_ALREADY = 2;
+        STRUCTURE_MODE_COMPLETE_UPDATE_RESPONSE_TYPE_FAIL_VERSION = 3;
+        STRUCTURE_MODE_COMPLETE_UPDATE_RESPONSE_TYPE_FAIL_OTHER = 4;
+    }
+
+    enum LegacyAwayState {
+        LEGACY_AWAY_STATE_UNSPECIFIED = 0;
+        LEGACY_AWAY_STATE_TRUE = 1;
+        LEGACY_AWAY_STATE_FALSE = 2;
+    }
+
+    enum LegacyAwaySetter {
+        LEGACY_AWAY_SETTER_UNSPECIFIED = 0;
+        LEGACY_AWAY_SETTER_CLIENT = 1;
+        LEGACY_AWAY_SETTER_CONTROL = 2;
+        LEGACY_AWAY_SETTER_CLOUD = 3;
+    }
+
+    enum LegacyTouchedBy {
+        LEGACY_TOUCHED_BY_UNSPECIFIED = 0;
+        LEGACY_TOUCHED_BY_NOBODY = 1;
+        LEGACY_TOUCHED_BY_LEARNING = 2;
+        LEGACY_TOUCHED_BY_LOCAL = 3;
+        LEGACY_TOUCHED_BY_REMOTE = 4;
+        LEGACY_TOUCHED_BY_WEB = 5;
+        LEGACY_TOUCHED_BY_ANDROID = 6;
+        LEGACY_TOUCHED_BY_IOS = 7;
+        LEGACY_TOUCHED_BY_WIN_MOBILE = 8;
+        LEGACY_TOUCHED_BY_TUNE_UP = 9;
+        LEGACY_TOUCHED_BY_DR = 10;
+        LEGACY_TOUCHED_BY_TOU = 11;
+        LEGACY_TOUCHED_BY_TOPAZ_CO = 12;
+        LEGACY_TOUCHED_BY_PROGRAMMER = 13;
+        LEGACY_TOUCHED_BY_TOPAZ_SMOKE = 14;
+        LEGACY_TOUCHED_BY_DEMAND_CHARGE = 15;
+    }
+
+    enum AutoAskType {
+        AUTO_ASK_TYPE_UNSPECIFIED = 0;
+        AUTO_ASK_TYPE_AWAY_AND_ARM = 1;
+        AUTO_ASK_TYPE_HOME_AND_DISARM = 2;
+        AUTO_ASK_TYPE_ARM = 3;
+        AUTO_ASK_TYPE_DISARM = 4;
+    }
+
+    enum AutoAskArm {
+        AUTO_ASK_ARM_UNSPECIFIED = 0;
+        AUTO_ASK_ARM_TYPE_ARM = 1;
+        AUTO_ASK_ARM_TYPE_DISARM = 2;
+    }
+
+    enum AutoAskLock {
+        AUTO_ASK_LOCK_UNSPECIFIED = 0;
+        AUTO_ASK_LOCK_TYPE_LOCK = 1;
+        AUTO_ASK_LOCK_TYPE_UNLOCK = 2;
+    }
+
+    enum AutoAskStructureMode {
+        AUTO_ASK_STRUCTURE_MODE_UNSPECIFIED = 0;
+        AUTO_ASK_STRUCTURE_MODE_TYPE_HOME = 1;
+        AUTO_ASK_STRUCTURE_MODE_TYPE_AWAY = 2;
+    }
+
+    message Occupancy {
+        Activity activity = 1;
+        Presence presence = 2;
+        google.protobuf.Timestamp lastActivityTime = 3;
+        google.protobuf.Timestamp activityHoldOff = 4;
+    }
+
+    message Allowance {
+        ModeStickiness modeStickiness = 2;
+        google.protobuf.Timestamp modeStickinessExpiration = 3;
+    }
+
+    message PrivateTraitHandlerState {
+        bool isCzUpdateStateOk = 1;
+    }
+
+    message StructureModeChangeRequest {
+        StructureMode structureMode = 1;
+        StructureModeReason reason = 2;
+        weave.common.ResourceId userId = 3;
+        NonPropagatingChangeDetails nonPropagatingChangeDetails = 4;
+    }
+
+    message NonPropagatingChangeDetails {
+        NonPropagatingChangeSourceType sourceType = 1;
+        google.protobuf.Timestamp changeTime = 2;
+    }
+
+    message StructureModeChangeResponse {
+        StructureModeChangeResponseType responseType = 1;
+    }
+
+    message StructureModeCompleteUpdateRequest {
+        StructureMode structureMode = 1;
+        Occupancy occupancy = 2;
+        Allowance allowance = 3;
+        StructureModeReason structureModeReason = 4;
+        weave.common.ResourceId structureModeSetter = 5;
+        google.protobuf.Timestamp structureModeEffectiveTime = 6;
+        StructureMode activityAgnosticStructureMode = 7;
+        google.protobuf.Timestamp activityAgnosticStructureModeEffectiveTime = 8;
+        google.protobuf.UInt64Value revisionId = 9;
+    }
+
+    message StructureModeCompleteUpdateResponse {
+        StructureModeChangeResponseType responseType = 1;
+        StructureModeCompleteUpdateResponseType completeResponseType = 2;
+    }
+
+    message LegacyStructureModeChangeRequest {
+        StructureMode structureMode = 1;
+        StructureModeReason reason = 2;
+        weave.common.ResourceId userId = 3;
+        google.protobuf.StringValue wwnId = 4;
+    }
+
+    message ConsumeOccupancyStateBeliefRequest {
+        float activeProbability = 1;
+        float sleepProbability = 2;
+        float vacantProbability = 3;
+        float identifiedPresenceProbability = 4;
+        google.protobuf.Timestamp lastMotionEventTimestamp = 5;
+    }
+
+    message ConsumeSecurityArmStateChangeRequest {
+    }
+
+    message ConsumeBoltActuatorStateChangeRequest {
+    }
+
+    message ConsumeLegacyStructureModeChangeRequest {
+        LegacyAwayState away = 1;
+        LegacyAwaySetter awaySetter = 2;
+        google.protobuf.Timestamp manualAwayTimestamp = 3;
+        LegacyTouchedBy touchedBy = 4;
+        weave.common.ResourceId touchedId = 5;
+    }
+
+    message StructureModeChangeEvent {
+        StructureMode structureMode = 1;
+        StructureMode priorStructureMode = 2;
+        StructureModeReason reason = 3;
+        weave.common.ResourceId userId = 4;
+        weave.common.ResourceId deviceId = 5;
+        google.protobuf.StringValue rtsDeviceId = 6;
+        google.protobuf.StringValue controlEventTypeUrl = 7;
+        google.protobuf.StringValue wwnId = 8;
+    }
+
+    message OccupancyChangeEvent {
+        Occupancy occupancy = 1;
+        Occupancy priorOccupancy = 2;
+    }
+
+    message AllowanceChangeEvent {
+        Allowance allowance = 1;
+        Allowance priorAllowance = 2;
+    }
+
+    message AutoAsk {
+        AutoAskArm autoAskArm = 1;
+        AutoAskLock autoAskLock = 2;
+        AutoAskStructureMode autoAskStructureMode = 3;
+    }
+
+    message AutoAskEvent {
+        AutoAskType askType = 1;
+        repeated weave.common.ResourceId userId = 2;
+        weave.common.ResourceId deviceId = 3;
+        bool dryRun = 4;
+        AutoAsk autoAsk = 5;
+    }
+
+    message ActivityAgnosticStructureModeChangeEvent {
+        StructureMode activityAgnosticStructureMode = 1;
+        StructureMode priorActivityAgnosticStructureMode = 2;
+        StructureModeReason reason = 3;
+    }
+
+    message StructureModeTraceEventState {
+        StructureMode structureMode = 1;
+        Occupancy occupancy = 2;
+        Allowance allowance = 3;
+        StructureModeReason structureModeReason = 4;
+        weave.common.ResourceId structureModeSetter = 5;
+        google.protobuf.Timestamp structureModeEffectiveTime = 6;
+        StructureMode activityAgnosticStructureMode = 7;
+        google.protobuf.Timestamp activityAgnosticStructureModeEffectiveTime = 8;
+    }
+
+    message StructureModeTraceEventStateChange {
+        StructureModeTraceEventState from = 1;
+        StructureModeTraceEventState to = 2;
+    }
+
+    message StructureModeTraceEventStep {
+        google.protobuf.Timestamp time = 1;
+        map<string, string> labels = 2;
+    }
+
+    message StructureModeTraceEvent {
+        string trigger = 1;
+        string triggerAgent = 2;
+        string triggerEventKey = 3;
+        google.protobuf.Timestamp triggerTime = 4;
+        google.protobuf.Timestamp startTime = 5;
+        StructureModeTraceEventStateChange stateChange = 6;
+        repeated StructureModeTraceEventStep steps = 7;
+        repeated string scenarioId = 8;
+        string error = 9;
+        string rtsStructureId = 10;
+    }
+}
+
+message StructureModeSettingsTrait {
+    bool enableAutoSleep = 1;
+    repeated DayTimeSpan sleepSchedule = 2;
+    TimeSpan derivedDailySleepSchedule = 3;
+    google.protobuf.Timestamp occupancySensorArmTimestamp = 4;
+
+    enum BuildUniformDailySleepScheduleResponseType {
+        BUILD_UNIFORM_DAILY_SLEEP_SCHEDULE_RESPONSE_TYPE_UNSPECIFIED = 0;
+        BUILD_UNIFORM_DAILY_SLEEP_SCHEDULE_RESPONSE_TYPE_SUCCESS = 1;
+        BUILD_UNIFORM_DAILY_SLEEP_SCHEDULE_RESPONSE_TYPE_FAIL_ALREADY = 2;
+    }
+
+    message TimeSpan {
+        weave.common.TimeOfDay startTime = 1;
+        weave.common.TimeOfDay endTime = 2;
+    }
+
+    message DayTimeSpan {
+        weave.common.DayOfWeek startDay = 1;
+        weave.common.TimeOfDay startTime = 2;
+        weave.common.DayOfWeek endDay = 3;
+        weave.common.TimeOfDay endTime = 4;
+    }
+
+    message BuildUniformDailySleepScheduleRequest {
+        TimeSpan timeSpan = 1;
+        weave.common.ResourceId userId = 2;
+    }
+
+    message BuildUniformDailySleepScheduleResponse {
+        BuildUniformDailySleepScheduleResponseType responseType = 1;
+    }
+
+    message SleepScheduleChangeEvent {
+        bool enableAutoSleep = 1;
+        bool priorEnableAutoSleep = 2;
+        repeated DayTimeSpan sleepSchedule = 3;
+        repeated DayTimeSpan priorSleepSchedule = 4;
+        weave.common.ResourceId userId = 5;
+    }
+}
+
+message StructureGeofencingTrait {
+    GeofenceEnhancedAutoAwayStatus geofenceEnhancedAutoawayStatus = 1;
+
+    enum GeofenceEnhancedAutoAwayStatus {
+        GEOFENCE_ENHANCED_AUTO_AWAY_STATUS_UNSPECIFIED = 0;
+        GEOFENCE_ENHANCED_AUTO_AWAY_STATUS_NOT_SET = 1;
+        GEOFENCE_ENHANCED_AUTO_AWAY_STATUS_ENABLED = 2;
+        GEOFENCE_ENHANCED_AUTO_AWAY_STATUS_DISABLED = 3;
+    }
+
+    message StructureGeofenceStateAssertionEvent {
+        Geofencing.GeofenceState state = 1;
+        weave.common.ResourceId userId = 2;
+        google.protobuf.StringValue rtsFenceId = 3;
+        google.protobuf.StringValue rtsMobileDeviceId = 4;
+    }
+}
+
+message Geofencing {
+    enum GeofenceState {
+        GEOFENCE_STATE_UNSPECIFIED = 0;
+        GEOFENCE_STATE_INSIDE = 1;
+        GEOFENCE_STATE_OUTSIDE = 2;
+        GEOFENCE_STATE_UNKNOWN = 3;
+    }
+}
+
+message OccupancyInputSettingsTrait {
+    bool deviceActivityConsidered = 1;
+}
+
+message StructureModeCapabilitiesTrait {
+    bool sleepStructureModeEnabled = 1;
+}

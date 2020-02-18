@@ -1,0 +1,30 @@
+// Protobuf schema for response to Nest Observe API call
+
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package weave.trait.description;
+
+// Messages
+
+message DeviceIdentityTrait {
+  String_Indirect manufacturer = 2;
+  String_Indirect model_name = 4;
+  string serial_number = 6;
+  string fw_version = 7;
+}
+
+// Indirects
+
+message String_Indirect {
+  string value = 1;
+}
+
+message Float_Indirect {
+  float value = 1;
+}
+
+message Int32_Indirect {
+  int32 value = 1;
+}

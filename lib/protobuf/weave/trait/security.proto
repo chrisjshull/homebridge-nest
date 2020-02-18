@@ -1,0 +1,337 @@
+syntax = "proto3";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "../../weave/common.proto";
+
+package weave.trait.security;
+
+message UserPincodesSettingsTrait {
+    map<uint32, UserPincode> userPincodes = 1;
+
+    enum PincodeErrorCodes {
+        PINCODE_ERROR_CODES_UNSPECIFIED = 0;
+        PINCODE_ERROR_CODES_DUPLICATE_PINCODE = 1;
+        PINCODE_ERROR_CODES_TOO_MANY_PINCODES = 2;
+        PINCODE_ERROR_CODES_INVALID_PINCODE = 3;
+        PINCODE_ERROR_CODES_SUCCESS_PINCODE_DELETED = 4;
+        PINCODE_ERROR_CODES_SUCCESS_PINCODE_STATUS = 5;
+        PINCODE_ERROR_CODES_DUPLICATE_NONCE = 6;
+        PINCODE_ERROR_CODES_EXCEEDED_RATE_LIMIT = 7;
+    }
+
+    enum PincodeChangeReason {
+        PINCODE_CHANGE_REASON_UNSPECIFIED = 0;
+        PINCODE_CHANGE_REASON_UPDATE = 1;
+        PINCODE_CHANGE_REASON_DELETION = 2;
+    }
+
+    message UserPincode {
+        weave.common.ResourceId userId = 1;
+        bytes pincode = 2;
+        google.protobuf.BoolValue pincodeCredentialEnabled = 3;
+    }
+
+    message SetUserPincodeRequest {
+        UserPincode userPincode = 1;
+    }
+
+    message SetUserPincodeResponse {
+        PincodeErrorCodes status = 1;
+    }
+
+    message GetUserPincodeRequest {
+        weave.common.ResourceId userId = 1;
+    }
+
+    message GetUserPincodeResponse {
+        UserPincode userPincode = 1;
+    }
+
+    message DeleteUserPincodeRequest {
+        weave.common.ResourceId userId = 1;
+    }
+
+    message DeleteUserPincodeResponse {
+        PincodeErrorCodes status = 1;
+    }
+
+    message UserPincodeChangeEvent {
+        weave.common.ResourceId userId = 1;
+        PincodeChangeReason reason = 2;
+    }
+}
+
+message UserNFCTokenManagementTrait {
+    enum NFCTokenEvent {
+        NFC_TOKEN_EVENT_UNSPECIFIED = 0;
+        NFC_TOKEN_EVENT_PAIRED = 1;
+        NFC_TOKEN_EVENT_UNPAIRED = 2;
+        NFC_TOKEN_EVENT_STRUCTURE_AUTH = 3;
+        NFC_TOKEN_EVENT_STRUCTURE_UNAUTH = 4;
+        NFC_TOKEN_EVENT_TRANSFERRED = 5;
+        NFC_TOKEN_EVENT_DISABLED = 6;
+        NFC_TOKEN_EVENT_ENABLED = 7;
+    }
+
+    message TransferUserNFCTokenRequest {
+        weave.common.ResourceId targetUserId = 1;
+        weave.common.ResourceId tokenDeviceId = 2;
+    }
+
+    message SetUserNFCTokenEnableStateRequest {
+        weave.common.ResourceId tokenDeviceId = 1;
+        bool enabled = 2;
+    }
+
+    message AuthUserNFCTokenToStructureRequest {
+        weave.common.ResourceId tokenDeviceId = 1;
+        bool authorized = 2;
+        weave.common.ResourceId structureId = 3;
+    }
+
+    message UserNFCTokenManagementEvent {
+        NFCTokenEvent nfcTokenManagementEvent = 1;
+        UserNFCTokensTrait.UserNFCTokenData userNfcToken = 2;
+        weave.common.ResourceId initiatingUserId = 3;
+        weave.common.ResourceId previousUserId = 4;
+    }
+}
+
+message BoltLockTrait {
+    BoltState state = 1;
+    BoltActuatorState actuatorState = 2;
+    BoltLockedState lockedState = 3;
+    BoltLockActorStruct boltLockActor = 4;
+    google.protobuf.Timestamp lockedStateLastChangedAt = 5;
+
+    enum BoltState {
+        BOLT_STATE_UNSPECIFIED = 0;
+        BOLT_STATE_RETRACTED = 1;
+        BOLT_STATE_EXTENDED = 2;
+    }
+
+    enum BoltLockActorMethod {
+        BOLT_LOCK_ACTOR_METHOD_UNSPECIFIED = 0;
+        BOLT_LOCK_ACTOR_METHOD_OTHER = 1;
+        BOLT_LOCK_ACTOR_METHOD_PHYSICAL = 2;
+        BOLT_LOCK_ACTOR_METHOD_KEYPAD_PIN = 3;
+        BOLT_LOCK_ACTOR_METHOD_LOCAL_IMPLICIT = 4;
+        BOLT_LOCK_ACTOR_METHOD_REMOTE_USER_EXPLICIT = 5;
+        BOLT_LOCK_ACTOR_METHOD_REMOTE_USER_IMPLICIT = 6;
+        BOLT_LOCK_ACTOR_METHOD_REMOTE_USER_OTHER = 7;
+        BOLT_LOCK_ACTOR_METHOD_REMOTE_DELEGATE = 8;
+        BOLT_LOCK_ACTOR_METHOD_LOW_POWER_SHUTDOWN = 9;
+        BOLT_LOCK_ACTOR_METHOD_VOICE_ASSISTANT = 10;
+    }
+
+    enum BoltActuatorState {
+        BOLT_ACTUATOR_STATE_UNSPECIFIED = 0;
+        BOLT_ACTUATOR_STATE_OK = 1;
+        BOLT_ACTUATOR_STATE_LOCKING = 2;
+        BOLT_ACTUATOR_STATE_UNLOCKING = 3;
+        BOLT_ACTUATOR_STATE_MOVING = 4;
+        BOLT_ACTUATOR_STATE_JAMMED_LOCKING = 5;
+        BOLT_ACTUATOR_STATE_JAMMED_UNLOCKING = 6;
+        BOLT_ACTUATOR_STATE_JAMMED_OTHER = 7;
+    }
+
+    enum BoltLockedState {
+        BOLT_LOCKED_STATE_UNSPECIFIED = 0;
+        BOLT_LOCKED_STATE_UNLOCKED = 1;
+        BOLT_LOCKED_STATE_LOCKED = 2;
+        BOLT_LOCKED_STATE_UNKNOWN = 3;
+    }
+
+    message BoltLockActorStruct {
+        BoltLockActorMethod method = 1;
+        weave.common.ResourceId originator = 2;
+        weave.common.ResourceId agent = 3;
+    }
+
+    message BoltLockChangeRequest {
+        BoltState state = 1;
+        BoltLockActorStruct boltLockActor = 4;
+    }
+
+    message BoltActuatorStateChangeEvent {
+        BoltState state = 1;
+        BoltActuatorState actuatorState = 2;
+        BoltLockedState lockedState = 3;
+        BoltLockActorStruct boltLockActor = 4;
+    }
+}
+
+message SensorAssociationTrait {
+    repeated SensorDeviceStatus sensors = 1;
+    weave.common.ResourceId associatedSensorDeviceId = 2;
+
+    enum StatusCode {
+        STATUS_CODE_UNSPECIFIED = 0;
+        STATUS_CODE_SUCCESS = 1;
+        STATUS_CODE_FAILURE = 2;
+        STATUS_CODE_SENSOR_ALREADY_ASSOCIATED_OTHER = 3;
+        STATUS_CODE_SENSOR_ALREADY_ASSOCIATED_SELF = 4;
+        STATUS_CODE_SENSOR_INVALID = 5;
+        STATUS_CODE_USER_SETTING_INVALID = 6;
+    }
+
+    enum SensorAssociationStatus {
+        SENSOR_ASSOCIATION_STATUS_UNSPECIFIED = 0;
+        SENSOR_ASSOCIATION_STATUS_ASSOCIATED_SELF = 1;
+        SENSOR_ASSOCIATION_STATUS_ASSOCIATED_OTHER = 2;
+        SENSOR_ASSOCIATION_STATUS_DEFAULT = 3;
+        SENSOR_ASSOCIATION_STATUS_ELIGIBLE = 4;
+        SENSOR_ASSOCIATION_STATUS_INELIGIBLE = 5;
+    }
+
+    message SetUserSensorAssociationRequest {
+        weave.common.ResourceId sensorDeviceId = 1;
+    }
+
+    message SetUserSensorAssociationResponse {
+        StatusCode status = 1;
+    }
+
+    message SensorDeviceStatus {
+        weave.common.ResourceId deviceId = 1;
+        SensorAssociationStatus sensorAssociationStatus = 2;
+        repeated SensorAssociationStatus sensorAssociationStatusList = 3;
+    }
+}
+
+message PincodeInputTrait {
+    PincodeInputState pincodeInputState = 1;
+
+    enum PincodeEntryResult {
+        PINCODE_ENTRY_RESULT_UNSPECIFIED = 0;
+        PINCODE_ENTRY_RESULT_FAILURE_INVALID_PINCODE = 1;
+        PINCODE_ENTRY_RESULT_FAILURE_OUT_OF_SCHEDULE = 2;
+        PINCODE_ENTRY_RESULT_FAILURE_PINCODE_DISABLED = 3;
+        PINCODE_ENTRY_RESULT_SUCCESS = 4;
+    }
+
+    enum PincodeInputState {
+        PINCODE_INPUT_STATE_UNSPECIFIED = 0;
+        PINCODE_INPUT_STATE_ENABLED = 1;
+        PINCODE_INPUT_STATE_DISABLED = 2;
+    }
+
+    message KeypadEntryEvent {
+        google.protobuf.BoolValue pincodeCredentialEnabled = 1;
+        weave.common.ResourceId userId = 2;
+        uint32 invalidEntryCount = 3;
+        PincodeEntryResult pincodeEntryResult = 4;
+    }
+
+    message PincodeInputStateChangeEvent {
+        PincodeInputState pincodeInputState = 1;
+        weave.common.ResourceId userId = 2;
+    }
+}
+
+message TamperTrait {
+    TamperState tamperState = 1;
+    google.protobuf.Timestamp firstObservedAt = 2;
+    google.protobuf.Timestamp firstObservedAtMs = 3;
+
+    enum TamperState {
+        TAMPER_STATE_UNSPECIFIED = 0;
+        TAMPER_STATE_CLEAR = 1;
+        TAMPER_STATE_TAMPERED = 2;
+        TAMPER_STATE_UNKNOWN = 3;
+    }
+
+    message ResetTamperRequest {
+    }
+
+    message TamperStateChangeEvent {
+        TamperState tamperState = 1;
+        TamperState priorTamperState = 2;
+    }
+}
+
+message UserNFCTokenAccessTrait {
+    enum UserNFCTokenAccessResult {
+        USER_NFC_TOKEN_ACCESS_RESULT_UNSPECIFIED = 0;
+        USER_NFC_TOKEN_ACCESS_RESULT_SUCCESS = 1;
+        USER_NFC_TOKEN_ACCESS_RESULT_FAILURE_UNKNOWN_TOKEN = 2;
+        USER_NFC_TOKEN_ACCESS_RESULT_FAILURE_INVALID_TOKEN = 3;
+        USER_NFC_TOKEN_ACCESS_RESULT_FAILURE_OUT_OF_SCHEDULE = 4;
+        USER_NFC_TOKEN_ACCESS_RESULT_FAILURE_TOKEN_DISABLED = 5;
+        USER_NFC_TOKEN_ACCESS_RESULT_FAILURE_INVALID_VERSION = 6;
+        USER_NFC_TOKEN_ACCESS_RESULT_FAILURE_OTHER_REASON = 7;
+    }
+
+    message UserNFCTokenAccessEvent {
+        UserNFCTokenAccessResult result = 1;
+        weave.common.ResourceId tokenId = 2;
+        weave.common.ResourceId userId = 3;
+    }
+}
+
+message UserNFCTokensTrait {
+    repeated UserNFCTokenData userNfcTokens = 1;
+
+    message UserNFCTokenData {
+        weave.common.ResourceId userId = 1;
+        weave.common.ResourceId tokenDeviceId = 2;
+        bool enabled = 3;
+        repeated weave.common.ResourceId structureIds = 4;
+        string label = 5;
+        UserNFCTokenMetadataTrait.Metadata metadata = 6;
+    }
+}
+
+message UserNFCTokenMetadataTrait {
+    Metadata metadata = 1;
+
+    message Metadata {
+        string serialNumber = 1;
+        string tagNumber = 2;
+    }
+}
+
+message BoltLockCapabilitiesTrait {
+    BoltLockCapabilitiesHandedness handedness = 1;
+    google.protobuf.Duration maxAutoRelockDuration = 2;
+
+    enum BoltLockCapabilitiesHandedness {
+        BOLT_LOCK_CAPABILITIES_HANDEDNESS_UNSPECIFIED = 0;
+        BOLT_LOCK_CAPABILITIES_HANDEDNESS_RIGHT = 1;
+        BOLT_LOCK_CAPABILITIES_HANDEDNESS_LEFT = 2;
+        BOLT_LOCK_CAPABILITIES_HANDEDNESS_FIXED_UNKNOWN = 3;
+    }
+}
+
+message UserPincodesCapabilitiesTrait {
+    uint32 minPincodeLength = 1;
+    uint32 maxPincodeLength = 2;
+    uint32 maxPincodesSupported = 3;
+}
+
+message BoltLockSettingsTrait {
+    bool autoRelockOn = 1;
+    google.protobuf.Duration autoRelockDuration = 2;
+}
+
+message DoorCheckSettingsTrait {
+    google.protobuf.BoolValue doorCheckEnabled = 1;
+    weave.common.ResourceId sensorDeviceId = 2;
+}
+
+message UserNFCTokenSettingsTrait {
+    map<uint32, UserNFCToken> userNfcTokens = 1;
+
+    message UserNFCToken {
+        weave.common.ResourceId userId = 1;
+        weave.common.ResourceId tokenDeviceId = 2;
+        bytes publicKey = 3;
+    }
+}
+
+message PincodeInputSettingsTrait {
+    uint32 wrongEntryCodeLimit = 1;
+    google.protobuf.Duration wrongEntryDisableTime = 2;
+}
