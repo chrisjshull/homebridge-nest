@@ -162,7 +162,7 @@ NestPlatform.prototype = {
                         protect_count: accessoriesMounted.filter(el => el == 'NestProtectAccessory').length,
                         lock_count: accessoriesMounted.filter(el => el == 'NestLockAccessory').length
                     },
-                }).catch(err => { });
+                }).catch(() => { });
             }
         } catch(err) {
             this.log.error(err);
