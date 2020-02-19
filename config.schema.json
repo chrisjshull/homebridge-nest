@@ -16,7 +16,7 @@
         "title": "Access Token",
         "type": "string",
         "description": "See Using a Nest Account section of project page for help.",
-        "placeholder": "Nest service access token"
+        "placeholder": "Nest Access Token"
       },
       "googleAuth": {
         "title": "Google Auth",
