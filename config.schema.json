@@ -12,22 +12,6 @@
         "default": "Nest",
         "description": "The name that will appear in your homebridge log"
       },
-      "email": {
-        "title": "Email",
-        "type": "string",
-        "format": "email",
-        "placeholder": "Email",
-        "description": "Your Nest Account email address"
-      },
-      "password": {
-        "title": "Password",
-        "type": "string",
-        "placeholder": "Password",
-        "description": "Your Nest Account password",
-        "options": {
-          "hidden": true
-        }
-      },
       "access_token": {
         "title": "Access Token",
         "type": "string",
@@ -107,14 +91,6 @@
       "displayFlex": true,
       "flex-direction": "row",
       "items": [
-        {
-            "key": "email",
-            "type": "email"
-        },
-        {
-            "key": "password",
-            "type": "password"
-        },
         {
             "key": "access_token",
             "type": "access_token"
