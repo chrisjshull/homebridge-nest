@@ -15,17 +15,17 @@
       "access_token": {
         "title": "Access Token",
         "type": "string",
-        "description": "Required field when using access token: See Access Token Mode Section of project page (you probably won't need this mode).",
+        "description": "See Using a Nest Account section of project page for help.",
         "placeholder": "Nest service access token"
       },
       "googleAuth": {
         "title": "Google Auth",
         "type": "object",
-        "description": "See Using a Google Account section of project page for help.",
         "properties": {
           "issueToken": {
               "title": "Issue Token",
-              "type": "string"
+              "type": "string",
+              "description": "See Using a Google Account section of project page for help."
             },
           "cookies": {
               "title": "Cookies",
