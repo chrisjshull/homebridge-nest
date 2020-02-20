@@ -1,0 +1,61 @@
+{
+	"pluginAlias": "Nest",
+	"pluginType": "platform",
+	"headerDisplay": "Nest plug-in for Homebridge using the native Nest API<p>See the GitHub page for help selecting your autentication type.",
+	"footerDisplay": "For help please see the [Github](https://github.com/chrisjshull/homebridge-nest#readme).",
+	"singular": true,
+	"schema": {
+		"type": "object",
+		"properties": {
+			"access_token": {
+				"title": "Nest Authentication",
+				"type": "string",
+				"placeholder": "Your Nest Account access token",
+                "description": "",
+				"required": false
+			},
+			"googleAuth": {
+				"title": "Google Authentication",
+				"type": "object",
+				"properties": {
+					"issueToken": {
+						"title": "Issue Token",
+						"type": "string",
+						"default": "",
+						"required": false
+					},
+					"cookies": {
+						"title": "Cookies",
+						"type": "string",
+						"default": "",
+						"required": false
+					},
+					"apiKey": {
+						"title": "API Key",
+						"type": "string",
+						"default": "",
+						"required": false
+					}
+				}
+			}
+		}
+
+	},
+
+	"form": [
+		{
+			"type": "fieldset",
+			"expandable": true,
+			"title": "Nest Authentication",
+			"description": "To use a Nest Account with homebridge-nest, you will need to obtain an access token from the Nest web app. (Note - no Nest developer account is required.) Simply go to https://home.nest.com in your browser and log in. Once that's done, go to https://home.nest.com/session in your browser, and copy your full access_token.",
+			"items": ["access_token"]
+		},
+				{
+			"type": "fieldset",
+			"expandable": true,
+			"title": "Google Authentication",
+			"description": "Google Accounts (mandatory for new Nest devices after August 2019, with an optional migration for earlier accounts) are now supported. Setting up a Google Account with homebridge-nest is a pain, but only needs to be done once, as long as you don't log out of your Google Account.",
+			"items": ["issueToken", "cookies", "apiKey"]
+		}
+	]
+}
