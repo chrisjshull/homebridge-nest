@@ -1,0 +1,149 @@
+{
+  "pluginAlias": "Nest",
+  "pluginType": "platform",
+  "singular": true,
+  "headerDisplay": "Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API",
+  "footerDisplay": "If you are using a Nest accout see the [Using a Nest Account](https://github.com/chrisjshull/homebridge-nest#using-a-nest-account) section on GitHub for help on setting this plugin up with your Nest account. If you are using a Google Account then see [Using a Google Account](https://github.com/chrisjshull/homebridge-nest#using-a-google-account) section on GitHub for help on setting this plugin up with your Google account.<p> See [Feature Options](https://github.com/chrisjshull/homebridge-nest#feature-options) section on GitHub to see additional features that can be enabled/disabled.",
+  "schema": {
+    "type": "object",
+    "properties": {
+        "name": {
+        "title": "Name",
+        "type": "string",
+        "default": "Nest",
+        "description": "The name that will appear in your homebridge log"
+      },
+      "access_token": {
+        "title": "Access Token",
+        "type": "string",
+        "description": "See Using a Nest Account section of project page for help.",
+        "placeholder": "Nest Access Token"
+      },
+      "googleAuth": {
+        "title": "Google Auth",
+        "type": "object",
+        "properties": {
+          "issueToken": {
+              "title": "Issue Token",
+              "type": "string",
+              "description": "See Using a Google Account section of project page for help."
+            },
+          "cookies": {
+              "title": "Cookies",
+              "type": "string"
+            },
+          "apiKey": {
+              "title": "API Key",
+              "type": "string"
+            }
+    }
+  },
+      "structureId": {
+        "title": "Your Structure's ID",
+        "type": "string",
+        "description": "Optional structureId to filter - Nest Structures are equivalent to HomeKit Homes (see logs on first run for each device's structureId)."
+      },
+      "fanDurationMinutes": {
+        "title": "Fan Duration",
+        "type": "integer",
+        "placeholder": "Optional, Default is 15",
+        "description": "Number of minutes to run the fan when manually turned on"
+      },
+      "options": {
+        "title": "Feature Options",
+        "type": "array",
+        "items": {
+         "type": "string",
+         "placeholder": "Thermostat.Disable"
+       }
+      }
+    },
+    "oneOf": [
+      {
+        "required": ["email", "password"]
+      },
+      {
+        "required": ["googleAuth"]
+      }
+    ]
+  },
+  "layout": [
+        {
+      "type": "flex",
+      "flex-flow": "row wrap",
+      "items": [
+        {
+            "key": "name",
+            "type": "name"
+        }
+      ]
+    },
+    {
+      "type": "fieldset",
+      "title": "Nest Account",
+      "description": "Expand when using a Nest Account",
+      "expandable": true,
+      "flex-flow": "row wrap",
+      "displayFlex": true,
+      "flex-direction": "row",
+      "items": [
+        {
+            "key": "access_token",
+            "type": "access_token"
+        }
+      ]
+    },
+    {
+      "type": "fieldset",
+      "title": "Google Account",
+      "description": "Expand when using a Google Account",
+      "expandable": true,
+      "displayFlex": true,
+      "items": [
+        {
+            "type": "flex",
+            "flex-flow": "row wrap",
+            "items": [
+              "googleAuth.issueToken"
+            ]
+        },
+        {
+            "type": "flex",
+            "flex-flow": "row wrap",
+            "items": [
+              "googleAuth.cookies",
+              "googleAuth.apiKey"
+            ]
+        }
+      ]
+    },
+    {
+      "type": "fieldset",
+      "title": "Optional Fields",
+      "expandable": true,
+      "items": [
+        "structureId",
+        "fanDurationMinutes",
+{
+          "key": "options",
+          "add": "Add Another Option",
+          "type": "fieldset",
+          "expandable": true,
+          "items": [
+            {
+              "type": "string",
+              "description": "Feature Options to Enable/Disable.",
+              "displayFlex": true,
+              "flex-direction": "row",
+              "items": [
+                {
+                  "key": "options[]"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
