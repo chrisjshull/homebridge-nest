@@ -1,6 +1,7 @@
 {
   "pluginAlias": "Nest",
   "pluginType": "platform",
+  "singular": true,
   "headerDisplay": "Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API",
   "footerDisplay": "If you are using a Nest accout see the [Using a Nest Account](https://github.com/chrisjshull/homebridge-nest#using-a-nest-account) section on GitHub for help on setting this plugin up with your Nest account. If you are using a Google Account then see [Using a Google Account](https://github.com/chrisjshull/homebridge-nest#using-a-google-account) section on GitHub for help on setting this plugin up with your Google account.<p> See [Feature Options](https://github.com/chrisjshull/homebridge-nest#feature-options) section on GitHub to see additional features that can be enabled/disabled.",
   "schema": {
@@ -37,11 +38,6 @@
             }
     }
   },
-      "pin": {
-        "title": "Pin",
-        "type": "integer",
-        "description": "PIN code sent to your mobile device for 2-factor authentication - see Using a Nest Account Section of project page for help."
-      },
       "structureId": {
         "title": "Your Structure's ID",
         "type": "string",
@@ -126,7 +122,6 @@
       "title": "Optional Fields",
       "expandable": true,
       "items": [
-        "pin",
         "structureId",
         "fanDurationMinutes",
 {
