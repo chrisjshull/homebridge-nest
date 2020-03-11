@@ -23,13 +23,12 @@ Promise.prototype.return = function(val) {
 };
 
 class NestPlatform {
-    accessoryLookup = {};
-
     constructor(log, config, api) {
         // auth info
         this.config = config;
         this.log = log;
         this.api = api;
+        this.accessoryLookup = {};
     }
 
     optionSet(key, serialNumber, deviceId) {
