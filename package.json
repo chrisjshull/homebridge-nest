@@ -7,6 +7,7 @@
     "lodash.debounce": "^4.0.8",
     "pbf": "^3.2.1",
     "promise-prompt": "^1.1.0",
+    "promise.prototype.finally": "^3.1.2",
     "protobufjs": "^6.8.8",
     "querystring": "^0.2.0",
     "uuid": "^3.3.3",
@@ -35,7 +36,7 @@
     "prepublishOnly": "npm run lint",
     "preversion": "npm run lint"
   },
-  "version": "4.4.2",
+  "version": "4.4.4",
   "warnings": [
     {
       "code": "ENOTSUP",
@@ -43,7 +44,7 @@
         "node": ">=7.0.0",
         "homebridge": ">=0.2.5"
       },
-      "pkgid": "homebridge-nest@4.4.2"
+      "pkgid": "homebridge-nest@4.4.4"
     }
   ]
 }

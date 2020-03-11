@@ -1,9 +1,12 @@
+'use strict';
+
 const axios = require('axios');
 
 const NestConnection = require('./lib/nest-connection');
 
-let Service, Characteristic, Accessory, hap, uuid;
 let ThermostatAccessory, HomeAwayAccessory, TempSensorAccessory, ProtectAccessory, LockAccessory;
+
+require('promise.prototype.finally').shim(Promise);
 
 Promise.delay = function(time_ms) {
     return new Promise(resolve => setTimeout(resolve, time_ms));
@@ -19,64 +22,40 @@ Promise.prototype.return = function(val) {
     });
 };
 
-module.exports = function(homebridge) {
-    Service = homebridge.hap.Service;
-    Characteristic = homebridge.hap.Characteristic;
-    Accessory = homebridge.hap.Accessory;
-    hap = homebridge.hap;
-    uuid = homebridge.hap.uuid;
+class NestPlatform {
+    accessoryLookup = {};
 
-    const exportedTypes = {
-        Accessory: Accessory,
-        Service: Service,
-        Characteristic: Characteristic,
-        hap: hap,
-        uuid: uuid
-    };
-
-    require('./lib/nest-device-accessory')(exportedTypes); // eslint-disable-line global-require
-    ThermostatAccessory = require('./lib/nest-thermostat-accessory')(exportedTypes); // eslint-disable-line global-require
-    HomeAwayAccessory = require('./lib/nest-homeaway-accessory')(exportedTypes); // eslint-disable-line global-require
-    TempSensorAccessory = require('./lib/nest-tempsensor-accessory')(exportedTypes); // eslint-disable-line global-require
-    ProtectAccessory = require('./lib/nest-protect-accessory')(exportedTypes); // eslint-disable-line global-require
-    LockAccessory = require('./lib/nest-lock-accessory')(exportedTypes); // eslint-disable-line global-require
-
-    homebridge.registerPlatform('homebridge-nest', 'Nest', NestPlatform);
-};
-
-function NestPlatform(log, config, api) {
-    // auth info
-    this.config = config;
-
-    this.log = log;
-    this.api = api;
-    this.accessoryLookup = {};
-}
-
-const setupConnection = async function(config, log, verbose, fieldTestMode) {
-    if (!config.access_token && !config.googleAuth && (!config.email || !config.password)) {
-        throw('You did not specify your Nest account credentials {\'email\',\'password\'}, or an access_token, or googleAuth, in config.json');
+    constructor(log, config, api) {
+        // auth info
+        this.config = config;
+        this.log = log;
+        this.api = api;
     }
 
-    if (config.googleAuth && (!config.googleAuth.issueToken || !config.googleAuth.cookies || !config.googleAuth.apiKey)) {
-        throw('When using googleAuth, you must provide issueToken, cookies and apiKey in config.json. Please see README.md for instructions');
-    }
-
-    const conn = new NestConnection(config, log, verbose, fieldTestMode);
-
-    try {
-        await conn.auth();
-        return conn;
-    } catch(error) {
-        throw('Unable to connect to Nest service.', error);
-    }
-};
-
-NestPlatform.prototype = {
-    optionSet: function (key, serialNumber, deviceId) {
+    optionSet(key, serialNumber, deviceId) {
         return key && this.config.options && (this.config.options.includes(key) || (serialNumber && this.config.options.includes(key + '.' + serialNumber)) || (deviceId && this.config.options.includes(key + '.' + deviceId)));
-    },
-    accessories: async function (callback) {
+    }
+
+    async setupConnection(verbose, fieldTestMode) {
+        if (!this.config.access_token && !this.config.googleAuth && (!this.config.email || !this.config.password)) {
+            throw('You did not specify your Nest account credentials {\'email\',\'password\'}, or an access_token, or googleAuth, in config.json');
+        }
+
+        if (this.config.googleAuth && (!this.config.googleAuth.issueToken || !this.config.googleAuth.cookies || !this.config.googleAuth.apiKey)) {
+            throw('When using googleAuth, you must provide issueToken, cookies and apiKey in config.json. Please see README.md for instructions');
+        }
+
+        const conn = new NestConnection(this.config, this.log, verbose, fieldTestMode);
+
+        try {
+            await conn.auth();
+            return conn;
+        } catch(error) {
+            throw('Unable to connect to Nest service.', error);
+        }
+    }
+
+    async accessories(callback) {
         this.log('Fetching Nest devices.');
 
         const generateAccessories = function(data) {
@@ -88,10 +67,7 @@ NestPlatform.prototype = {
                     'temp_sensor': 'TempSensor.Disable',
                     'protect': 'Protect.Disable',
                     'home_away_sensor': 'HomeAway.Disable',
-                    'cam': 'Cam.Disable',
-                    'lock': 'Lock.Disable',
-                    'guard': 'Guard.Disable',
-                    'detect': 'Guard.Disable',
+                    'lock': 'Lock.Disable'
                 };
 
                 const devices = (data.devices && data.devices[DeviceType.deviceGroup]) || {};
@@ -138,9 +114,8 @@ NestPlatform.prototype = {
             }
         }.bind(this);
 
-        // let nestApiData, protobufApiData;
         try {
-            this.conn = await setupConnection(this.config, this.log, this.optionSet('Debug.Verbose'), this.optionSet('Nest.FieldTest.Enable'));
+            this.conn = await this.setupConnection(this.optionSet('Debug.Verbose'), this.optionSet('Nest.FieldTest.Enable'));
             await this.conn.subscribe(handleUpdates);
             await this.conn.observe(handleUpdates);
 
@@ -153,15 +128,11 @@ NestPlatform.prototype = {
             let accessoriesMounted = this.accessoryLookup.map(el => el.constructor.name);
 
             if (this.config.readyCallback) {
-                axios({
-                    method: 'POST',
-                    url: this.config.readyCallback,
-                    data: {
-                        thermostat_count: accessoriesMounted.filter(el => el == 'NestThermostatAccessory').length,
-                        tempsensor_count: accessoriesMounted.filter(el => el == 'NestTempSensorAccessory').length,
-                        protect_count: accessoriesMounted.filter(el => el == 'NestProtectAccessory').length,
-                        lock_count: accessoriesMounted.filter(el => el == 'NestLockAccessory').length
-                    },
+                axios.post(this.config.readyCallback, {
+                    thermostat_count: accessoriesMounted.filter(el => el == 'NestThermostatAccessory').length,
+                    tempsensor_count: accessoriesMounted.filter(el => el == 'NestTempSensorAccessory').length,
+                    protect_count: accessoriesMounted.filter(el => el == 'NestProtectAccessory').length,
+                    lock_count: accessoriesMounted.filter(el => el == 'NestLockAccessory').length
                 }).catch(() => { });
             }
         } catch(err) {
@@ -171,4 +142,23 @@ NestPlatform.prototype = {
             }
         }
     }
+}
+
+module.exports = function(homebridge) {
+    const exportedTypes = {
+        Accessory: homebridge.hap.Accessory,
+        Service: homebridge.hap.Service,
+        Characteristic: homebridge.hap.Characteristic,
+        hap: homebridge.hap,
+        uuid: homebridge.hap.uuid
+    };
+
+    require('./lib/nest-device-accessory')(exportedTypes); // eslint-disable-line global-require
+    ThermostatAccessory = require('./lib/nest-thermostat-accessory')(); // eslint-disable-line global-require
+    HomeAwayAccessory = require('./lib/nest-homeaway-accessory')(); // eslint-disable-line global-require
+    TempSensorAccessory = require('./lib/nest-tempsensor-accessory')(); // eslint-disable-line global-require
+    ProtectAccessory = require('./lib/nest-protect-accessory')(); // eslint-disable-line global-require
+    LockAccessory = require('./lib/nest-lock-accessory')(); // eslint-disable-line global-require
+
+    homebridge.registerPlatform('homebridge-nest', 'Nest', NestPlatform);
 };
