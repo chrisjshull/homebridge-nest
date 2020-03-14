@@ -5,6 +5,10 @@ Integrate your Nest Thermostat (including Nest Temperature Sensors), Nest Protec
 
 Currently, homebridge-nest supports all Nest Thermostat, Protect, and Nest x Yale Lock models, now including the EU/UK model of the Thermostat E with Heat Link.
 
+You can discuss this plugin on [Discord](https://discord.gg/RaArf4), in the #nest channel.
+
+[![Discord Status](https://img.shields.io/discord/432663330281226270.svg?label=discord)](https://discord.gg/RaArf4)
+
 # Starling Home Hub
 
 If you want a plug-and-play Nest integration solution, check out [Starling Home Hub](https://www.starlinghome.io). It's basically "homebridge-nest in a box" and connects to your home router, so you'll be up and running in minutes without needing to set up a Homebridge server or manually edit configuration files. Starling Home Hub also supports Nest Cameras and Nest Secure.
