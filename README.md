@@ -47,7 +47,7 @@ Required fields when using a Google Account: (see below for set-up info)
 
 Optional fields:
 
-* `"structureId"`: `"your structure's ID"` // optional structureId to filter to (see logs on first run for each device's structureId) - Nest "structures" are equivalent to HomeKit "homes"
+* `"structureId"`: `"your structure's ID"` // optional comma-separated list of structureIds to filter to (see logs on first run for each device's structureId) - Nest "structures" are equivalent to HomeKit "homes"
 * `"options"`: `[ "feature1", "feature2", ... ]` // optional list of features to enable/disable (see 'Feature Options' below)
 * `"fanDurationMinutes"`: number of minutes to run the fan when manually turned on (optional, default is 15)
 

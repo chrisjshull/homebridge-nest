@@ -74,7 +74,7 @@ class NestPlatform {
                     const serialNumber = device.serial_number;
                     if (!this.optionSet(disableFlags[DeviceType.deviceType], serialNumber, deviceId)) {
                         const structureId = device.structure_id;
-                        if (this.config.structureId && this.config.structureId !== structureId) {
+                        if (this.config.structureId && !this.config.structureId.split(',').includes(structureId)) {
                             this.log('Skipping device ' + deviceId + ' because it is not in the required structure. Has ' + structureId + ', looking for ' + this.config.structureId + '.');
                             continue;
                         }

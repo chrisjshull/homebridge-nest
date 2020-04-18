@@ -41,7 +41,7 @@
       "structureId": {
         "title": "Your Structure's ID",
         "type": "string",
-        "description": "Optional structureId to filter - Nest Structures are equivalent to HomeKit Homes (see logs on first run for each device's structureId)."
+        "description": "Optional comma-separated list of structureIds to filter - Nest Structures are equivalent to HomeKit Homes (see logs on first run for each device's structureId)."
       },
       "fanDurationMinutes": {
         "title": "Fan Duration",
