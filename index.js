@@ -46,11 +46,10 @@ class NestPlatform {
 
         const conn = new NestConnection(this.config, this.log, verbose, fieldTestMode);
 
-        try {
-            await conn.auth();
+        if (await conn.auth()) {
             return conn;
-        } catch(error) {
-            throw('Unable to connect to Nest service.', error);
+        } else {
+            throw('Unable to authenticate with Google/Nest.');
         }
     }
 
