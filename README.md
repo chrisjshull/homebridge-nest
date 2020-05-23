@@ -59,7 +59,7 @@ To use a Nest Account with homebridge-nest, you will need to obtain an access to
 {"2fa_state":"not_enrolled","access_token":"XXX","email":"...","expires_in":"...", ...}
 ```
 
-Simply set `"access_token"` in your `config.json` file under the `"platform": "Nest"` entry to the value of `access_token` in the above string (the `XXX`), which will be a long string of letters and numbers and punctuation.
+Simply set `"access_token"` in your `config.json` file under the `"platform": "Nest"` entry to the value of `access_token` in the above string (the `XXX`), which will be a long string of letters and numbers and punctuation. Do not log out of `home.nest.com`, as this will invalidate your credentials. Just close the browser tab.
 
 # Using a Google Account
 
