@@ -1,6 +1,7 @@
 # homebridge-nest
 
 [![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
+[![Discord](https://img.shields.io/discord/432663330281226270?color=728ED5&logo=discord&label=discord)](https://discord.gg/j5WwJTB)
 
 Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 4.4.7](https://github.com/chrisjshull/homebridge-nest/releases/tag/v4.4.7).
 
@@ -58,7 +59,7 @@ To use a Nest Account with homebridge-nest, you will need to obtain an access to
 {"2fa_state":"not_enrolled","access_token":"XXX","email":"...","expires_in":"...", ...}
 ```
 
-Simply set `"access_token"` in your `config.json` file under the `"platform": "Nest"` entry to the value of `access_token` in the above string (the `XXX`), which will be a long string of letters and numbers and punctuation.
+Simply set `"access_token"` in your `config.json` file under the `"platform": "Nest"` entry to the value of `access_token` in the above string (the `XXX`), which will be a long string of letters and numbers and punctuation. Do not log out of `home.nest.com`, as this will invalidate your credentials. Just close the browser tab.
 
 # Using a Google Account
 
