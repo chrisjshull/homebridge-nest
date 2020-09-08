@@ -50,7 +50,8 @@ Optional fields:
 
 * `"structureId"`: `"your structure's ID"` // optional structureId to filter to (see logs on first run for each device's structureId) - Nest "structures" are equivalent to HomeKit "homes"
 * `"options"`: `[ "feature1", "feature2", ... ]` // optional list of features to enable/disable (see 'Feature Options' below)
-* `"fanDurationMinutes"`: number of minutes to run the fan when manually turned on (optional, default is 15)
+* `"fanDurationMinutes"`: number of minutes to run the fan when manually turned on (optional, default is `15`)
+* `"hotWaterDurationMinutes"`: number of minutes to run the hot water when manually turned on (optional, default is `30`, only for systems with hot water control)
 
 # Using a Nest Account
 
