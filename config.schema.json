@@ -31,10 +31,6 @@
           "cookies": {
               "title": "Cookies",
               "type": "string"
-            },
-          "apiKey": {
-              "title": "API Key",
-              "type": "string"
             }
     }
   },
