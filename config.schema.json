@@ -35,7 +35,7 @@
            "apiKey": {		
                "title": "API Key",		
                "type": "string",
-               "default": "string"
+               "default": "AIzaSyAdkSIMNc51XGNEAYWasX9UOWkS5P6sZE4"
             }
     }
   },
