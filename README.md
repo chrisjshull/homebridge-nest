@@ -9,8 +9,6 @@ Integrate your Nest Thermostat (including the newly released $129 Google Nest Th
 
 Currently, homebridge-nest supports all Nest Thermostat, Protect, and Nest x Yale Lock models, now including the EU/UK model of the Thermostat E with Heat Link.
 
-*Note: Because as of the time of writing the economy $129.99 battery-powered Google Nest Thermostat is not yet generally available, we do not yet know if this plug-in will work with that thermostat.*
-
 # Starling Home Hub
 
 If you want a plug-and-play Nest integration solution, check out [Starling Home Hub](https://www.starlinghome.io). It's basically "homebridge-nest in a box" and connects to your home router, so you'll be up and running in minutes without needing to set up a Homebridge server, manually edit configuration files, or worry about authentication tokens. Starling Home Hub also supports Nest Cameras (including Dropcams) and Nest Secure (Guard and Detects).
