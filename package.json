@@ -8,7 +8,7 @@
     "pbf": "^3.2.1",
     "promise-prompt": "^1.1.0",
     "promise.prototype.finally": "^3.1.2",
-    "protobufjs": "^6.10.1",
+    "protobufjs": "^6.10.2",
     "querystring": "^0.2.0",
     "varint": "^6.0.0"
   },
@@ -35,7 +35,7 @@
     "prepublishOnly": "npm run lint",
     "preversion": "npm run lint"
   },
-  "version": "4.4.15",
+  "version": "4.5.0",
   "warnings": [
     {
       "code": "ENOTSUP",
@@ -43,7 +43,7 @@
         "node": ">=7.0.0",
         "homebridge": ">=0.2.5"
       },
-      "pkgid": "homebridge-nest@4.4.15"
+      "pkgid": "homebridge-nest@4.5.0"
     }
   ]
 }
