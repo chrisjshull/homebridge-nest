@@ -3,9 +3,9 @@
 [![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
 [![Discord](https://img.shields.io/discord/432663330281226270?color=728ED5&logo=discord&label=discord)](https://discord.gg/j5WwJTB)
 
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 4.5.1](https://github.com/chrisjshull/homebridge-nest/releases/tag/v4.5.1).
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 4.5.2](https://github.com/chrisjshull/homebridge-nest/releases/tag/v4.5.2).
 
-Integrate your Nest Thermostat (including the newly released $129 Google Nest Thermostat), Temperature Sensors, Nest Protect, and Nest x Yale Lock devices into your HomeKit system. Both Nest Accounts (pre-August 2019) and Google Accounts are supported.
+Integrate your Nest Thermostat (including the October 2020 $129 Google Nest Thermostat), Temperature Sensors, Nest Protect, and Nest x Yale Lock devices into your HomeKit system. Both Nest Accounts (pre-August 2019) and Google Accounts are supported.
 
 Currently, homebridge-nest supports all Nest Thermostat, Protect, and Nest x Yale Lock models, now including the EU/UK model of the Thermostat E with Heat Link.
 
@@ -67,18 +67,17 @@ Simply set `"access_token"` in your `config.json` file under the `"platform": "N
 
 Google Accounts (mandatory for new Nest devices after August 2019, with an optional migration for earlier accounts) are now supported. Setting up a Google Account with homebridge-nest is a pain, but only needs to be done once, as long as you don't log out of your Google Account.
 
-Google Accounts are configured using the `"googleAuth"` object in `config.json`, which contains three fields, `"issueToken"`, `"cookies"` and `"apiKey"`, and looks like this:
+Google Accounts are configured using the `"googleAuth"` object in `config.json`, which contains two fields, `"issueToken"` and `"cookies"`, and looks like this:
 
 ```
       "platform": "Nest",
       "googleAuth": {
         "issueToken": "https://accounts.google.com/o/oauth2/iframerpc?action=issueToken...",
-        "cookies": "OCAK=TOMPYI3cCPAt...; SID=ogftnk...; HSID=ApXSR...; ...; SIDCC=AN0-TYt...",
-        "apiKey": "AIzaS..."
+        "cookies": "OCAK=TOMPYI3cCPAt...; SID=ogftnk...; HSID=ApXSR...; ...; SIDCC=AN0-TYt..."
       },
 ```
 
-The values of `"issueToken"`, `"cookies"` and `"apiKey"` are specific to your Google Account. To get them, follow these steps (only needs to be done once, as long as you stay logged into your Google Account).
+The values of `"issueToken"` and `"cookies"` are specific to your Google Account. To get them, follow these steps (only needs to be done once, as long as you stay logged into your Google Account).
 
 1. Open a Chrome browser tab in Incognito Mode (or clear your cache).
 2. Open Developer Tools (View/Developer/Developer Tools).
@@ -90,10 +89,7 @@ The values of `"issueToken"`, `"cookies"` and `"apiKey"` are specific to your Go
 8. In the 'Filter' box, enter `oauth2/iframe`
 9. Several network calls will appear in the Dev Tools window. Click on the last `iframe` call.
 10. In the Headers tab, under Request Headers, copy the entire `cookie` (**include the whole string which is several lines long and has many field/value pairs** - do not include the `cookie:` name). This is your `"cookies"` in `config.json`.
-11. In the 'Filter' box, enter `issue_jwt`
-12. Click on the last `issue_jwt` call.
-13. In the Headers tab, under Request Headers, copy the entire `x-goog-api-key` (do not include the `x-goog-api-key:` name). This is your `"apiKey"` in `config.json`.
-14. Do not log out of `home.nest.com`, as this will invalidate your credentials. Just close the browser tab.
+11. Do not log out of `home.nest.com`, as this will invalidate your credentials. Just close the browser tab.
 
 # HomeKit Accessory Types
 
