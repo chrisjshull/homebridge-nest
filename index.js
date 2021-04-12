@@ -137,8 +137,8 @@ class NestPlatform {
     }
 
     async setupConnection(verbose, fieldTestMode) {
-        if (!this.config.access_token && !this.config.googleAuth && (!this.config.email || !this.config.password)) {
-            throw('You did not specify your Nest account credentials {\'email\',\'password\'}, or an access_token, or googleAuth, in config.json');
+        if (!this.config.access_token && !this.config.googleAuth && !this.config.refreshToken && (!this.config.email || !this.config.password)) {
+            throw('You did not specify your Nest account credentials {\'email\',\'password\'}, or an access_token, refreshToken, or googleAuth, in config.json');
         }
 
         if (this.config.googleAuth && (!this.config.googleAuth.issueToken || !this.config.googleAuth.cookies)) { // || !this.config.googleAuth.apiKey)) {
