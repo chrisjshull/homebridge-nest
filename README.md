@@ -3,15 +3,17 @@
 [![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
 [![Discord](https://img.shields.io/discord/432663330281226270?color=728ED5&logo=discord&label=discord)](https://discord.gg/j5WwJTB)
 
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 4.5.3](https://github.com/chrisjshull/homebridge-nest/releases/tag/v4.5.3).
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 4.6.0](https://github.com/chrisjshull/homebridge-nest/releases/tag/v4.6.0).
 
-Integrate your Nest Thermostat (including the October 2020 $129 Google Nest Thermostat), Temperature Sensors, Nest Protect, and Nest x Yale Lock devices into your HomeKit system. Both Nest Accounts (pre-August 2019) and Google Accounts are supported.
+Integrate your Nest Thermostat, Temperature Sensors, Nest Protect, and Nest x Yale Lock devices into your HomeKit system. Both Nest Accounts (pre-August 2019) and Google Accounts are supported.
 
-Currently, homebridge-nest supports all Nest Thermostat, Protect, and Nest x Yale Lock models, now including the EU/UK model of the Thermostat E with Heat Link.
+Currently, homebridge-nest supports all Nest Thermostat, Protect, and Nest x Yale Lock models, including the EU/UK model of the Thermostat E with Heat Link and the October 2020 model Nest Thermostat with mirror display.
+
+We do not support the discontinued Nest Secure system. We also do not support cameras - but for that, there is the excellent [homebridge-nest-cam](https://github.com/Brandawg93/homebridge-nest-cam) plug-in.
 
 # Starling Home Hub
 
-If you want a plug-and-play Nest integration solution, check out [Starling Home Hub](https://www.starlinghome.io). It's basically "homebridge-nest in a box" and connects to your home router, so you'll be up and running in minutes without needing to set up a Homebridge server, manually edit configuration files, or worry about authentication tokens. Starling Home Hub also supports Nest Cameras (including Dropcams) and Nest Secure (Guard and Detects).
+If you want a plug-and-play Nest integration solution, check out [Starling Home Hub](https://www.starlinghome.io). It's a little box that connects to your home router, so you'll be up and running in minutes without needing to set up a Homebridge server, manually edit configuration files, or worry about authentication tokens. Starling Home Hub also supports Nest Cameras (including the August 2021 battery-powered models) and Nest Secure (Guard and Detects).
 
 If you want a DIY solution, then read on, as homebridge-nest is for you!
 
@@ -41,7 +43,12 @@ Required fields when using a Nest Account with an access token: (see below for s
 * `"platform"`: Must always be `"Nest"`
 * `"access_token"`: Nest service access token
 
-Required fields when using a Google Account: (see below for set-up info)
+Required fields when using a Google Account with a refresh token: (see below for set-up info)
+
+* `"platform"`: Must always be `"Nest"`
+* `"refreshToken"`: Google refresh token
+
+Required fields when using a Google Account with cookies: (see below for set-up info)
 
 * `"platform"`: Must always be `"Nest"`
 * `"googleAuth"`: Google authentication information
@@ -63,11 +70,28 @@ To use a Nest Account with homebridge-nest, you will need to obtain an access to
 
 Simply set `"access_token"` in your `config.json` file under the `"platform": "Nest"` entry to the value of `access_token` in the above string (the `XXX`), which will be a long string of letters and numbers and punctuation. Do not log out of `home.nest.com`, as this will invalidate your credentials. Just close the browser tab.
 
-# Using a Google Account
+# Using a Google Account - read this first
 
-Google Accounts (mandatory for new Nest devices after August 2019, with an optional migration for earlier accounts) are now supported. Setting up a Google Account with homebridge-nest is a pain, but only needs to be done once, as long as you don't log out of your Google Account.
+Google Accounts (mandatory for new Nest devices after August 2019, with an optional migration for earlier accounts) are fully supported.
 
-Google Accounts are configured using the `"googleAuth"` object in `config.json`, which contains two fields, `"issueToken"` and `"cookies"`, and looks like this:
+There are two ways to authenticate with Google - the refresh token method, and the cookies method. Please try the refresh token method first, and if you have issues, then try the cookies method. We recommend the refresh token method because cookies tend to expire after a few months, requiring you to go through the authentication process again, whereas the refresh token lasts forever (unless you change your Google Account password).
+
+# Using a Google Account - refresh token method
+
+Using the refresh token method, Google Accounts are configured using the `"refreshToken"` field in `config.json`, which looks like this:
+
+```
+      "platform": "Nest",
+      "refreshToken": "1//06itSm0rTAE4...",
+```
+
+The `"refreshToken"` is a code provided by Google when you log into your account, and we provide an easy-to-use tool to obtain it.
+
+Just run: `node login.js` and follow the instructions on the screen. You'll be prompted to navigate to a URL in your browser, log into Google, and copy and paste a code from your browser into the login tool. You'll then be provided with the `"refreshToken"` to add to `config.json`.
+
+# Using a Google Account - cookies method
+
+Using the cookies method, Google Accounts are configured using the `"googleAuth"` object in `config.json`, which contains two fields, `"issueToken"` and `"cookies"`, which looks like this:
 
 ```
       "platform": "Nest",
@@ -151,7 +175,7 @@ By default, options set apply to all devices. To set an option for a specific de
 
 # Donate to Support homebridge-nest
 
-homebridge-nest is a labour of love. It's provided under the ISC licence and is completely free to do whatever you want with. But if you'd like to show your appreciation for its continued development, please consider [clicking here to make a small donation](https://paypal.me/adriancable586) or send me a thank-you card:
+homebridge-nest is a labour of love. It's provided under the ISC licence and is completely free to do whatever you want with. But if you'd like to show your appreciation for its continued development, please consider [clicking here to make a small donation](https://paypal.me/adriancable586) or, even better, send me a thank-you card:
 
 Adrian Cable  
 PO Box 370365  
