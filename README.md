@@ -74,7 +74,7 @@ Simply set `"access_token"` in your `config.json` file under the `"platform": "N
 
 Google Accounts (mandatory for new Nest devices after August 2019, with an optional migration for earlier accounts) are fully supported.
 
-There are two ways to authenticate with Google - the refresh token method, and the cookies method. Please try the refresh token method first, and if you have issues, then try the cookies method. We recommend the refresh token method because cookies tend to expire after a few months, requiring you to go through the authentication process again, whereas the refresh token lasts forever (unless you change your Google Account password).
+There are two ways to authenticate with Google - the refresh token method, or the cookies method. Please try the refresh token method first, and if you have issues, then try the cookies method. We recommend the refresh token method because cookies tend to expire after a few months, requiring you to go through the authentication process again, whereas the refresh token lasts forever (unless you change your Google Account password).
 
 # Using a Google Account - refresh token method
 
@@ -89,9 +89,11 @@ The `"refreshToken"` is a code provided by Google when you log into your account
 
 Just run: `node login.js` and follow the instructions on the screen. You'll be prompted to navigate to a URL in your browser, log into Google, and copy and paste a code from your browser into the login tool. You'll then be provided with the `"refreshToken"` to add to `config.json`.
 
+Refresh tokens for homebridge-nest are mutually compatible with homebridge-nest-cam: if you already have a refresh token that you use with homebridge-nest-cam, you can also use it with homebridge-nest, and vice versa.
+
 # Using a Google Account - cookies method
 
-Using the cookies method, Google Accounts are configured using the `"googleAuth"` object in `config.json`, which contains two fields, `"issueToken"` and `"cookies"`, which looks like this:
+Using the cookies method (only recommended if you have problems with the refresh token method), Google Accounts are configured using the `"googleAuth"` object in `config.json`, which contains two fields, `"issueToken"` and `"cookies"`, which looks like this:
 
 ```
       "platform": "Nest",
