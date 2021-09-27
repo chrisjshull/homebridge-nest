@@ -19,6 +19,12 @@
         "description": "See Using a Nest Account section of project page for help.",
         "placeholder": "Nest Access Token"
       },
+      "refreshToken": {
+        "title": "Refresh Token",
+        "type": "string",
+        "description": "See Using a Google Account section of project page for help.",
+        "placeholder": "Google Refresh Token"
+      },
       "googleAuth": {
         "title": "Google Auth",
         "type": "object",
@@ -60,7 +66,10 @@
     },
     "oneOf": [
       {
-        "required": ["email", "password"]
+        "required": ["access_token"]
+      },
+      {
+        "required": ["refreshToken"]
       },
       {
         "required": ["googleAuth"]
@@ -95,8 +104,24 @@
     },
     {
       "type": "fieldset",
-      "title": "Google Account",
-      "description": "Expand when using a Google Account",
+      "title": "Google Account - Refresh Token",
+      "description": "Expand when using the refresh token method for a Google Account",
+      "expandable": true,
+      "displayFlex": true,
+      "items": [
+        {
+            "type": "flex",
+            "flex-flow": "row wrap",
+            "items": [
+              "refreshToken"
+            ]
+        }
+      ]
+    },
+    {
+      "type": "fieldset",
+      "title": "Google Account - Cookies",
+      "description": "Expand when using the cookies method for a Google Account",
       "expandable": true,
       "displayFlex": true,
       "items": [
