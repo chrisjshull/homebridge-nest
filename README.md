@@ -89,12 +89,10 @@ The `"refreshToken"` is a code provided by Google when you log into your account
 
 This method requires access to a web browser, so you'll need to use your computer if your homebridge is running on a headless device like Raspberry Pi. Assuming it's a separate computer:
 
-1. First, `git clone https://github.com/chrisjshull/homebridge-nest.git`
-2. Go into the directory `cd homebridge-nest`
-3. Install the dependencies `npm install`
-4. Run the script `node login.js`
-5. Follow the instructions on the screen. You'll be prompted to navigate to a URL in your browser, log into Google, and copy and paste a code from your browser into the login tool. 
-6. You'll then be provided with the `"refreshToken"` to add to `config.json`.
+1. If you don't have the plug-in installed, run `npm install https://github.com/chrisjshull/homebridge-nest`
+1. Run the script `node login.js`
+1. Follow the instructions on the screen. You'll be prompted to navigate to a URL in your browser, log into Google, and copy and paste a code from your browser into the login tool. 
+1. You'll then be provided with the `"refreshToken"` to add to `config.json`.
 
 Refresh tokens for homebridge-nest are mutually compatible with homebridge-nest-cam: if you already have a refresh token that you use with homebridge-nest-cam, you can also use it with homebridge-nest, and vice versa.
 
