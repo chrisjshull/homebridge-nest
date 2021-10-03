@@ -87,7 +87,10 @@ Using the refresh token method, Google Accounts are configured using the `"refre
 
 The `"refreshToken"` is a code provided by Google when you log into your account, and we provide an easy-to-use tool to obtain it.
 
-Just run: `node login.js` and follow the instructions on the screen. You'll be prompted to navigate to a URL in your browser, log into Google, and copy and paste a code from your browser into the login tool. You'll then be provided with the `"refreshToken"` to add to `config.json`.
+From your Mac or Linux Terminal or Windows Command Prompt, navigate to the directory where this plug-in is installed, then run: `node login.js` and follow the instructions on the screen.
+
+You'll be prompted to navigate to a URL in your browser, log into Google, and copy and paste a code from your browser into the login tool. You'll then be provided with the `"refreshToken"` to add to `config.json`. The refresh token is a random string
+of letters and numbers - it does not begin with, end with, or contain any spaces. Please make sure you copy and paste it exactly as shown, or it will not work.
 
 Refresh tokens for homebridge-nest are mutually compatible with homebridge-nest-cam: if you already have a refresh token that you use with homebridge-nest-cam, you can also use it with homebridge-nest, and vice versa.
 
