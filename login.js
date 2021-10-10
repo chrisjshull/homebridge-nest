@@ -72,7 +72,7 @@ async function getRefreshToken(code, ft = false) {
     const ft = process.argv.includes('-ft');
     const url = generateToken(ft);
     console.log(`1. Open the url below in a browser to continue:\n\n${url}\n`);
-    const code = await prompt('2. Copy the code here: ');
+    const code = await prompt('2. Copy the authorization code from the browser, and paste it here: ');
     try {
         const refreshToken = await getRefreshToken(code, ft);
         console.log('3. Copy the refresh token below to your config.json.');
