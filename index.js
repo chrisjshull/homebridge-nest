@@ -141,6 +141,10 @@ class NestPlatform {
             throw('You did not specify your Nest account credentials {\'email\',\'password\'}, or an access_token, refreshToken, or googleAuth, in config.json');
         }
 
+        if (this.config.googleAuth && this.config.refreshToken) {
+            throw('You have specified both googleAuth and refreshToken in config.json. Please pick the one you want to use, and remove the other one');
+        }
+
         if (this.config.googleAuth && (!this.config.googleAuth.issueToken || !this.config.googleAuth.cookies)) { // || !this.config.googleAuth.apiKey)) {
             throw('When using googleAuth, you must provide issueToken and cookies in config.json. Please see README.md for instructions');
         }
