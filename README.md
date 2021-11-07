@@ -3,7 +3,7 @@
 [![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
 [![Discord](https://img.shields.io/discord/432663330281226270?color=728ED5&logo=discord&label=discord)](https://discord.gg/j5WwJTB)
 
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 4.6.2](https://github.com/chrisjshull/homebridge-nest/releases/tag/v4.6.2).
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 4.6.3](https://github.com/chrisjshull/homebridge-nest/releases/tag/v4.6.3).
 
 Integrate your Nest Thermostat, Temperature Sensors, Nest Protect, and Nest x Yale Lock devices into your HomeKit system. Both Nest Accounts (pre-August 2019) and Google Accounts are supported.
 
@@ -87,7 +87,7 @@ Using the refresh token method, Google Accounts are configured using the `"refre
 
 The `"refreshToken"` is a code provided by Google when you log into your account, and we provide an easy-to-use tool to obtain it.
 
-From your Mac or Linux Terminal or Windows Command Prompt, navigate to the directory where this plug-in is installed, then run: `node login.js` and follow the instructions on the screen.
+From your Mac or Linux Terminal or Windows Command Prompt, navigate to the directory where this plug-in is installed, then run: `node login.js` and follow the instructions on the screen. (If you are using a Field Test account, then run: `node login.js -f` and also remember to set the `"Nest.FieldTest.Enable"` option in your `config.json`, as described under Feature Options further down on this page.)
 
 You'll be prompted to navigate to a URL in your browser, log into Google, and copy and paste a code from your browser into the login tool. You'll then be provided with the `"refreshToken"` to add to `config.json`. The refresh token is a random string
 of letters and numbers - it does not begin with, end with, or contain any spaces. Please make sure you copy and paste it exactly as shown, or it will not work.
