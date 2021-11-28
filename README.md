@@ -87,7 +87,7 @@ Using the refresh token method, Google Accounts are configured using the `"refre
 
 The `"refreshToken"` is a code provided by Google when you log into your account, and we provide an easy-to-use tool to obtain it.
 
-From your Mac or Linux Terminal or Windows Command Prompt, navigate to the directory where this plug-in is installed, then run: `node login.js` and follow the instructions on the screen. (If you are using a Field Test account, then run: `node login.js -f` and also remember to set the `"Nest.FieldTest.Enable"` option in your `config.json`, as described under Feature Options further down on this page.)
+From your Mac or Linux Terminal or Windows Command Prompt, navigate to the directory where this plug-in is installed, then run: `node login.js` and follow the instructions on the screen. (If you are using a Field Test account, then run: `node login.js -ft` and also remember to set the `"Nest.FieldTest.Enable"` option in your `config.json`, as described under Feature Options further down on this page.)
 
 You'll be prompted to navigate to a URL in your browser, log into Google, and copy and paste a code from your browser into the login tool. You'll then be provided with the `"refreshToken"` to add to `config.json`. The refresh token is a random string
 of letters and numbers - it does not begin with, end with, or contain any spaces. Please make sure you copy and paste it exactly as shown, or it will not work.
