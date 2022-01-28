@@ -69,6 +69,7 @@ class NestPlatform {
                 loadDevices(TempSensorAccessory);
                 loadDevices(ProtectAccessory);
                 loadDevices(LockAccessory);
+                this.conn.accessories = this.accessoryLookup;
 
                 return foundAccessories;
             }.bind(this);

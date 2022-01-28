@@ -19,7 +19,7 @@
     "url": "git://github.com/chrisjshull/homebridge-nest.git"
   },
   "deprecated": false,
-  "description": "Nest Thermostat and Protect plug-in for homebridge",
+  "description": "Nest Thermostat, Protect and Lock plug-in for homebridge",
   "engines": {
     "homebridge": ">=0.2.5",
     "node": ">=7.0.0"
@@ -37,7 +37,7 @@
     "prepublishOnly": "npm run lint",
     "preversion": "npm run lint"
   },
-  "version": "4.6.3",
+  "version": "4.6.4",
   "warnings": [
     {
       "code": "ENOTSUP",
@@ -45,7 +45,7 @@
         "node": ">=7.0.0",
         "homebridge": ">=0.2.5"
       },
-      "pkgid": "homebridge-nest@4.6.3"
+      "pkgid": "homebridge-nest@4.6.4"
     }
   ]
 }
