@@ -19,6 +19,7 @@ const CLIENT_ID_FT = '384529615266-57v6vaptkmhm64n9hn5dcmkr4at14p8j.apps.googleu
 const NestEndpoints = require('./lib/nest-endpoints.js');
 
 const prompt = query =>
+    // eslint-disable-next-line no-async-promise-executor
     new Promise(async (resolve, reject) => {
         const rl = readline.createInterface({
             input: process.stdin,
@@ -75,7 +76,7 @@ async function getRefreshToken(code, ft = false) {
     const code = await prompt('2. Copy the authorization code from the browser, and paste it here: ');
     try {
         const refreshToken = await getRefreshToken(code, ft);
-        console.log('3. Copy the refresh token below to your config.json.');
+        console.log('3. Copy the refresh token below (without any spaces at the beginning or end) to your config.json.');
         console.log(`Refresh Token: ${refreshToken}`);
     } catch (err) {
         let msg = err;
