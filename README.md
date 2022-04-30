@@ -3,7 +3,7 @@
 [![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
 [![Discord](https://img.shields.io/discord/432663330281226270?color=728ED5&logo=discord&label=discord)](https://discord.gg/j5WwJTB)
 
-Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 4.6.6](https://github.com/chrisjshull/homebridge-nest/releases/tag/v4.6.6).
+Nest plug-in for [Homebridge](https://github.com/nfarina/homebridge) using the native Nest API. See what's new in [release 4.6.7](https://github.com/chrisjshull/homebridge-nest/releases/tag/v4.6.7).
 
 Integrate your Nest Thermostat, Temperature Sensors, Nest Protect, and Nest x Yale Lock devices into your HomeKit system. Both Nest Accounts (pre-August 2019) and Google Accounts are supported.
 
@@ -68,7 +68,9 @@ To use a Nest Account with homebridge-nest, you will need to obtain an access to
 {"2fa_state":"not_enrolled","access_token":"XXX","email":"...","expires_in":"...", ...}
 ```
 
-Simply set `"access_token"` in your `config.json` file under the `"platform": "Nest"` entry to the value of `access_token` in the above string (the `XXX`), which will be a long string of letters and numbers and punctuation. Do not log out of `home.nest.com`, as this will invalidate your credentials. Just close the browser tab.
+Simply set `"access_token"` in your `config.json` file under the `"platform": "Nest"` entry to the value of `access_token` near the start of the string (the `XXX`), which will be a long sequence of letters, numbers and punctuation beginning with `b`. There may be other keys labelled `access_token` further along in the string - please ignore these.
+
+Do not log out of `home.nest.com`, as this will invalidate your credentials. Just close the browser tab.
 
 # Using a Google Account - read this first
 
