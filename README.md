@@ -89,7 +89,7 @@ Using the refresh token method, Google Accounts are configured using the `"refre
 
 The `"refreshToken"` is a code provided by Google when you log into your account, and we provide an easy-to-use tool to obtain it.
 
-To run the tool, from your Mac or Linux Terminal or Windows Command Prompt, first `cd` to the directory where this plug-in is installed. If you don't know where the plug-in is installed, here are two good bets to try for Mac or Linux: `/usr/local/lib/node_modules/homebridge-nest` and `/usr/lib/node_modules/homebridge-nest`
+To run the tool, from your Mac or Linux Terminal or Windows Command Prompt, first `cd` to the directory where this plug-in is installed. If you don't know where the plug-in is installed, on Mac or Linux try: `cd $(npm root -g)/homebridge-nest`
 
 Then, from the plug-in directory, run: `node login.js` and follow the instructions on the screen. (If you are using a Field Test account, then instead run: `node login.js -ft` and also remember to set the `"Nest.FieldTest.Enable"` option in your `config.json`, as described under Feature Options further down on this page.)
 
