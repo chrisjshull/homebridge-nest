@@ -72,35 +72,14 @@ Simply set `"access_token"` in your `config.json` file under the `"platform": "N
 
 Do not log out of `home.nest.com`, as this will invalidate your credentials. Just close the browser tab.
 
-# Using a Google Account - read this first
+# Using a Google Account
 
 Google Accounts (mandatory for new Nest devices after August 2019, with an optional migration for earlier accounts) are fully supported.
 
-There are two ways to authenticate with Google - the refresh token method, or the cookies method. Please try the refresh token method first, and if you have issues, then try the cookies method. We recommend the refresh token method because cookies tend to expire after a few months, requiring you to go through the authentication process again, whereas the refresh token lasts forever (unless you change your Google Account password).
+(Note: the plug-in used to support two ways to authenticate with Google, the refresh token method and the cookies method. The refresh token method
+no longer works due to Google-side changes in October 2022, so now we only document the cookies method.)
 
-# Using a Google Account - option 1: refresh token method
-
-Using the refresh token method, Google Accounts are configured using the `"refreshToken"` field in `config.json`, which looks like this:
-
-```
-      "platform": "Nest",
-      "refreshToken": "1//06itSm0rTAE4...",
-```
-
-The `"refreshToken"` is a code provided by Google when you log into your account, and we provide an easy-to-use tool to obtain it.
-
-To run the tool, from your Mac or Linux Terminal or Windows Command Prompt, first `cd` to the directory where this plug-in is installed. If you don't know where the plug-in is installed, on Mac or Linux try: `cd $(npm root -g)/homebridge-nest`
-
-Then, from the plug-in directory, run: `node login.js` and follow the instructions on the screen. (If you are using a Field Test account, then instead run: `node login.js -ft` and also remember to set the `"Nest.FieldTest.Enable"` option in your `config.json`, as described under Feature Options further down on this page.)
-
-You'll be prompted to navigate to a URL in your browser, log into Google, and copy and paste a code from your browser into the login tool. You'll then be provided with the `"refreshToken"` to add to `config.json`. The refresh token is a random string
-of letters and numbers - it does not begin with, end with, or contain any spaces. Please make sure you copy and paste it exactly as shown, or it will not work.
-
-Refresh tokens for homebridge-nest are mutually compatible with homebridge-nest-cam: if you already have a refresh token that you use with homebridge-nest-cam, you can also use it with homebridge-nest, and vice versa.
-
-# Using a Google Account - option 2: cookies method
-
-Using the cookies method (only recommended if you have problems with the refresh token method), Google Accounts are configured using the `"googleAuth"` object in `config.json`, which contains two fields, `"issueToken"` and `"cookies"`, which looks like this:
+Using the cookies method, Google Accounts are configured using the `"googleAuth"` object in `config.json`, which contains two fields, `"issueToken"` and `"cookies"`, which looks like this:
 
 ```
       "platform": "Nest",
