@@ -4,7 +4,7 @@ const axios = require('axios');
 
 const NestConnection = require('./lib/nest-connection');
 
-let ThermostatAccessory, HomeAwayAccessory, TempSensorAccessory, ProtectAccessory, LockAccessory;
+let ThermostatAccessory, HomeAwayAccessory, TempSensorAccessory, ProtectAccessory, LockAccessory, DetectAccessory;
 
 require('promise.prototype.finally').shim(Promise);
 
@@ -69,6 +69,7 @@ class NestPlatform {
                 loadDevices(TempSensorAccessory);
                 loadDevices(ProtectAccessory);
                 loadDevices(LockAccessory);
+                loadDevices(DetectAccessory);
                 this.conn.accessories = this.accessoryLookup;
 
                 return foundAccessories;
@@ -110,7 +111,8 @@ class NestPlatform {
                         thermostat_count: accessoriesMounted.filter(el => el == 'NestThermostatAccessory').length,
                         tempsensor_count: accessoriesMounted.filter(el => el == 'NestTempSensorAccessory').length,
                         protect_count: accessoriesMounted.filter(el => el == 'NestProtectAccessory').length,
-                        lock_count: accessoriesMounted.filter(el => el == 'NestLockAccessory').length
+                        lock_count: accessoriesMounted.filter(el => el == 'NestLockAccessory').length,
+                        detect_count: accessoriesMounted.filter(el => el == 'NestDetectAccessory').length
                     }).catch(() => { });
                 }
             } catch(err) {
@@ -175,6 +177,7 @@ module.exports = function(homebridge) {
     TempSensorAccessory = require('./lib/nest-tempsensor-accessory')(); // eslint-disable-line global-require
     ProtectAccessory = require('./lib/nest-protect-accessory')(); // eslint-disable-line global-require
     LockAccessory = require('./lib/nest-lock-accessory')(); // eslint-disable-line global-require
+    DetectAccessory = require('./lib/nest-detect-accessory')(); // eslint-disable-line global-require
 
     homebridge.registerPlatform('homebridge-nest', 'Nest', NestPlatform);
 };
