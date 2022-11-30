@@ -135,7 +135,8 @@ Set `"options"` in `config.json` to an array of strings chosen from the followin
 * `"Thermostat.Disable"` - exclude Nest Thermostats from HomeKit
 * `"Thermostat.Fan.Disable"` - do not create a *Fan* accessory for the thermostat
 * `"Thermostat.Eco.Disable"` - do not create a *Switch* accessory to indicate/control Eco Mode status
-* `"Thermostat.SeparateBuiltInTemperatureSensor.Enable"` - create an additional *TemperatureSensor* accessory to report the ambient temperature at the thermostat
+* `"Thermostat.SeparateBuiltInTemperatureSensor.Enable"` - create an additional *TemperatureSensor* accessory to report the ambient temperature at the thermostat (default is to create one if thermostat has linked Nest Temperature Sensors)
+* `"Thermostat.SeparateBuiltInTemperatureSensor.Disable"` - exclude creation of additional *TemperatureSensor* accessory to report the ambient temperature at the thermostat even if the thermostat has linked Nest Temperature Sensors
 * `"Thermostat.SeparateBuiltInHumiditySensor.Enable"` - create an additional *HumiditySensor* accessory to report the relative humidity at the thermostat
 * `"Thermostat.EcoMode.ChangeEcoBands.Enable"` - when set, changing temperature in Eco Mode changes Eco Temperature Bands (default is to turn off Eco Mode instead before setting temperature)
 * `"TempSensor.Disable"` - exclude Nest Temperature Sensors from HomeKit
