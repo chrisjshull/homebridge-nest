@@ -9,7 +9,7 @@ Integrate your Nest Thermostat, Temperature Sensors, Nest Protect, and Nest x Ya
 
 Currently, homebridge-nest supports all Nest Thermostat, Protect, and Nest x Yale Lock models, including the EU/UK model of the Thermostat E with Heat Link and the October 2020 model Nest Thermostat with mirror display.
 
-We do not support the discontinued Nest Secure system. We also do not support cameras - but for that, there is the excellent [homebridge-nest-cam](https://github.com/Brandawg93/homebridge-nest-cam) plug-in.
+We do not support the discontinued Nest Secure system - but for that, there is the [homebridge-nest-secure](https://github.com/tronikos/homebridge-nest-secure) plug-in. We also do not support cameras - but for that, there is the excellent [homebridge-nest-cam](https://github.com/Brandawg93/homebridge-nest-cam) plug-in.
 
 # Starling Home Hub
 
