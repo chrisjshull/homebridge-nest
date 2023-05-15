@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "../weave/common.proto";
+
+package yale.trait;
+
+message LinusLockPrivacyModeTrait {
+    bool privacyModeOn = 1;
+    PrivacyModeActorStruct privacyModeActor = 2;
+    google.protobuf.Timestamp privacyModeLastChangedAt = 3;
+
+    enum PrivacyModeActorMethod {
+        PRIVACY_MODE_ACTOR_METHOD_UNSPECIFIED = 0;
+        PRIVACY_MODE_ACTOR_METHOD_OTHER = 1;
+        PRIVACY_MODE_ACTOR_METHOD_PHYSICAL = 2;
+        PRIVACY_MODE_ACTOR_METHOD_REMOTE_USER_EXPLICIT = 3;
+        PRIVACY_MODE_ACTOR_METHOD_REMOTE_USER_IMPLICIT = 4;
+        PRIVACY_MODE_ACTOR_METHOD_REMOTE_REMINDER_EXPLICIT = 5;
+        PRIVACY_MODE_ACTOR_METHOD_REMOTE_REMINDER_IMPLICIT = 6;
+        PRIVACY_MODE_ACTOR_METHOD_REMOTE_USER_OTHER = 7;
+        PRIVACY_MODE_ACTOR_METHOD_REMOTE_DELEGATE = 8;
+    }
+
+    message PrivacyModeActorStruct {
+        PrivacyModeActorMethod method = 1;
+        weave.common.ResourceId originator = 2;
+    }
+
+    message PrivacyModeStateChangeRequest {
+        bool privacyModeOn = 1;
+        weave.common.ResourceId userId = 2;
+    }
+
+    message PrivacyModeStateChangeEvent {
+        bool privacyModeOn = 1;
+        PrivacyModeActorStruct privacyModeActor = 2;
+    }
+}
+
+message LinusLockPrivacyModeSettingsTrait {
+    bool privacyModeDeviceButtonEnabled = 1;
+    bool privacyModeGlobalFeatureEnabled = 2;
+}
+
+message LinusLockSettingsTrait {
+    bool oneTouchLock = 1;
+    bool privacyModeFeatureDisable = 2;
+}
