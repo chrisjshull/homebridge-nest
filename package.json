@@ -30,7 +30,7 @@
     "nest"
   ],
   "license": "ISC",
-  "name": "homebridge-nest",
+  "name": "@ethan021/homebridge-nest",
   "preferGlobal": true,
   "scripts": {
     "lint": "eslint lib *.js",
