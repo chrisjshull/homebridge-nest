@@ -30,14 +30,14 @@
     "nest"
   ],
   "license": "ISC",
-  "name": "@ethan021/homebridge-nest",
+  "name": "homebridge-nest",
   "preferGlobal": true,
   "scripts": {
     "lint": "eslint lib *.js",
     "prepublishOnly": "npm run lint",
     "preversion": "npm run lint"
   },
-  "version": "4.6.10",
+  "version": "4.6.9",
   "warnings": [
     {
       "code": "ENOTSUP",
