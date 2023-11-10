@@ -1,7 +1,7 @@
 {
   "bundleDependencies": false,
   "dependencies": {
-    "axios": "^0.21.2",
+    "axios": "^1.6.0",
     "ip": "^1.1.5",
     "lodash.debounce": "^4.0.8",
     "pbf": "^3.2.1",
