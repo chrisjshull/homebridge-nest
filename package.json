@@ -1,7 +1,7 @@
 {
   "bundleDependencies": [],
   "dependencies": {
-    "axios": "^1.7.3",
+    "axios": "^1.7.7",
     "lodash.debounce": "^4.0.8",
     "promise-prompt": "^1.1.1",
     "promise.prototype.finally": "^3.1.8",
