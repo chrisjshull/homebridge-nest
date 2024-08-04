@@ -107,10 +107,10 @@ class NestPlatform {
 
                 if (this.config.readyCallback) {
                     axios.post(this.config.readyCallback, {
-                        thermostat_count: accessoriesMounted.filter(el => el == 'NestThermostatAccessory').length,
-                        tempsensor_count: accessoriesMounted.filter(el => el == 'NestTempSensorAccessory').length,
-                        protect_count: accessoriesMounted.filter(el => el == 'NestProtectAccessory').length,
-                        lock_count: accessoriesMounted.filter(el => el == 'NestLockAccessory').length
+                        thermostat_count: accessoriesMounted.filter(el => el === 'NestThermostatAccessory').length,
+                        tempsensor_count: accessoriesMounted.filter(el => el === 'NestTempSensorAccessory').length,
+                        protect_count: accessoriesMounted.filter(el => el === 'NestProtectAccessory').length,
+                        lock_count: accessoriesMounted.filter(el => el === 'NestLockAccessory').length
                     }).catch(() => { });
                 }
             } catch(err) {
