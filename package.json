@@ -1,5 +1,26 @@
 {
-  "bundleDependencies": [],
+  "name": "homebridge-nest",
+  "version": "4.6.9",
+  "description": "Nest Thermostat, Protect and Lock plug-in for homebridge",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chrisjshull/homebridge-nest.git"
+  },
+  "homepage": "https://github.com/chrisjshull/homebridge-nest#readme",
+  "keywords": [
+    "homebridge-plugin",
+    "nest"
+  ],
+  "engines": {
+    "homebridge": ">=0.2.5",
+    "node": ">=7.0.0"
+  },
+  "scripts": {
+    "lint": "eslint lib *.js",
+    "prepublishOnly": "npm run lint",
+    "preversion": "npm run lint"
+  },
   "dependencies": {
     "axios": "^1.7.7",
     "lodash.debounce": "^4.0.8",
@@ -10,29 +31,5 @@
   },
   "devDependencies": {
     "eslint": "^8.57.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/chrisjshull/homebridge-nest.git"
-  },
-  "deprecated": false,
-  "description": "Nest Thermostat, Protect and Lock plug-in for homebridge",
-  "engines": {
-    "homebridge": ">=0.2.5",
-    "node": ">=7.0.0"
-  },
-  "homepage": "https://github.com/chrisjshull/homebridge-nest#readme",
-  "keywords": [
-    "homebridge-plugin",
-    "nest"
-  ],
-  "license": "ISC",
-  "name": "homebridge-nest",
-  "preferGlobal": true,
-  "scripts": {
-    "lint": "eslint lib *.js",
-    "prepublishOnly": "npm run lint",
-    "preversion": "npm run lint"
-  },
-  "version": "4.6.9"
+  }
 }
