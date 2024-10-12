@@ -17,19 +17,22 @@
     "node": ">=7.0.0"
   },
   "scripts": {
-    "lint": "eslint lib *.js",
+    "lint": "eslint .",
     "prepublishOnly": "npm run lint",
     "preversion": "npm run lint"
   },
   "dependencies": {
     "axios": "^1.7.7",
     "lodash.debounce": "^4.0.8",
-    "promise-prompt": "^1.1.0",
+    "promise-prompt": "^1.1.1",
     "promise.prototype.finally": "^3.1.8",
     "protobufjs": "^7.4.0",
     "varint": "^6.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.57.1"
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.13.0",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0"
   }
 }
