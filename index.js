@@ -169,12 +169,12 @@ module.exports = function(homebridge) {
         uuid: homebridge.hap.uuid
     };
 
-    require('./lib/nest-device-accessory')(exportedTypes); // eslint-disable-line global-require
-    ThermostatAccessory = require('./lib/nest-thermostat-accessory')(); // eslint-disable-line global-require
-    HomeAwayAccessory = require('./lib/nest-homeaway-accessory')(); // eslint-disable-line global-require
-    TempSensorAccessory = require('./lib/nest-tempsensor-accessory')(); // eslint-disable-line global-require
-    ProtectAccessory = require('./lib/nest-protect-accessory')(); // eslint-disable-line global-require
-    LockAccessory = require('./lib/nest-lock-accessory')(); // eslint-disable-line global-require
+    require('./lib/nest-device-accessory')(exportedTypes);
+    ThermostatAccessory = require('./lib/nest-thermostat-accessory')();
+    HomeAwayAccessory = require('./lib/nest-homeaway-accessory')();
+    TempSensorAccessory = require('./lib/nest-tempsensor-accessory')();
+    ProtectAccessory = require('./lib/nest-protect-accessory')();
+    LockAccessory = require('./lib/nest-lock-accessory')();
 
     homebridge.registerPlatform('homebridge-nest', 'Nest', NestPlatform);
 };
