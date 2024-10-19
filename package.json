@@ -13,7 +13,7 @@
     "nest"
   ],
   "engines": {
-    "homebridge": ">=0.2.5",
+    "homebridge": ">=0.2.5 || ^2.0.0-beta.0",
     "node": ">=7.0.0"
   },
   "scripts": {
