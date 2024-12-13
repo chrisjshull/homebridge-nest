@@ -1,6 +1,6 @@
 {
   "name": "homebridge-nest",
-  "version": "4.6.9",
+  "version": "4.6.10",
   "description": "Nest Thermostat, Protect and Lock plug-in for homebridge",
   "license": "ISC",
   "repository": {
@@ -22,7 +22,7 @@
     "preversion": "npm run lint"
   },
   "dependencies": {
-    "axios": "^1.7.7",
+    "axios": "^1.7.9",
     "lodash.debounce": "^4.0.8",
     "promise-prompt": "^1.1.1",
     "promise.prototype.finally": "^3.1.8",
@@ -30,9 +30,9 @@
     "varint": "^6.0.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "^9.13.0",
-    "eslint": "^9.13.0",
-    "globals": "^15.11.0"
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.16.0",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0"
   }
 }
