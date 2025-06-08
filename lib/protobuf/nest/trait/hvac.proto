@@ -114,7 +114,7 @@ message HvacEquipmentCapabilitiesTrait {
 message RemoteComfortSensingSettingsTrait {
     RcsControlMode rcsControlMode = 1;
     RcsSourceSelection activeRcsSelection = 2;
-    // RcsSchedule rcsControlSchedule = 3;
+    RcsSchedule rcsControlSchedule = 3;
     repeated RcsSensorId associatedRcsSensors = 4;
     MultiSensorSettings multiSensorSettings = 5;
 
