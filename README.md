@@ -11,9 +11,9 @@ Currently, homebridge-nest supports all Nest Thermostat, Protect, and Nest x Yal
 
 We do not support the discontinued Nest Secure system. We also do not support cameras - but for that, there is the excellent [homebridge-nest-cam](https://github.com/Brandawg93/homebridge-nest-cam) plug-in.
 
-# Starling Home Hub
+~# Starling Home Hub~ [(No longer available to purchase)](https://www.starlinghome.io/)
 
-If you want a plug-and-play Nest integration solution, check out [Starling Home Hub](https://www.starlinghome.io). It's a little box that connects to your home router, so you'll be up and running in minutes without needing to set up a Homebridge server, manually edit configuration files, or worry about authentication tokens. Starling Home Hub also supports Nest Cameras (including the August 2021 battery-powered models) and Nest Secure (Guard and Detects).
+~If you want a plug-and-play Nest integration solution, check out [Starling Home Hub](https://www.starlinghome.io). It's a little box that connects to your home router, so you'll be up and running in minutes without needing to set up a Homebridge server, manually edit configuration files, or worry about authentication tokens. Starling Home Hub also supports Nest Cameras (including the August 2021 battery-powered models) and Nest Secure (Guard and Detects).~
 
 If you want a DIY solution, then read on, as homebridge-nest is for you!
 
