@@ -1,5 +1,5 @@
 {
-  "name": "@grecine/homebridge-nest",
+  "name": "@pbody/homebridge-nest",
   "version": "4.6.11-gr",
   "description": "Nest Thermostat, Protect and Lock plug-in for homebridge",
   "license": "ISC",
