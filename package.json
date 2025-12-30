@@ -1,13 +1,13 @@
 {
-  "name": "homebridge-nest",
-  "version": "4.6.10",
+  "name": "@pbody/homebridge-nest",
+  "version": "4.6.11",
   "description": "Nest Thermostat, Protect and Lock plug-in for homebridge",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git://github.com/chrisjshull/homebridge-nest.git"
+    "url": "git://github.com/grecine/homebridge-nest.git"
   },
-  "homepage": "https://github.com/chrisjshull/homebridge-nest#readme",
+  "homepage": "https://github.com/grecine/homebridge-nest#readme",
   "keywords": [
     "homebridge-plugin",
     "nest"
