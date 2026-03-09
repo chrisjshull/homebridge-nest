@@ -3,6 +3,7 @@
 syntax = "proto3";
 
 import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
 import "../../weave/common.proto";
 
 package nest.trait.hvac;
@@ -97,6 +98,27 @@ message FanControlTrait {
     }
 }
 
+message HotWaterSettingsTrait {
+  bool structureModeFollowEnabled = 1;
+  google.protobuf.Timestamp boostTimerEnd = 2;
+  HotWaterMode mode = 3;
+  Float_Indirect temperature = 4;
+
+  enum HotWaterMode {
+    HOT_WATER_MODE_UNSPECIFIED = 0;
+    HOT_WATER_MODE_SCHEDULE = 1;
+    HOT_WATER_MODE_OFF = 2;
+  }
+}
+
+message HotWaterTrait {
+  bool controlActive = 1;
+  bool awayActive = 2;
+  bool boilerActive = 3;
+  google.protobuf.Timestamp nextTransitionTime = 4;
+  Float_Indirect temperature = 5;
+}
+
 message BackplateInfoTrait {
   string serial_number = 1;
   string backplate_model = 2;
@@ -109,6 +131,8 @@ message BackplateInfoTrait {
 message HvacEquipmentCapabilitiesTrait {
   int32 can_cool = 1;
   int32 can_heat = 4;
+  int32 has_hot_water_control = 16;
+  int32 has_hot_water_temperature = 18;
 }
 
 message RemoteComfortSensingSettingsTrait {
