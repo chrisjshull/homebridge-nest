@@ -116,15 +116,25 @@ class NestPlatform {
             } catch(err) {
                 this.log.error(err);
                 this.log.error('NOTE: Because we couldn\'t connect to the Nest service, your Nest devices in HomeKit will not be responsive.');
-                this.cachedAccessories.forEach(accessory => {
-                    accessory.services.forEach(service => {
-                        service.characteristics.forEach(characteristic => {
-                            characteristic.on('get', callback => callback('error'));
-                            characteristic.on('set', (value, callback) => callback('error'));
-                            characteristic.value;
+                const hapRef = this.api && this.api.hap;
+                if (hapRef && hapRef.HapStatusError && hapRef.HAPStatus) {
+                    const hapErr = new hapRef.HapStatusError(hapRef.HAPStatus.SERVICE_COMMUNICATION_FAILURE);
+                    this.cachedAccessories.forEach(accessory => {
+                        const hapAccessory = accessory._associatedHAPAccessory || accessory;
+                        const services = hapAccessory.services || [];
+                        services.forEach(service => {
+                            (service.characteristics || []).forEach(ch => {
+                                if (ch && typeof ch.updateValue === 'function') {
+                                    try {
+                                        ch.updateValue(hapErr);
+                                    } catch (e) {
+                                        // ignore per-characteristic failures
+                                    }
+                                }
+                            });
                         });
                     });
-                });
+                }
             }
         });
     }
