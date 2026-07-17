@@ -115,16 +115,30 @@ class NestPlatform {
                 }
             } catch(err) {
                 this.log.error(err);
-                this.log.error('NOTE: Because we couldn\'t connect to the Nest service, your Nest devices in HomeKit will not be responsive.');
-                this.cachedAccessories.forEach(accessory => {
-                    accessory.services.forEach(service => {
-                        service.characteristics.forEach(characteristic => {
-                            characteristic.on('get', callback => callback('error'));
-                            characteristic.on('set', (value, callback) => callback('error'));
-                            characteristic.value;
-                        });
+                this.log.error('NOTE: Nest platform setup failed; cached Nest devices in HomeKit may not be responsive.');
+                // Mark cached accessories unavailable without stacking get/set handlers or
+                // calling removed HAP2 APIs (.getValue). Only used when setup already failed.
+                const hap = this.api && this.api.hap;
+                if (hap && hap.HapStatusError && hap.HAPStatus) {
+                    const hapErr = new hap.HapStatusError(hap.HAPStatus.SERVICE_COMMUNICATION_FAILURE);
+                    this.cachedAccessories.forEach(accessory => {
+                        try {
+                            (accessory.services || []).forEach(service => {
+                                (service.characteristics || []).forEach(ch => {
+                                    try {
+                                        if (ch && typeof ch.updateValue === 'function') {
+                                            ch.updateValue(hapErr);
+                                        }
+                                    } catch (e) {
+                                        // ignore per-characteristic failures
+                                    }
+                                });
+                            });
+                        } catch (e) {
+                            // ignore per-accessory failures
+                        }
                     });
-                });
+                }
             }
         });
     }
