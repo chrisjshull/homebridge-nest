@@ -55,6 +55,19 @@
         "placeholder": "Optional, Default is 15",
         "description": "Number of minutes to run the fan when manually turned on"
       },
+      "hotWaterDurationMinutes": {
+        "title": "Hot Water Boost Duration",
+        "type": "integer",
+        "required": true,
+        "default": 30,
+        "description": "Number of minutes to run hot water when manually turned on",
+        "enum": [
+          30,
+          60,
+          90,
+          120
+        ]
+      },
       "options": {
         "title": "Feature Options",
         "type": "array",
@@ -149,7 +162,29 @@
       "items": [
         "structureId",
         "fanDurationMinutes",
-{
+        {
+          "key": "hotWaterDurationMinutes",
+          "type": "select",
+          "titleMap": [
+            {
+              "value": 30,
+              "name": "30 minutes"
+            },
+            {
+              "value": 60,
+              "name": "60 minutes"
+            },
+            {
+              "value": 90,
+              "name": "90 minutes"
+            },
+            {
+              "value": 120,
+              "name": "120 minutes"
+            }
+          ]
+        },
+        {
           "key": "options",
           "add": "Add Another Option",
           "type": "fieldset",
